@@ -7,6 +7,10 @@
 venv/
 env/
 ENV/
+**/venv/
+Email-Sms_Intelligent-model/venv/
+**/site-packages/
+**/__pycache__/
 
 # Python cache files
 __pycache__/
