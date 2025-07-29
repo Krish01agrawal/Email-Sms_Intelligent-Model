@@ -20,7 +20,7 @@ from datetime import datetime
 import spacy
 
 from config import (
-    data_config, preprocessing_config, FINANCIAL_KEYWORDS, 
+    data_config, preprocessing_config, extraction_config, FINANCIAL_KEYWORDS, 
     TRANSACTION_TYPES, SERVICE_CATEGORIES
 )
 
@@ -190,6 +190,30 @@ class TextPreprocessor:
             if ent.label_ in ['ORG', 'PERSON']:
                 features['merchants'].append(ent.text)
                 features['has_merchant'] = True
+        
+        # Determine if text has financial indicators
+        features['has_financial_indicators'] = (
+            features['has_financial_keywords'] or
+            features['has_amount'] or
+            features['has_transaction_type'] or
+            features['has_merchant'] or
+            features['financial_keyword_count'] >= 2
+        )
+        
+        # Calculate confidence score
+        confidence_score = 0.0
+        if features['has_financial_keywords']:
+            confidence_score += 0.3
+        if features['has_amount']:
+            confidence_score += 0.3
+        if features['has_transaction_type']:
+            confidence_score += 0.2
+        if features['has_merchant']:
+            confidence_score += 0.1
+        if features['has_currency']:
+            confidence_score += 0.1
+        
+        features['confidence_score'] = min(confidence_score, 1.0)
         
         return features
 
