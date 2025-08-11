@@ -1,0 +1,32 @@
+[
+  {
+    "sender": "JD-FULONE-S",
+    "body": "Use this One Time Password 243205 to login to your Fuel One account. Please do not share it with anyone else. - Fuel One",
+    "date": "2025-07-27T19:38:15.553",
+    "type": "SmsMessageKind.received"
+  },
+  {
+    "sender": "VK-SBIUPI-S",
+    "body": "Dear UPI user A/C X9855 debited by 83.0 on date 26Jul25 trf to Pluto Money Refno 520756016992. If not u? call 1800111109. -SBI",
+    "date": "2025-07-26T15:01:39.612",
+    "type": "SmsMessageKind.received"
+  },
+  {
+    "sender": "VK-SBIUPI-S",
+    "body": "Your UPI-Mandate for Rs.83.00 is successfully created towards Pluto Money from A/c No: XXXXXX9855. UMN:a773cff41c314757bac8462847b883c6@ibl. If not you, kindly report on 18001234. -SBI",
+    "date": "2025-07-26T15:01:37.592",
+    "type": "SmsMessageKind.received"
+  },
+  {
+    "sender": "VM-SBIUPI-S",
+    "body": "Dear UPI user A/C X9855 debited by 20.0 on date 26Jul25 trf to BMTC BUS KA57F22 Refno 498037138430. If not u? call 1800111109. -SBI",
+    "date": "2025-07-26T13:46:22.338",
+    "type": "SmsMessageKind.received"
+  },
+  {
+    "sender": "JK-NSESMS-S",
+    "body": "SBICAP SECURITIES LIMITED on 19-07-25 reported your Fund bal Rs.0 & Securities bal 0. This excludes your Bank, DP & PMS bal with the broker-NSE",
+    "date": "2025-07-25T20:23:08.562",
+    "type": "SmsMessageKind.received"
+  }
+]
