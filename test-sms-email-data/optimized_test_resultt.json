@@ -1,0 +1,291 @@
+[
+  {
+    "bank": "SBI",
+    "account_number": "X9855"
+  },
+  {
+    "message_intent": "promo",
+    "currency": "INR",
+    "transaction_date": "2025-07-03T18:06:32.477",
+    "metadata": {
+      "channel": "sms",
+      "sender": "JE-DOTGOI-G",
+      "original_text": "संचार साथी मोबाइल ऐप के माध्यम से अपने नाम पर जारी मोबाइल कनेक्शनों जानें एवं अनाधिकृत कनेक्शनों की तुरंत रिपोर्ट करें। डाउनलोड करें: एंड्राइड: https://play.google.com/store/apps/details?id=com.dot.app.sancharsaathi आईओएस: https://apps.apple.com/in/app/sanchar-saathi/id6739700695 दूरसंचार विभाग",
+      "confidence_score": 0.6
+    }
+  },
+  {
+    "message_intent": "otp",
+    "confidence_score": 0.7,
+    "currency": "INR",
+    "metadata": {
+      "channel": "sms",
+      "sender": "JK-DLHVRY-S",
+      "method": "Other",
+      "reference_id": "258471"
+    },
+    "original_text": "Hi, your Delhivery login code is 258471. Do not share this with anyone. Valid for 60 seconds. i/5sXkxXrol - Delhivery"
+  },
+  {
+    "message_intent": "otp",
+    "currency": "INR",
+    "metadata": {
+      "channel": "sms",
+      "sender": "57575711",
+      "original_text": "Please enter the following code to verify your Zara account: 906728\n\n@zara.com #906728"
+    },
+    "confidence_score": 0.95
+  },
+  {
+    "transaction_type": "credit",
+    "amount": 4999.75,
+    "currency": "INR",
+    "transaction_date": "2025-07-03T09:13:45.067",
+    "counterparty": "quant Mutual Fund",
+    "category": "investment",
+    "tags": [
+      "mutual_fund",
+      "investment",
+      "quant",
+      "purchase"
+    ],
+    "summary": "Mutual fund purchase confirmed",
+    "confidence_score": 0.95,
+    "message_intent": "transaction",
+    "metadata": {
+      "channel": "sms",
+      "sender": "CP-QNTAMC-S",
+      "method": "MF",
+      "reference_id": "XXXXXX854",
+      "scheme": "quant Small Cap Fund - Direct Plan Growth",
+      "original_text": "Dear Investor,Your purchase request Dt 02/07/2025 for Rs. 4999.75 in scheme quant Small Cap Fund - Direct Plan Growth is processed @ NAV of Rs. 283.4019 and 17.642 units are allotted in Folio: XXXXXXXX854 . Rgds, quant Mutual Fund."
+    }
+  },
+  {
+    "transaction_type": null,
+    "amount": 2500,
+    "currency": "INR",
+    "transaction_date": "2025-07-03T00:56:05.362",
+    "counterparty": "ICCL ZERODHA COIN",
+    "category": "transfer",
+    "tags": [
+      "payment_request",
+      "PhonePe",
+      "ZERODHA"
+    ],
+    "confidence_score": 0.95,
+    "message_intent": "payment_request",
+    "metadata": {
+      "channel": "sms",
+      "sender": "AX-PHONPE-S",
+      "method": "Other",
+      "reference_id": "6gh3d4gv",
+      "original_text": "ICCL ZERODHA COIN has requested money from you on PhonePe.Rs.2500 will be debited from your account on approving the request - https://phone.pe/PHONPE/6gh3d4gv"
+    }
+  },
+  {
+    "transaction_type": "debit",
+    "amount": 2000,
+    "currency": "INR",
+    "transaction_date": "2025-07-02",
+    "account": {
+      "bank": "SBI",
+      "account_number": "A/cX9855"
+    },
+    "counterparty": "UBI ATM PBGE0110",
+    "balance": 24623.62,
+    "category": "atm-withdrawal",
+    "tags": [
+      "ATM withdrawal",
+      "SBI",
+      "UBI ATM"
+    ],
+    "confidence_score": 0.95,
+    "message_intent": "alert",
+    "metadata": {
+      "channel": "sms",
+      "sender": "AX-ATMSBI-S",
+      "method": "ATM",
+      "reference_id": "518318029613",
+      "original_text": "Dear SBI Customer, Rs.2000 withdrawn at UBI ATM PBGE0110 from A/cX9855 on 02Jul25 Transaction Number 518318029613. Available Balance Rs.24623.62. If not withdrawn by you, forward this SMS to 7400165218 / call 1800111109 or 09449112211 to block your card. Call 18001234 if cash not received."
+    }
+  },
+  {
+    "message_intent": "alert",
+    "confidence_score": 0.7,
+    "metadata": {
+      "channel": "sms",
+      "sender": "AX-ATMSBI-S",
+      "method": "ATM",
+      "original_text": "Dear Customer,you have done 2 out of 5 free transactions at Non-SBI ATM in India this month.Charges applicable beyond free transactions. Kindly use SBI ATM"
+    }
+  },
+  {
+    "currency": "INR",
+    "message_intent": "alert",
+    "confidence_score": 0.65,
+    "metadata": {
+      "channel": "sms",
+      "sender": "AX-ATMSBI-S",
+      "original_text": "Dear Customer,you have done 1 out of 5 free transactions at Non-SBI ATM in India this month.Charges applicable beyond free transactions. Kindly use SBI ATM"
+    }
+  },
+  {
+    "message_intent": "info",
+    "category": "online-shopping",
+    "counterparty": "Mango Herbs",
+    "tags": [
+      "order_status"
+    ],
+    "confidence_score": 0.65,
+    "metadata": {
+      "channel": "sms",
+      "sender": "CP-SHREEB-S",
+      "original_text": "Hi Divyam, Your order #134372 with Mango Herbs is being processed."
+    }
+  },
+  {
+    "message_intent": "promo",
+    "confidence_score": 0.65,
+    "metadata": {
+      "channel": "sms",
+      "sender": "TD-LAPINO-P",
+      "original_text": "Enjoy BUY 1 GET 1 FREE on Med&Large pizzas and make your day special, at your favourite La Pino'z FORT. Call 8758289090 or Order Now uen.io/LAPINO/lapinoz"
+    },
+    "tags": [
+      "food-promo",
+      "pizza-deal"
+    ]
+  },
+  {
+    "transaction_type": null,
+    "amount": 16606,
+    "currency": "INR",
+    "transaction_date": "2025-07-02T11:43:53.194",
+    "counterparty": "cult.fit",
+    "category": "online-shopping",
+    "tags": [
+      "payment pending",
+      "order confirmation"
+    ],
+    "summary": "Payment pending for cult.fit order",
+    "confidence_score": 0.85,
+    "message_intent": "pending_confirmation",
+    "metadata": {
+      "channel": "sms",
+      "sender": "JX-CULTFT-S",
+      "method": "Other",
+      "reference_id": "cult.fit order",
+      "original_text": "Dear customer, your payment of Rs.16606 for your cult.fit order is awaiting confirmation. Typically, it takes 5-10 minutes. Thank you for your patience!"
+    }
+  },
+  {
+    "currency": "INR",
+    "transaction_date": "2025-07-02T11:36:36.235",
+    "counterparty": "Cultpass",
+    "category": "subscription",
+    "tags": [
+      "payment_pending",
+      "cultpass",
+      "checkout"
+    ],
+    "summary": "Cultpass payment pending, complete checkout",
+    "confidence_score": 0.75,
+    "message_intent": "payment_request",
+    "metadata": {
+      "channel": "sms",
+      "sender": "JX-CULTFT-P",
+      "method": "Other",
+      "reference_id": "aTMSGxayiUb",
+      "original_text": "Hey Divyam\nYour Cultpass payment is still pending. Complete your checkout now and unlock benefits.\nhttps://cure.app.link/aTMSGxayiUb"
+    }
+  },
+  {
+    "currency": "INR",
+    "message_intent": "promo",
+    "confidence_score": 0.65,
+    "category": "promotion",
+    "tags": [
+      "discount",
+      "medicine",
+      "pharmacy",
+      "offer"
+    ],
+    "summary": "Promotional offer for medicines",
+    "metadata": {
+      "channel": "sms",
+      "sender": "JD-vONEMG-P",
+      "original_text": "PAYDAY SALE IS LIVE\nFLAT 10% OFF (No T&C)+Extra 5% off+Extra 4% Care Plan savings on medicines*\nGet in 30mins\nBuy http://nsm.sg/vONEMG/VgKmD7l\nTata 1mg"
+    }
+  },
+  {
+    "transaction_type": null,
+    "amount": 5000,
+    "currency": "INR",
+    "transaction_date": "2025-07-02T10:27:24.690",
+    "counterparty": "ICCL ZERODHA COIN",
+    "category": "other",
+    "tags": [
+      "payment_request",
+      "PhonePe",
+      "Rs5000"
+    ],
+    "summary": "Payment request for Rs5000 from ICCL ZERODHA COIN",
+    "confidence_score": 0.95,
+    "message_intent": "payment_request",
+    "metadata": {
+      "channel": "sms",
+      "sender": "AD-PHONPE-S",
+      "method": "UPI",
+      "reference_id": "nrz1g18p",
+      "original_text": "ICCL ZERODHA COIN has requested money from you on PhonePe.Rs.5000 will be debited from your account on approving the request - https://phone.pe/PHONPE/nrz1g18p"
+    }
+  },
+  {
+    "amount": 5000,
+    "currency": "INR",
+    "transaction_date": "2025-07-02T10:26:08.816",
+    "counterparty": "IndianClearingCorporation",
+    "category": "other",
+    "tags": [
+      "payment_request",
+      "PhonePe"
+    ],
+    "confidence_score": 0.95,
+    "message_intent": "payment_request",
+    "metadata": {
+      "channel": "sms",
+      "sender": "AD-PHONPE-S",
+      "method": "Other",
+      "reference_id": "ukq5hc0r",
+      "original_text": "IndianClearingCorporation has requested money from you on PhonePe.Rs.5000 will be debited from your account on approving the request - https://phone.pe/PHONPE/ukq5hc0r"
+    }
+  },
+  {
+    "currency": "INR",
+    "transaction_date": "2025-07-02T09:59:53.713",
+    "message_intent": "otp",
+    "metadata": {
+      "channel": "sms",
+      "sender": "VA-EKARTL-S",
+      "method": "Other",
+      "reference_id": "723339",
+      "original_text": "Ekart Update: OTP 723339 for your shipment CAMPUS STONIC Men's Sports ... with tracking id FMPC4943927989. Share the OTP only after checking for damages, duplicate or missing items. Product cannot be returned after order is accepted except for manufacturing defects."
+    },
+    "confidence_score": 0.95,
+    "category": "other",
+    "tags": [
+      "otp",
+      "ekart",
+      "shipment"
+    ]
+  },
+  {
+    "bank": "SBI",
+    "account_number": "XXXXXXXX9855"
+  },
+  {
+    "bank": "SBI",
+    "account_number": "XXXXXXXX9855"
+  }
+]

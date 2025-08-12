@@ -2,11 +2,13 @@
 # -*- coding: utf-8 -*-
 
 """
-Fixed SMS Processing Script for LifafaV0
-========================================
+Optimized SMS Processing Script for LifafaV0
+============================================
 
-Processes SMS data through LLM and outputs structured JSON array format.
-Fixed to handle the actual test_sms.json structure and output proper JSON.
+Processes SMS data through LLM with efficient batch processing:
+- 5 parallel batches of 2 SMS each (configurable)
+- Real-time progress tracking
+- Server-friendly processing to avoid overload
 """
 
 import os
@@ -16,7 +18,7 @@ import time
 import argparse
 import asyncio
 from typing import Any, Dict, Optional, List
-import uuid
+import math
 
 import aiohttp
 from tqdm import tqdm
@@ -142,7 +144,7 @@ def extract_json_object(text: str) -> Optional[Dict[str, Any]]:
 
 async def call_openai_style(session: aiohttp.ClientSession, model: str, prompt: str, 
                            temperature: float, max_tokens: int, top_p: float):
-    """Call OpenAI-compatible API"""
+    """Call OpenAI-compatible API with retry logic"""
     payload = {
         "model": model,
         "temperature": temperature,
@@ -154,37 +156,18 @@ async def call_openai_style(session: aiohttp.ClientSession, model: str, prompt: 
     if API_KEY:
         headers["Authorization"] = f"Bearer {API_KEY}"
 
-    for attempt in range(6):
+    for attempt in range(3):  # Reduced retries for faster processing
         try:
-            async with session.post(API_URL, json=payload, headers=headers, timeout=180, ssl=False) as resp:
+            async with session.post(API_URL, json=payload, headers=headers, timeout=30, ssl=False) as resp:
                 if resp.status in (429, 500, 502, 503, 504):
-                    await asyncio.sleep(min(60, 2 ** attempt))
+                    await asyncio.sleep(min(10, 2 ** attempt))
                     continue
                 data = await resp.json()
                 return data
         except Exception as e:
-            print(f"Attempt {attempt + 1} failed: {e}")
-            await asyncio.sleep(min(60, 2 ** attempt))
-    return None
-
-async def call_generic(session: aiohttp.ClientSession, prompt: str):
-    """Call generic endpoint"""
-    payload = {"prompt": prompt}
-    headers = {"Content-Type": "application/json"}
-    if API_KEY:
-        headers["Authorization"] = f"Bearer {API_KEY}"
-
-    for attempt in range(6):
-        try:
-            async with session.post(API_URL, json=payload, headers=headers, timeout=180, ssl=False) as resp:
-                if resp.status in (429, 500, 502, 503, 504):
-                    await asyncio.sleep(min(60, 2 ** attempt))
-                    continue
-                data = await resp.json()
-                return data
-        except Exception as e:
-            print(f"Attempt {attempt + 1} failed: {e}")
-            await asyncio.sleep(min(60, 2 ** attempt))
+            if attempt == 2:  # Last attempt
+                print(f"⚠️  API call failed after 3 attempts: {e}")
+            await asyncio.sleep(min(5, 2 ** attempt))
     return None
 
 def parse_response(data: Dict[str, Any], mode: str) -> Optional[Dict[str, Any]]:
@@ -252,59 +235,63 @@ def safe_enrich(input_msg: Dict[str, Any], parsed: Dict[str, Any]) -> Dict[str, 
     except Exception:
         return parsed  # Never fail enrichment
 
-async def worker(name: str, queue: asyncio.Queue, results: List[Dict[str, Any]], 
-                failures: List[Dict[str, Any]], enrich_mode: str,
-                model: str, mode: str, temperature: float, max_tokens: int, top_p: float):
-    """Worker to process SMS messages"""
-    async with aiohttp.ClientSession() as session:
-        while True:
-            item = await queue.get()
-            if item is None:
-                queue.task_done()
-                break
-
-            src_id = item.get("id")
-            input_msg = item["msg"]
-
-            prompt = build_prompt(input_msg)
-
-            if mode == "openai":
-                data = await call_openai_style(session, model, prompt, temperature, max_tokens, top_p)
-            else:
-                data = await call_generic(session, prompt)
-
-            parsed = parse_response(data, mode)
-
-            # Optional safe enrichment
-            if parsed and enrich_mode == "safe":
-                parsed = safe_enrich(input_msg, parsed)
-
-            if parsed:
-                results.append(parsed)
-            else:
-                # Log failure
-                raw_text = None
-                if data:
-                    if mode == "openai":
-                        try:
-                            raw_text = data["choices"][0]["message"]["content"]
-                        except Exception:
-                            raw_text = None
-                    else:
-                        raw_text = (
-                            data.get("text")
-                            or data.get("output")
-                            or data.get("generated_text")
-                            or data.get("content")
-                        )
-                
-                failures.append({
-                    "_source_id": src_id,
-                    "input": input_msg,
-                    "raw": raw_text
-                })
-
-            queue.task_done()
+async def process_sms_batch(sms_batch: List[Dict[str, Any]], batch_id: int, 
+                           session: aiohttp.ClientSession, model: str, mode: str,
+                           temperature: float, max_tokens: int, top_p: float, 
+                           enrich_mode: str, pbar: tqdm) -> tuple:
+    """Process a batch of SMS messages"""
+    results = []
+    failures = []
+    
+    print(f"🔄 Processing Batch {batch_id} ({len(sms_batch)} SMS)")
+    
+    # Process each SMS in the batch
+    for sms_data in sms_batch:
+        src_id = sms_data.get("id")
+        input_msg = sms_data
+        
+        prompt = build_prompt(input_msg)
+        
+        if mode == "openai":
+            data = await call_openai_style(session, model, prompt, temperature, max_tokens, top_p)
+        else:
+            # Generic mode not implemented in this version
+            data = None
+        
+        parsed = parse_response(data, mode)
+        
+        # Optional safe enrichment
+        if parsed and enrich_mode == "safe":
+            parsed = safe_enrich(input_msg, parsed)
+        
+        if parsed:
+            results.append(parsed)
+            print(f"  ✅ SMS {src_id}: {parsed.get('message_intent', 'unknown')}")
+        else:
+            # Log failure
+            raw_text = None
+            if data and mode == "openai":
+                try:
+                    raw_text = data["choices"][0]["message"]["content"]
+                except Exception:
+                    raw_text = None
+            
+            failures.append({
+                "_source_id": src_id,
+                "batch_id": batch_id,
+                "input": input_msg,
+                "raw": raw_text
+            })
+            print(f"  ❌ SMS {src_id}: Processing failed")
+        
+        # Update progress bar
+        pbar.update(1)
+        
+        # Small delay to avoid overwhelming the server
+        await asyncio.sleep(0.1)
+    
+    print(f"✅ Batch {batch_id} completed: {len(results)} success, {len(failures)} failed")
+    return results, failures
 
 def load_sms_data(path: str) -> List[Dict[str, Any]]:
     """Load SMS data from JSON file and normalize structure"""
@@ -335,79 +322,105 @@ def load_sms_data(path: str) -> List[Dict[str, Any]]:
     
     return normalized_sms
 
-async def process_sms_batch(input_path: str, output_path: str, model: str, mode: str, 
-                           concurrency: int, temperature: float, max_tokens: int, 
-                           top_p: float, failures_path: Optional[str], enrich_mode: str):
-    """Process SMS batch and output JSON array"""
+def create_batches(sms_list: List[Dict[str, Any]], batch_size: int) -> List[List[Dict[str, Any]]]:
+    """Create batches from SMS list"""
+    batches = []
+    for i in range(0, len(sms_list), batch_size):
+        batch = sms_list[i:i + batch_size]
+        batches.append(batch)
+    return batches
+
+async def process_all_batches(input_path: str, output_path: str, model: str, mode: str,
+                             batch_size: int, max_parallel_batches: int,
+                             temperature: float, max_tokens: int, top_p: float, 
+                             failures_path: Optional[str], enrich_mode: str):
+    """Process all SMS in optimized batches"""
     
     # Load and normalize SMS data
     print(f"📱 Loading SMS data from: {input_path}")
     sms_data = load_sms_data(input_path)
-    total = len(sms_data)
-    print(f"📊 Loaded {total} SMS messages")
+    total_sms = len(sms_data)
+    print(f"📊 Loaded {total_sms} SMS messages")
     
-    # Shared results and failures lists
-    results = []
-    failures = []
+    # Create batches
+    batches = create_batches(sms_data, batch_size)
+    total_batches = len(batches)
+    print(f"📦 Created {total_batches} batches of {batch_size} SMS each")
+    print(f"🔄 Processing {max_parallel_batches} batches in parallel")
     
-    # Create async queue
-    q = asyncio.Queue(maxsize=concurrency * 2)
+    # Initialize results
+    all_results = []
+    all_failures = []
     
-    # Start workers
-    tasks = [
-        asyncio.create_task(worker(f"w{i}", q, results, failures, enrich_mode,
-                                   model, mode, temperature, max_tokens, top_p))
-        for i in range(concurrency)
-    ]
+    # Create progress bar
+    pbar = tqdm(total=total_sms, desc="Processing SMS", unit="msg", 
+                bar_format='{l_bar}{bar}| {n_fmt}/{total_fmt} [{elapsed}<{remaining}, {rate_fmt}]')
     
-    # Enqueue all SMS
-    for sms in sms_data:
-        await q.put({"id": sms["id"], "msg": sms})
+    # Process batches in parallel groups
+    async with aiohttp.ClientSession() as session:
+        for i in range(0, total_batches, max_parallel_batches):
+            # Get the next group of batches to process in parallel
+            batch_group = batches[i:i + max_parallel_batches]
+            
+            print(f"\n🚀 Starting parallel processing of batches {i+1}-{min(i+len(batch_group), total_batches)}")
+            
+            # Create tasks for parallel processing
+            tasks = []
+            for j, batch in enumerate(batch_group):
+                batch_id = i + j + 1
+                task = process_sms_batch(
+                    batch, batch_id, session, model, mode,
+                    temperature, max_tokens, top_p, enrich_mode, pbar
+                )
+                tasks.append(task)
+            
+            # Wait for all batches in this group to complete
+            batch_results = await asyncio.gather(*tasks, return_exceptions=True)
+            
+            # Collect results
+            for result in batch_results:
+                if isinstance(result, Exception):
+                    print(f"❌ Batch failed with error: {result}")
+                    continue
+                
+                results, failures = result
+                all_results.extend(results)
+                all_failures.extend(failures)
+            
+            # Show progress summary
+            print(f"📊 Completed {min(i+max_parallel_batches, total_batches)}/{total_batches} batch groups")
+            print(f"   Success: {len(all_results)}, Failures: {len(all_failures)}")
+            
+            # Brief pause between batch groups to avoid overwhelming server
+            if i + max_parallel_batches < total_batches:
+                print("⏸️  Brief pause before next batch group...")
+                await asyncio.sleep(1)
     
-    # Progress tracking
-    pbar = tqdm(total=total, desc="Processing SMS", unit="msg")
-    
-    # Monitor progress
-    prev_done = 0
-    while not q.empty():
-        done_now = total - q.qsize()
-        if done_now > prev_done:
-            pbar.update(done_now - prev_done)
-            prev_done = done_now
-        await asyncio.sleep(0.2)
-    
-    # Wait for all tasks to complete
-    await q.join()
-    pbar.update(total - prev_done)
     pbar.close()
     
-    # Stop workers
-    for _ in tasks:
-        await q.put(None)
-    await asyncio.gather(*tasks)
-    
     # Save results as JSON array
-    print(f"💾 Saving {len(results)} processed results to: {output_path}")
+    print(f"\n💾 Saving {len(all_results)} processed results to: {output_path}")
     with open(output_path, "w", encoding="utf-8") as f:
-        json.dump(results, f, indent=2, ensure_ascii=False)
+        json.dump(all_results, f, indent=2, ensure_ascii=False)
     
     # Save failures if requested
-    if failures_path and failures:
-        print(f"⚠️  Saving {len(failures)} failures to: {failures_path}")
+    if failures_path and all_failures:
+        print(f"⚠️  Saving {len(all_failures)} failures to: {failures_path}")
         with open(failures_path, "w", encoding="utf-8") as f:
-            for failure in failures:
+            for failure in all_failures:
                 f.write(json.dumps(failure, ensure_ascii=False) + "\n")
     
-    # Print summary
-    print(f"\n📊 PROCESSING SUMMARY:")
-    print(f"   Total SMS: {total}")
-    print(f"   Successfully Processed: {len(results)} ({len(results)/total*100:.1f}%)")
-    print(f"   Failed: {len(failures)} ({len(failures)/total*100:.1f}%)")
+    # Print final summary
+    print(f"\n📊 FINAL PROCESSING SUMMARY:")
+    print(f"   Total SMS: {total_sms}")
+    print(f"   Successfully Processed: {len(all_results)} ({len(all_results)/total_sms*100:.1f}%)")
+    print(f"   Failed: {len(all_failures)} ({len(all_failures)/total_sms*100:.1f}%)")
+    print(f"   Processing Method: {max_parallel_batches} parallel batches of {batch_size} SMS each")
     
-    if results:
+    if all_results:
         # Analyze message intents
         intent_counts = {}
-        for result in results:
+        for result in all_results:
             intent = result.get("message_intent", "unknown")
             intent_counts[intent] = intent_counts.get(intent, 0) + 1
         
@@ -416,13 +429,14 @@ async def process_sms_batch(input_path: str, output_path: str, model: str, mode:
             print(f"   {intent.title()}: {count}")
 
 def main():
-    parser = argparse.ArgumentParser(description="Process SMS data through LLM")
+    parser = argparse.ArgumentParser(description="Process SMS data through LLM with optimized batching")
     parser.add_argument("--input", required=True, help="Path to SMS JSON file")
     parser.add_argument("--output", required=True, help="Output JSON file path")
     parser.add_argument("--model", default="qwen3:8b", help="Model name")
     parser.add_argument("--mode", choices=["openai", "generic"], default="openai",
                         help="API mode: openai or generic")
-    parser.add_argument("--concurrency", type=int, default=4, help="Concurrent requests")
+    parser.add_argument("--batch-size", type=int, default=2, help="SMS per batch (default: 2)")
+    parser.add_argument("--parallel-batches", type=int, default=5, help="Parallel batches (default: 5)")
     parser.add_argument("--temperature", type=float, default=0.1, help="LLM temperature")
     parser.add_argument("--max_tokens", type=int, default=2048, help="Max tokens")
     parser.add_argument("--top_p", type=float, default=1.0, help="Top-p sampling")
@@ -435,20 +449,22 @@ def main():
     if not API_URL:
         raise SystemExit("❌ Set API_URL environment variable to your endpoint.")
 
-    print(f"🚀 Starting SMS Processing")
+    print(f"🚀 Starting Optimized SMS Processing")
     print(f"   Endpoint: {API_URL}")
     print(f"   Model: {args.model}")
     print(f"   Mode: {args.mode}")
-    print(f"   Concurrency: {args.concurrency}")
+    print(f"   Batch Size: {args.batch_size} SMS per batch")
+    print(f"   Parallel Batches: {args.parallel_batches}")
     print(f"   Enrichment: {args.enrich}")
     print(f"   Failures Log: {args.failures or 'none'}")
 
-    asyncio.run(process_sms_batch(
+    asyncio.run(process_all_batches(
         input_path=args.input,
         output_path=args.output,
         model=args.model,
         mode=args.mode,
-        concurrency=args.concurrency,
+        batch_size=args.batch_size,
+        max_parallel_batches=args.parallel_batches,
         temperature=args.temperature,
         max_tokens=args.max_tokens,
         top_p=args.top_p,
