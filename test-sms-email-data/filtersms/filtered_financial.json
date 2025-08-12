@@ -1,0 +1,241 @@
+{
+  "statistics": {
+    "total_sms": 100,
+    "financial_sms_count": 32,
+    "excluded_sms_count": 68,
+    "financial_percentage": 32.0,
+    "exclusion_breakdown": {
+      "shopping": 15,
+      "other": 18,
+      "otp": 20,
+      "promotional": 15
+    },
+    "processing_timestamp": "2025-08-12T16:17:40.739724"
+  },
+  "financial_sms": [
+    {
+      "id": "4",
+      "sender_name": "AX-CBSSBI-S",
+      "message_body": "Your A/C XXXXX869855 Credited INR 17,747.00 on 15/Nov25 -Deposit by transfer from Sender2. Avl Bal INR 62,944.00-SBI",
+      "received_date": "2025-08-08T23:59:00.000",
+      "type": "received"
+    },
+    {
+      "id": "5",
+      "sender_name": "HDFC-Bank",
+      "message_body": "Your HDFC Bank Credit Card ending 7017 has been charged Rs.8,560.00 on 27/Dec25. Available credit limit: Rs.49,410.00",
+      "received_date": "2025-11-09T21:34:00.000",
+      "type": "received"
+    },
+    {
+      "id": "9",
+      "sender_name": "HDFC-Bank",
+      "message_body": "Your HDFC Bank Credit Card ending 3506 has been charged Rs.5,729.00 on 22/Mar25. Available credit limit: Rs.79,696.00",
+      "received_date": "2025-03-16T11:57:00.000",
+      "type": "received"
+    },
+    {
+      "id": "15",
+      "sender_name": "AX-SBIUPI-S",
+      "message_body": "Dear UPI user A/C X9855 debited by 12,583.00 on date 19/Oct25 trf to MERCHANT4 Refno 432215069843. If not u? call 1800111109. -SBI",
+      "received_date": "2025-02-19T02:18:00.000",
+      "type": "received"
+    },
+    {
+      "id": "19",
+      "sender_name": "AX-SBIUPI-S",
+      "message_body": "Dear UPI user A/C X9855 debited by 24,140.00 on date 20/Jul25 trf to MERCHANT2 Refno 271055327974. If not u? call 1800111109. -SBI",
+      "received_date": "2025-09-15T07:06:00.000",
+      "type": "received"
+    },
+    {
+      "id": "22",
+      "sender_name": "AX-CBSSBI-S",
+      "message_body": "Your A/C XXXXX869855 Credited INR 17,638.00 on 1/Nov25 -Deposit by transfer from Sender2. Avl Bal INR 56,101.00-SBI",
+      "received_date": "2025-02-28T21:39:00.000",
+      "type": "received"
+    },
+    {
+      "id": "24",
+      "sender_name": "AX-SBIUPI-S",
+      "message_body": "Dear UPI user A/C X9855 debited by 14,406.00 on date 5/Jun25 trf to MERCHANT1 Refno 534860929029. If not u? call 1800111109. -SBI",
+      "received_date": "2025-03-23T23:18:00.000",
+      "type": "received"
+    },
+    {
+      "id": "26",
+      "sender_name": "ICICI-Bank",
+      "message_body": "Your ICICI Bank account XXXXX6930 has been credited with Rs.49,888.00 via NEFT transfer. Available balance: Rs.45,812.00",
+      "received_date": "2025-10-21T10:00:00.000",
+      "type": "received"
+    },
+    {
+      "id": "27",
+      "sender_name": "AX-CBSSBI-S",
+      "message_body": "Your A/C XXXXX869855 Credited INR 20,224.00 on 10/Jul25 -Deposit by transfer from Sender1. Avl Bal INR 78,793.00-SBI",
+      "received_date": "2025-10-23T21:09:00.000",
+      "type": "received"
+    },
+    {
+      "id": "31",
+      "sender_name": "AX-CBSSBI-S",
+      "message_body": "Your A/C XXXXX869855 Credited INR 38,430.00 on 2/Oct25 -Deposit by transfer from Sender2. Avl Bal INR 36,007.00-SBI",
+      "received_date": "2025-08-22T00:38:00.000",
+      "type": "received"
+    },
+    {
+      "id": "37",
+      "sender_name": "ICICI-Bank",
+      "message_body": "Your ICICI Bank account XXXXX6513 has been credited with Rs.44,894.00 via NEFT transfer. Available balance: Rs.68,360.00",
+      "received_date": "2025-12-17T04:08:00.000",
+      "type": "received"
+    },
+    {
+      "id": "41",
+      "sender_name": "HDFC-Bank",
+      "message_body": "Your HDFC Bank Credit Card ending 4347 has been charged Rs.32,173.00 on 13/Oct25. Available credit limit: Rs.91,124.00",
+      "received_date": "2025-03-17T06:35:00.000",
+      "type": "received"
+    },
+    {
+      "id": "44",
+      "sender_name": "HDFC-Bank",
+      "message_body": "Your HDFC Bank Credit Card ending 5072 has been charged Rs.32,500.00 on 18/Jan25. Available credit limit: Rs.43,668.00",
+      "received_date": "2025-07-27T07:27:00.000",
+      "type": "received"
+    },
+    {
+      "id": "46",
+      "sender_name": "AX-CBSSBI-S",
+      "message_body": "Your A/C XXXXX869855 Credited INR 30,761.00 on 14/Oct25 -Deposit by transfer from Sender1. Avl Bal INR 66,139.00-SBI",
+      "received_date": "2025-01-23T21:17:00.000",
+      "type": "received"
+    },
+    {
+      "id": "49",
+      "sender_name": "HDFC-Bank",
+      "message_body": "Your HDFC Bank Credit Card ending 3029 has been charged Rs.44,927.00 on 3/Apr25. Available credit limit: Rs.75,636.00",
+      "received_date": "2025-03-01T00:58:00.000",
+      "type": "received"
+    },
+    {
+      "id": "51",
+      "sender_name": "AX-SBIUPI-S",
+      "message_body": "Dear UPI user A/C X9855 debited by 5,057.00 on date 11/Sep25 trf to MERCHANT3 Refno 540739707137. If not u? call 1800111109. -SBI",
+      "received_date": "2025-05-05T18:21:00.000",
+      "type": "received"
+    },
+    {
+      "id": "52",
+      "sender_name": "HDFC-Bank",
+      "message_body": "Your HDFC Bank Credit Card ending 9626 has been charged Rs.42,854.00 on 1/Jul25. Available credit limit: Rs.40,235.00",
+      "received_date": "2025-12-20T12:29:00.000",
+      "type": "received"
+    },
+    {
+      "id": "53",
+      "sender_name": "ICICI-Bank",
+      "message_body": "Your ICICI Bank account XXXXX2931 has been credited with Rs.46,291.00 via NEFT transfer. Available balance: Rs.68,178.00",
+      "received_date": "2025-06-18T15:00:00.000",
+      "type": "received"
+    },
+    {
+      "id": "56",
+      "sender_name": "ICICI-Bank",
+      "message_body": "Your ICICI Bank account XXXXX7888 has been credited with Rs.20,009.00 via NEFT transfer. Available balance: Rs.63,749.00",
+      "received_date": "2025-06-21T23:50:00.000",
+      "type": "received"
+    },
+    {
+      "id": "57",
+      "sender_name": "AX-SBIUPI-S",
+      "message_body": "Dear UPI user A/C X9855 debited by 14,086.00 on date 5/Feb25 trf to MERCHANT4 Refno 294691582998. If not u? call 1800111109. -SBI",
+      "received_date": "2025-09-15T20:59:00.000",
+      "type": "received"
+    },
+    {
+      "id": "58",
+      "sender_name": "ICICI-Bank",
+      "message_body": "Your ICICI Bank account XXXXX9180 has been credited with Rs.27,049.00 via NEFT transfer. Available balance: Rs.32,928.00",
+      "received_date": "2025-03-22T10:14:00.000",
+      "type": "received"
+    },
+    {
+      "id": "61",
+      "sender_name": "AX-SBIUPI-S",
+      "message_body": "Dear UPI user A/C X9855 debited by 30,397.00 on date 13/Oct25 trf to MERCHANT2 Refno 848340308924. If not u? call 1800111109. -SBI",
+      "received_date": "2025-03-07T07:33:00.000",
+      "type": "received"
+    },
+    {
+      "id": "66",
+      "sender_name": "ICICI-Bank",
+      "message_body": "Your ICICI Bank account XXXXX8477 has been credited with Rs.12,225.00 via NEFT transfer. Available balance: Rs.67,379.00",
+      "received_date": "2025-04-17T02:42:00.000",
+      "type": "received"
+    },
+    {
+      "id": "74",
+      "sender_name": "HDFC-Bank",
+      "message_body": "Your HDFC Bank Credit Card ending 7222 has been charged Rs.12,489.00 on 6/Jul25. Available credit limit: Rs.50,319.00",
+      "received_date": "2025-04-14T19:25:00.000",
+      "type": "received"
+    },
+    {
+      "id": "80",
+      "sender_name": "ICICI-Bank",
+      "message_body": "Your ICICI Bank account XXXXX3494 has been credited with Rs.44,507.00 via NEFT transfer. Available balance: Rs.41,253.00",
+      "received_date": "2025-04-08T19:25:00.000",
+      "type": "received"
+    },
+    {
+      "id": "81",
+      "sender_name": "AX-SBIUPI-S",
+      "message_body": "Dear UPI user A/C X9855 debited by 2,368.00 on date 21/May25 trf to MERCHANT1 Refno 632780176892. If not u? call 1800111109. -SBI",
+      "received_date": "2025-01-22T12:07:00.000",
+      "type": "received"
+    },
+    {
+      "id": "86",
+      "sender_name": "HDFC-Bank",
+      "message_body": "Your HDFC Bank Credit Card ending 5376 has been charged Rs.44,297.00 on 10/Apr25. Available credit limit: Rs.72,243.00",
+      "received_date": "2025-12-10T05:12:00.000",
+      "type": "received"
+    },
+    {
+      "id": "87",
+      "sender_name": "ICICI-Bank",
+      "message_body": "Your ICICI Bank account XXXXX5326 has been credited with Rs.36,867.00 via NEFT transfer. Available balance: Rs.38,386.00",
+      "received_date": "2025-05-02T11:56:00.000",
+      "type": "received"
+    },
+    {
+      "id": "89",
+      "sender_name": "AX-SBIUPI-S",
+      "message_body": "Dear UPI user A/C X9855 debited by 5,632.00 on date 4/Jan25 trf to MERCHANT4 Refno 319683969595. If not u? call 1800111109. -SBI",
+      "received_date": "2025-01-10T23:51:00.000",
+      "type": "received"
+    },
+    {
+      "id": "95",
+      "sender_name": "ICICI-Bank",
+      "message_body": "Your ICICI Bank account XXXXX7666 has been credited with Rs.27,956.00 via NEFT transfer. Available balance: Rs.31,579.00",
+      "received_date": "2025-05-26T06:52:00.000",
+      "type": "received"
+    },
+    {
+      "id": "97",
+      "sender_name": "HDFC-Bank",
+      "message_body": "Your HDFC Bank Credit Card ending 2963 has been charged Rs.44,052.00 on 9/Jul25. Available credit limit: Rs.87,276.00",
+      "received_date": "2025-10-04T21:07:00.000",
+      "type": "received"
+    },
+    {
+      "id": "100",
+      "sender_name": "AX-SBIUPI-S",
+      "message_body": "Dear UPI user A/C X9855 debited by 23,381.00 on date 1/May25 trf to MERCHANT1 Refno 409739893002. If not u? call 1800111109. -SBI",
+      "received_date": "2025-01-04T20:15:00.000",
+      "type": "received"
+    }
+  ]
+}

@@ -1,0 +1,702 @@
+[
+  {
+    "id": "1",
+    "sender_name": "Shopping-App",
+    "message_body": "Your order #ORD784962 has been shipped! Track your delivery here.",
+    "received_date": "2025-01-23T20:53:00.000",
+    "type": "received"
+  },
+  {
+    "id": "2",
+    "sender_name": "Data-Provider",
+    "message_body": "You have used 77% of your daily data. 2.7GB remaining out of 1GB.",
+    "received_date": "2025-04-08T01:59:00.000",
+    "type": "received"
+  },
+  {
+    "id": "3",
+    "sender_name": "OTP-Service",
+    "message_body": "Your OTP is 917937. Valid for 10 minutes. Do not share with anyone.",
+    "received_date": "2025-06-27T22:12:00.000",
+    "type": "received"
+  },
+  {
+    "id": "4",
+    "sender_name": "AX-CBSSBI-S",
+    "message_body": "Your A/C XXXXX869855 Credited INR 17,747.00 on 15/Nov25 -Deposit by transfer from Sender2. Avl Bal INR 62,944.00-SBI",
+    "received_date": "2025-08-08T23:59:00.000",
+    "type": "received"
+  },
+  {
+    "id": "5",
+    "sender_name": "HDFC-Bank",
+    "message_body": "Your HDFC Bank Credit Card ending 7017 has been charged Rs.8,560.00 on 27/Dec25. Available credit limit: Rs.49,410.00",
+    "received_date": "2025-11-09T21:34:00.000",
+    "type": "received"
+  },
+  {
+    "id": "6",
+    "sender_name": "Shopping-App",
+    "message_body": "Your order #ORD191927 has been shipped! Track your delivery here.",
+    "received_date": "2025-09-28T04:54:00.000",
+    "type": "received"
+  },
+  {
+    "id": "7",
+    "sender_name": "OTP-Service",
+    "message_body": "Your OTP is 672057. Valid for 10 minutes. Do not share with anyone.",
+    "received_date": "2025-11-10T16:17:00.000",
+    "type": "received"
+  },
+  {
+    "id": "8",
+    "sender_name": "Promo-Store",
+    "message_body": "🎉 FLAT 30% OFF on all items! Limited time offer. Shop now at our store!",
+    "received_date": "2025-06-01T07:36:00.000",
+    "type": "received"
+  },
+  {
+    "id": "9",
+    "sender_name": "HDFC-Bank",
+    "message_body": "Your HDFC Bank Credit Card ending 3506 has been charged Rs.5,729.00 on 22/Mar25. Available credit limit: Rs.79,696.00",
+    "received_date": "2025-03-16T11:57:00.000",
+    "type": "received"
+  },
+  {
+    "id": "10",
+    "sender_name": "OTP-Service",
+    "message_body": "Your OTP is 320474. Valid for 10 minutes. Do not share with anyone.",
+    "received_date": "2025-05-19T17:06:00.000",
+    "type": "received"
+  },
+  {
+    "id": "11",
+    "sender_name": "OTP-Service",
+    "message_body": "Your OTP is 201340. Valid for 10 minutes. Do not share with anyone.",
+    "received_date": "2025-03-10T19:50:00.000",
+    "type": "received"
+  },
+  {
+    "id": "12",
+    "sender_name": "Shopping-App",
+    "message_body": "Your order #ORD165999 has been shipped! Track your delivery here.",
+    "received_date": "2025-11-05T00:00:00.000",
+    "type": "received"
+  },
+  {
+    "id": "13",
+    "sender_name": "Data-Provider",
+    "message_body": "You have used 74% of your daily data. 1.6GB remaining out of 6GB.",
+    "received_date": "2025-01-20T12:30:00.000",
+    "type": "received"
+  },
+  {
+    "id": "14",
+    "sender_name": "Shopping-App",
+    "message_body": "Your order #ORD486071 has been shipped! Track your delivery here.",
+    "received_date": "2025-01-03T21:07:00.000",
+    "type": "received"
+  },
+  {
+    "id": "15",
+    "sender_name": "AX-SBIUPI-S",
+    "message_body": "Dear UPI user A/C X9855 debited by 12,583.00 on date 19/Oct25 trf to MERCHANT4 Refno 432215069843. If not u? call 1800111109. -SBI",
+    "received_date": "2025-02-19T02:18:00.000",
+    "type": "received"
+  },
+  {
+    "id": "16",
+    "sender_name": "OTP-Service",
+    "message_body": "Your OTP is 785512. Valid for 10 minutes. Do not share with anyone.",
+    "received_date": "2025-10-20T04:54:00.000",
+    "type": "received"
+  },
+  {
+    "id": "17",
+    "sender_name": "Promo-Store",
+    "message_body": "🎉 FLAT 20% OFF on all items! Limited time offer. Shop now at our store!",
+    "received_date": "2025-06-14T01:52:00.000",
+    "type": "received"
+  },
+  {
+    "id": "18",
+    "sender_name": "Data-Provider",
+    "message_body": "You have used 89% of your daily data. 4.9GB remaining out of 8GB.",
+    "received_date": "2025-12-08T03:53:00.000",
+    "type": "received"
+  },
+  {
+    "id": "19",
+    "sender_name": "AX-SBIUPI-S",
+    "message_body": "Dear UPI user A/C X9855 debited by 24,140.00 on date 20/Jul25 trf to MERCHANT2 Refno 271055327974. If not u? call 1800111109. -SBI",
+    "received_date": "2025-09-15T07:06:00.000",
+    "type": "received"
+  },
+  {
+    "id": "20",
+    "sender_name": "Promo-Store",
+    "message_body": "🎉 FLAT 10% OFF on all items! Limited time offer. Shop now at our store!",
+    "received_date": "2025-01-11T07:54:00.000",
+    "type": "received"
+  },
+  {
+    "id": "21",
+    "sender_name": "Promo-Store",
+    "message_body": "🎉 FLAT 10% OFF on all items! Limited time offer. Shop now at our store!",
+    "received_date": "2025-06-25T21:34:00.000",
+    "type": "received"
+  },
+  {
+    "id": "22",
+    "sender_name": "AX-CBSSBI-S",
+    "message_body": "Your A/C XXXXX869855 Credited INR 17,638.00 on 1/Nov25 -Deposit by transfer from Sender2. Avl Bal INR 56,101.00-SBI",
+    "received_date": "2025-02-28T21:39:00.000",
+    "type": "received"
+  },
+  {
+    "id": "23",
+    "sender_name": "OTP-Service",
+    "message_body": "Your OTP is 128177. Valid for 10 minutes. Do not share with anyone.",
+    "received_date": "2025-06-28T04:09:00.000",
+    "type": "received"
+  },
+  {
+    "id": "24",
+    "sender_name": "AX-SBIUPI-S",
+    "message_body": "Dear UPI user A/C X9855 debited by 14,406.00 on date 5/Jun25 trf to MERCHANT1 Refno 534860929029. If not u? call 1800111109. -SBI",
+    "received_date": "2025-03-23T23:18:00.000",
+    "type": "received"
+  },
+  {
+    "id": "25",
+    "sender_name": "Shopping-App",
+    "message_body": "Your order #ORD690674 has been shipped! Track your delivery here.",
+    "received_date": "2025-03-22T02:32:00.000",
+    "type": "received"
+  },
+  {
+    "id": "26",
+    "sender_name": "ICICI-Bank",
+    "message_body": "Your ICICI Bank account XXXXX6930 has been credited with Rs.49,888.00 via NEFT transfer. Available balance: Rs.45,812.00",
+    "received_date": "2025-10-21T10:00:00.000",
+    "type": "received"
+  },
+  {
+    "id": "27",
+    "sender_name": "AX-CBSSBI-S",
+    "message_body": "Your A/C XXXXX869855 Credited INR 20,224.00 on 10/Jul25 -Deposit by transfer from Sender1. Avl Bal INR 78,793.00-SBI",
+    "received_date": "2025-10-23T21:09:00.000",
+    "type": "received"
+  },
+  {
+    "id": "28",
+    "sender_name": "Promo-Store",
+    "message_body": "🎉 FLAT 30% OFF on all items! Limited time offer. Shop now at our store!",
+    "received_date": "2025-11-15T12:56:00.000",
+    "type": "received"
+  },
+  {
+    "id": "29",
+    "sender_name": "Data-Provider",
+    "message_body": "You have used 91% of your daily data. 4.2GB remaining out of 10GB.",
+    "received_date": "2025-01-26T02:02:00.000",
+    "type": "received"
+  },
+  {
+    "id": "30",
+    "sender_name": "Promo-Store",
+    "message_body": "🎉 FLAT 30% OFF on all items! Limited time offer. Shop now at our store!",
+    "received_date": "2025-07-18T23:50:00.000",
+    "type": "received"
+  },
+  {
+    "id": "31",
+    "sender_name": "AX-CBSSBI-S",
+    "message_body": "Your A/C XXXXX869855 Credited INR 38,430.00 on 2/Oct25 -Deposit by transfer from Sender2. Avl Bal INR 36,007.00-SBI",
+    "received_date": "2025-08-22T00:38:00.000",
+    "type": "received"
+  },
+  {
+    "id": "32",
+    "sender_name": "OTP-Service",
+    "message_body": "Your OTP is 491043. Valid for 10 minutes. Do not share with anyone.",
+    "received_date": "2025-07-02T22:31:00.000",
+    "type": "received"
+  },
+  {
+    "id": "33",
+    "sender_name": "Data-Provider",
+    "message_body": "You have used 87% of your daily data. 4.2GB remaining out of 9GB.",
+    "received_date": "2025-05-08T10:11:00.000",
+    "type": "received"
+  },
+  {
+    "id": "34",
+    "sender_name": "OTP-Service",
+    "message_body": "Your OTP is 460802. Valid for 10 minutes. Do not share with anyone.",
+    "received_date": "2025-12-01T05:01:00.000",
+    "type": "received"
+  },
+  {
+    "id": "35",
+    "sender_name": "Promo-Store",
+    "message_body": "🎉 FLAT 20% OFF on all items! Limited time offer. Shop now at our store!",
+    "received_date": "2025-04-17T08:24:00.000",
+    "type": "received"
+  },
+  {
+    "id": "36",
+    "sender_name": "Shopping-App",
+    "message_body": "Your order #ORD544778 has been shipped! Track your delivery here.",
+    "received_date": "2025-08-16T06:12:00.000",
+    "type": "received"
+  },
+  {
+    "id": "37",
+    "sender_name": "ICICI-Bank",
+    "message_body": "Your ICICI Bank account XXXXX6513 has been credited with Rs.44,894.00 via NEFT transfer. Available balance: Rs.68,360.00",
+    "received_date": "2025-12-17T04:08:00.000",
+    "type": "received"
+  },
+  {
+    "id": "38",
+    "sender_name": "OTP-Service",
+    "message_body": "Your OTP is 869437. Valid for 10 minutes. Do not share with anyone.",
+    "received_date": "2025-03-25T18:31:00.000",
+    "type": "received"
+  },
+  {
+    "id": "39",
+    "sender_name": "OTP-Service",
+    "message_body": "Your OTP is 705826. Valid for 10 minutes. Do not share with anyone.",
+    "received_date": "2025-05-12T16:42:00.000",
+    "type": "received"
+  },
+  {
+    "id": "40",
+    "sender_name": "Data-Provider",
+    "message_body": "You have used 87% of your daily data. 0.6GB remaining out of 1GB.",
+    "received_date": "2025-03-15T18:56:00.000",
+    "type": "received"
+  },
+  {
+    "id": "41",
+    "sender_name": "HDFC-Bank",
+    "message_body": "Your HDFC Bank Credit Card ending 4347 has been charged Rs.32,173.00 on 13/Oct25. Available credit limit: Rs.91,124.00",
+    "received_date": "2025-03-17T06:35:00.000",
+    "type": "received"
+  },
+  {
+    "id": "42",
+    "sender_name": "Shopping-App",
+    "message_body": "Your order #ORD896260 has been shipped! Track your delivery here.",
+    "received_date": "2025-12-06T17:13:00.000",
+    "type": "received"
+  },
+  {
+    "id": "43",
+    "sender_name": "Shopping-App",
+    "message_body": "Your order #ORD325666 has been shipped! Track your delivery here.",
+    "received_date": "2025-11-28T17:18:00.000",
+    "type": "received"
+  },
+  {
+    "id": "44",
+    "sender_name": "HDFC-Bank",
+    "message_body": "Your HDFC Bank Credit Card ending 5072 has been charged Rs.32,500.00 on 18/Jan25. Available credit limit: Rs.43,668.00",
+    "received_date": "2025-07-27T07:27:00.000",
+    "type": "received"
+  },
+  {
+    "id": "45",
+    "sender_name": "OTP-Service",
+    "message_body": "Your OTP is 617046. Valid for 10 minutes. Do not share with anyone.",
+    "received_date": "2025-08-01T15:25:00.000",
+    "type": "received"
+  },
+  {
+    "id": "46",
+    "sender_name": "AX-CBSSBI-S",
+    "message_body": "Your A/C XXXXX869855 Credited INR 30,761.00 on 14/Oct25 -Deposit by transfer from Sender1. Avl Bal INR 66,139.00-SBI",
+    "received_date": "2025-01-23T21:17:00.000",
+    "type": "received"
+  },
+  {
+    "id": "47",
+    "sender_name": "OTP-Service",
+    "message_body": "Your OTP is 203990. Valid for 10 minutes. Do not share with anyone.",
+    "received_date": "2025-04-24T12:44:00.000",
+    "type": "received"
+  },
+  {
+    "id": "48",
+    "sender_name": "OTP-Service",
+    "message_body": "Your OTP is 863298. Valid for 10 minutes. Do not share with anyone.",
+    "received_date": "2025-05-26T12:34:00.000",
+    "type": "received"
+  },
+  {
+    "id": "49",
+    "sender_name": "HDFC-Bank",
+    "message_body": "Your HDFC Bank Credit Card ending 3029 has been charged Rs.44,927.00 on 3/Apr25. Available credit limit: Rs.75,636.00",
+    "received_date": "2025-03-01T00:58:00.000",
+    "type": "received"
+  },
+  {
+    "id": "50",
+    "sender_name": "OTP-Service",
+    "message_body": "Your OTP is 674926. Valid for 10 minutes. Do not share with anyone.",
+    "received_date": "2025-01-03T23:14:00.000",
+    "type": "received"
+  },
+  {
+    "id": "51",
+    "sender_name": "AX-SBIUPI-S",
+    "message_body": "Dear UPI user A/C X9855 debited by 5,057.00 on date 11/Sep25 trf to MERCHANT3 Refno 540739707137. If not u? call 1800111109. -SBI",
+    "received_date": "2025-05-05T18:21:00.000",
+    "type": "received"
+  },
+  {
+    "id": "52",
+    "sender_name": "HDFC-Bank",
+    "message_body": "Your HDFC Bank Credit Card ending 9626 has been charged Rs.42,854.00 on 1/Jul25. Available credit limit: Rs.40,235.00",
+    "received_date": "2025-12-20T12:29:00.000",
+    "type": "received"
+  },
+  {
+    "id": "53",
+    "sender_name": "ICICI-Bank",
+    "message_body": "Your ICICI Bank account XXXXX2931 has been credited with Rs.46,291.00 via NEFT transfer. Available balance: Rs.68,178.00",
+    "received_date": "2025-06-18T15:00:00.000",
+    "type": "received"
+  },
+  {
+    "id": "54",
+    "sender_name": "Promo-Store",
+    "message_body": "🎉 FLAT 40% OFF on all items! Limited time offer. Shop now at our store!",
+    "received_date": "2025-07-12T14:50:00.000",
+    "type": "received"
+  },
+  {
+    "id": "55",
+    "sender_name": "Promo-Store",
+    "message_body": "🎉 FLAT 10% OFF on all items! Limited time offer. Shop now at our store!",
+    "received_date": "2025-03-11T04:04:00.000",
+    "type": "received"
+  },
+  {
+    "id": "56",
+    "sender_name": "ICICI-Bank",
+    "message_body": "Your ICICI Bank account XXXXX7888 has been credited with Rs.20,009.00 via NEFT transfer. Available balance: Rs.63,749.00",
+    "received_date": "2025-06-21T23:50:00.000",
+    "type": "received"
+  },
+  {
+    "id": "57",
+    "sender_name": "AX-SBIUPI-S",
+    "message_body": "Dear UPI user A/C X9855 debited by 14,086.00 on date 5/Feb25 trf to MERCHANT4 Refno 294691582998. If not u? call 1800111109. -SBI",
+    "received_date": "2025-09-15T20:59:00.000",
+    "type": "received"
+  },
+  {
+    "id": "58",
+    "sender_name": "ICICI-Bank",
+    "message_body": "Your ICICI Bank account XXXXX9180 has been credited with Rs.27,049.00 via NEFT transfer. Available balance: Rs.32,928.00",
+    "received_date": "2025-03-22T10:14:00.000",
+    "type": "received"
+  },
+  {
+    "id": "59",
+    "sender_name": "Data-Provider",
+    "message_body": "You have used 63% of your daily data. 3.8GB remaining out of 3GB.",
+    "received_date": "2025-03-16T08:01:00.000",
+    "type": "received"
+  },
+  {
+    "id": "60",
+    "sender_name": "OTP-Service",
+    "message_body": "Your OTP is 956828. Valid for 10 minutes. Do not share with anyone.",
+    "received_date": "2025-01-09T20:59:00.000",
+    "type": "received"
+  },
+  {
+    "id": "61",
+    "sender_name": "AX-SBIUPI-S",
+    "message_body": "Dear UPI user A/C X9855 debited by 30,397.00 on date 13/Oct25 trf to MERCHANT2 Refno 848340308924. If not u? call 1800111109. -SBI",
+    "received_date": "2025-03-07T07:33:00.000",
+    "type": "received"
+  },
+  {
+    "id": "62",
+    "sender_name": "Promo-Store",
+    "message_body": "🎉 FLAT 30% OFF on all items! Limited time offer. Shop now at our store!",
+    "received_date": "2025-03-04T05:14:00.000",
+    "type": "received"
+  },
+  {
+    "id": "63",
+    "sender_name": "Data-Provider",
+    "message_body": "You have used 95% of your daily data. 2.3GB remaining out of 10GB.",
+    "received_date": "2025-09-06T14:44:00.000",
+    "type": "received"
+  },
+  {
+    "id": "64",
+    "sender_name": "Shopping-App",
+    "message_body": "Your order #ORD537847 has been shipped! Track your delivery here.",
+    "received_date": "2025-03-22T10:49:00.000",
+    "type": "received"
+  },
+  {
+    "id": "65",
+    "sender_name": "Shopping-App",
+    "message_body": "Your order #ORD993929 has been shipped! Track your delivery here.",
+    "received_date": "2025-08-14T16:48:00.000",
+    "type": "received"
+  },
+  {
+    "id": "66",
+    "sender_name": "ICICI-Bank",
+    "message_body": "Your ICICI Bank account XXXXX8477 has been credited with Rs.12,225.00 via NEFT transfer. Available balance: Rs.67,379.00",
+    "received_date": "2025-04-17T02:42:00.000",
+    "type": "received"
+  },
+  {
+    "id": "67",
+    "sender_name": "Data-Provider",
+    "message_body": "You have used 55% of your daily data. 2.4GB remaining out of 9GB.",
+    "received_date": "2025-08-27T00:14:00.000",
+    "type": "received"
+  },
+  {
+    "id": "68",
+    "sender_name": "OTP-Service",
+    "message_body": "Your OTP is 790060. Valid for 10 minutes. Do not share with anyone.",
+    "received_date": "2025-03-01T13:05:00.000",
+    "type": "received"
+  },
+  {
+    "id": "69",
+    "sender_name": "Promo-Store",
+    "message_body": "🎉 FLAT 10% OFF on all items! Limited time offer. Shop now at our store!",
+    "received_date": "2025-05-27T09:24:00.000",
+    "type": "received"
+  },
+  {
+    "id": "70",
+    "sender_name": "Data-Provider",
+    "message_body": "You have used 94% of your daily data. 3.8GB remaining out of 3GB.",
+    "received_date": "2025-12-11T07:45:00.000",
+    "type": "received"
+  },
+  {
+    "id": "71",
+    "sender_name": "Promo-Store",
+    "message_body": "🎉 FLAT 10% OFF on all items! Limited time offer. Shop now at our store!",
+    "received_date": "2025-06-16T00:01:00.000",
+    "type": "received"
+  },
+  {
+    "id": "72",
+    "sender_name": "OTP-Service",
+    "message_body": "Your OTP is 839786. Valid for 10 minutes. Do not share with anyone.",
+    "received_date": "2025-05-17T03:21:00.000",
+    "type": "received"
+  },
+  {
+    "id": "73",
+    "sender_name": "Data-Provider",
+    "message_body": "You have used 72% of your daily data. 4.5GB remaining out of 1GB.",
+    "received_date": "2025-05-13T15:59:00.000",
+    "type": "received"
+  },
+  {
+    "id": "74",
+    "sender_name": "HDFC-Bank",
+    "message_body": "Your HDFC Bank Credit Card ending 7222 has been charged Rs.12,489.00 on 6/Jul25. Available credit limit: Rs.50,319.00",
+    "received_date": "2025-04-14T19:25:00.000",
+    "type": "received"
+  },
+  {
+    "id": "75",
+    "sender_name": "Data-Provider",
+    "message_body": "You have used 84% of your daily data. 0.5GB remaining out of 6GB.",
+    "received_date": "2025-07-03T23:56:00.000",
+    "type": "received"
+  },
+  {
+    "id": "76",
+    "sender_name": "Promo-Store",
+    "message_body": "🎉 FLAT 10% OFF on all items! Limited time offer. Shop now at our store!",
+    "received_date": "2025-09-13T23:18:00.000",
+    "type": "received"
+  },
+  {
+    "id": "77",
+    "sender_name": "Shopping-App",
+    "message_body": "Your order #ORD807086 has been shipped! Track your delivery here.",
+    "received_date": "2025-02-22T17:42:00.000",
+    "type": "received"
+  },
+  {
+    "id": "78",
+    "sender_name": "Shopping-App",
+    "message_body": "Your order #ORD545299 has been shipped! Track your delivery here.",
+    "received_date": "2025-05-20T03:31:00.000",
+    "type": "received"
+  },
+  {
+    "id": "79",
+    "sender_name": "Promo-Store",
+    "message_body": "🎉 FLAT 40% OFF on all items! Limited time offer. Shop now at our store!",
+    "received_date": "2025-07-02T04:14:00.000",
+    "type": "received"
+  },
+  {
+    "id": "80",
+    "sender_name": "ICICI-Bank",
+    "message_body": "Your ICICI Bank account XXXXX3494 has been credited with Rs.44,507.00 via NEFT transfer. Available balance: Rs.41,253.00",
+    "received_date": "2025-04-08T19:25:00.000",
+    "type": "received"
+  },
+  {
+    "id": "81",
+    "sender_name": "AX-SBIUPI-S",
+    "message_body": "Dear UPI user A/C X9855 debited by 2,368.00 on date 21/May25 trf to MERCHANT1 Refno 632780176892. If not u? call 1800111109. -SBI",
+    "received_date": "2025-01-22T12:07:00.000",
+    "type": "received"
+  },
+  {
+    "id": "82",
+    "sender_name": "Shopping-App",
+    "message_body": "Your order #ORD861203 has been shipped! Track your delivery here.",
+    "received_date": "2025-07-28T09:07:00.000",
+    "type": "received"
+  },
+  {
+    "id": "83",
+    "sender_name": "Data-Provider",
+    "message_body": "You have used 95% of your daily data. 4.8GB remaining out of 4GB.",
+    "received_date": "2025-09-13T10:07:00.000",
+    "type": "received"
+  },
+  {
+    "id": "84",
+    "sender_name": "Shopping-App",
+    "message_body": "Your order #ORD855318 has been shipped! Track your delivery here.",
+    "received_date": "2025-01-24T17:17:00.000",
+    "type": "received"
+  },
+  {
+    "id": "85",
+    "sender_name": "Shopping-App",
+    "message_body": "Your order #ORD321350 has been shipped! Track your delivery here.",
+    "received_date": "2025-11-13T22:45:00.000",
+    "type": "received"
+  },
+  {
+    "id": "86",
+    "sender_name": "HDFC-Bank",
+    "message_body": "Your HDFC Bank Credit Card ending 5376 has been charged Rs.44,297.00 on 10/Apr25. Available credit limit: Rs.72,243.00",
+    "received_date": "2025-12-10T05:12:00.000",
+    "type": "received"
+  },
+  {
+    "id": "87",
+    "sender_name": "ICICI-Bank",
+    "message_body": "Your ICICI Bank account XXXXX5326 has been credited with Rs.36,867.00 via NEFT transfer. Available balance: Rs.38,386.00",
+    "received_date": "2025-05-02T11:56:00.000",
+    "type": "received"
+  },
+  {
+    "id": "88",
+    "sender_name": "Data-Provider",
+    "message_body": "You have used 69% of your daily data. 4.8GB remaining out of 1GB.",
+    "received_date": "2025-08-06T13:39:00.000",
+    "type": "received"
+  },
+  {
+    "id": "89",
+    "sender_name": "AX-SBIUPI-S",
+    "message_body": "Dear UPI user A/C X9855 debited by 5,632.00 on date 4/Jan25 trf to MERCHANT4 Refno 319683969595. If not u? call 1800111109. -SBI",
+    "received_date": "2025-01-10T23:51:00.000",
+    "type": "received"
+  },
+  {
+    "id": "90",
+    "sender_name": "Data-Provider",
+    "message_body": "You have used 69% of your daily data. 4.3GB remaining out of 9GB.",
+    "received_date": "2025-04-10T07:43:00.000",
+    "type": "received"
+  },
+  {
+    "id": "91",
+    "sender_name": "Data-Provider",
+    "message_body": "You have used 74% of your daily data. 2.9GB remaining out of 4GB.",
+    "received_date": "2025-11-26T05:49:00.000",
+    "type": "received"
+  },
+  {
+    "id": "92",
+    "sender_name": "Data-Provider",
+    "message_body": "You have used 92% of your daily data. 3.0GB remaining out of 8GB.",
+    "received_date": "2025-01-01T03:01:00.000",
+    "type": "received"
+  },
+  {
+    "id": "93",
+    "sender_name": "OTP-Service",
+    "message_body": "Your OTP is 182378. Valid for 10 minutes. Do not share with anyone.",
+    "received_date": "2025-08-01T05:56:00.000",
+    "type": "received"
+  },
+  {
+    "id": "94",
+    "sender_name": "OTP-Service",
+    "message_body": "Your OTP is 368251. Valid for 10 minutes. Do not share with anyone.",
+    "received_date": "2025-04-25T09:24:00.000",
+    "type": "received"
+  },
+  {
+    "id": "95",
+    "sender_name": "ICICI-Bank",
+    "message_body": "Your ICICI Bank account XXXXX7666 has been credited with Rs.27,956.00 via NEFT transfer. Available balance: Rs.31,579.00",
+    "received_date": "2025-05-26T06:52:00.000",
+    "type": "received"
+  },
+  {
+    "id": "96",
+    "sender_name": "OTP-Service",
+    "message_body": "Your OTP is 701629. Valid for 10 minutes. Do not share with anyone.",
+    "received_date": "2025-09-02T06:54:00.000",
+    "type": "received"
+  },
+  {
+    "id": "97",
+    "sender_name": "HDFC-Bank",
+    "message_body": "Your HDFC Bank Credit Card ending 2963 has been charged Rs.44,052.00 on 9/Jul25. Available credit limit: Rs.87,276.00",
+    "received_date": "2025-10-04T21:07:00.000",
+    "type": "received"
+  },
+  {
+    "id": "98",
+    "sender_name": "Promo-Store",
+    "message_body": "🎉 FLAT 40% OFF on all items! Limited time offer. Shop now at our store!",
+    "received_date": "2025-08-12T21:19:00.000",
+    "type": "received"
+  },
+  {
+    "id": "99",
+    "sender_name": "Data-Provider",
+    "message_body": "You have used 71% of your daily data. 2.1GB remaining out of 6GB.",
+    "received_date": "2025-03-08T20:31:00.000",
+    "type": "received"
+  },
+  {
+    "id": "100",
+    "sender_name": "AX-SBIUPI-S",
+    "message_body": "Dear UPI user A/C X9855 debited by 23,381.00 on date 1/May25 trf to MERCHANT1 Refno 409739893002. If not u? call 1800111109. -SBI",
+    "received_date": "2025-01-04T20:15:00.000",
+    "type": "received"
+  }
+]

@@ -8,9 +8,9 @@ Features
 - Works with OpenAI-compatible chat endpoints (e.g., vLLM) OR a generic endpoint
 - Async concurrency with retries + exponential backoff
 - Accepts JSONL (recommended) or JSON array inputs
-- Outputs NDJSON: each line has { _source_id, input, parsed, raw }
-- Compact universal prompt for lower tokens; optional few-shots
-- Validates JSON parse from model (drops non-JSON safely)
+- Outputs one JSON object per line (pretty-printed) like your original
+- Optional failures log: --failures failures.ndjson
+- Optional light post-enrichment: --enrich safe (fills only missing fields for transactions)
 
 Usage
   export API_URL="https://<your-aws-endpoint>/v1/chat/completions"
@@ -115,7 +115,7 @@ def build_prompt(input_msg: Dict[str, Any]) -> str:
     return "".join(parts)
 
 def extract_json_object(text: str) -> Optional[Dict[str, Any]]:
-    """Try to parse content as JSON; if it fails, attempt to extract the first {...} block."""
+    """Try to parse content as JSON; if it fails, attempt to extract the first {...} block (non-greedy)."""
     if not text:
         return None
     text = text.strip()
@@ -124,8 +124,8 @@ def extract_json_object(text: str) -> Optional[Dict[str, Any]]:
         return json.loads(text)
     except Exception:
         pass
-    # Fallback: find first JSON object
-    m = re.search(r"\{.*\}", text, flags=re.DOTALL)
+    # Fallback: find first JSON object (non-greedy to avoid swallowing multiple blocks)
+    m = re.search(r"\{.*?\}", text, flags=re.DOTALL)
     if not m:
         return None
     try:
@@ -200,7 +200,59 @@ def parse_response(data: Dict[str, Any], mode: str) -> Optional[Dict[str, Any]]:
 
     return extract_json_object(content) if content else None
 
-async def worker(name: str, queue: asyncio.Queue, out_fp, model: str, mode: str, temperature: float, max_tokens: int, top_p: float):
+# -------- Optional safe enrichment (fills only missing fields for transactions) --------
+def safe_enrich(input_msg: Dict[str, Any], parsed: Dict[str, Any]) -> Dict[str, Any]:
+    try:
+        if parsed.get("message_intent") != "transaction":
+            return parsed  # never touch non-transactions
+        # currency
+        if "currency" not in parsed:
+            body = (input_msg.get("body") or "")
+            if "inr" in body.lower() or "rs" in body.lower() or "₹" in body:
+                parsed["currency"] = "INR"
+            else:
+                parsed["currency"] = "INR"  # India-first default
+        # method
+        md = (parsed.get("metadata") or {}).get("method")
+        if not md:
+            b = (input_msg.get("body") or "").lower()
+            method = None
+            if "imps" in b: method = "IMPS"
+            elif "neft" in b: method = "NEFT"
+            elif "rtgs" in b: method = "RTGS"
+            elif "upi" in b or "@upi" in b: method = "UPI"
+            elif "atm" in b: method = "ATM"
+            elif "credit card" in b or "debit card" in b or "pos" in b or "spent on" in b: method = "Card"
+            if method:
+                parsed.setdefault("metadata", {})["method"] = method
+        # category (only if missing)
+        if "category" not in parsed:
+            b = (input_msg.get("body") or "").lower()
+            if "atm" in b:
+                parsed["category"] = "atm-withdrawal"
+            elif "refund" in b or "reversal" in b:
+                parsed["category"] = "refund"
+            else:
+                parsed["category"] = "transfer"
+        # summary (only if missing)
+        if "summary" not in parsed:
+            bank = (parsed.get("account") or {}).get("bank") or ""
+            cp = parsed.get("counterparty") or ""
+            amt = parsed.get("amount")
+            tx = parsed.get("transaction_type") or ""
+            if bank and amt and tx:
+                verb = "credited" if tx == "credit" else "debited"
+                summary = f"{bank} {verb} {int(amt) if isinstance(amt,(int,float)) and amt==int(amt) else amt}"
+                if cp:
+                    summary += f" {'to' if tx=='credit' else 'at'} {cp}"
+                parsed["summary"] = summary
+        return parsed
+    except Exception:
+        return parsed  # safety: never fail enrichment
+# --------------------------------------------------------------------------------------
+
+async def worker(name: str, queue: asyncio.Queue, out_fp, fail_fp, enrich_mode: str,
+                 model: str, mode: str, temperature: float, max_tokens: int, top_p: float):
     async with aiohttp.ClientSession() as session:
         while True:
             item = await queue.get()
@@ -219,10 +271,40 @@ async def worker(name: str, queue: asyncio.Queue, out_fp, model: str, mode: str,
                 data = await call_generic(session, prompt)
 
             parsed = parse_response(data, mode)
-            # Only write the clean parsed JSON if it exists
+
+            # Optional safe enrichment (fill only missing fields for transactions)
+            if parsed and enrich_mode == "safe":
+                parsed = safe_enrich(input_msg, parsed)
+
+            # Only write the clean parsed JSON if it exists (preserve your original behavior)
             if parsed:
                 out_fp.write(json.dumps(parsed, ensure_ascii=False, indent=2) + "\n")
                 out_fp.flush()  # Ensure it's written immediately
+            else:
+                # Log failure if a failures file is provided
+                if fail_fp is not None:
+                    raw_text = None
+                    if data:
+                        if mode == "openai":
+                            try:
+                                raw_text = data["choices"][0]["message"]["content"]
+                            except Exception:
+                                raw_text = None
+                        else:
+                            raw_text = (
+                                data.get("text")
+                                or data.get("output")
+                                or data.get("generated_text")
+                                or data.get("content")
+                            )
+                    fail_obj = {
+                        "_source_id": src_id,
+                        "input": input_msg,
+                        "raw": raw_text
+                    }
+                    fail_fp.write(json.dumps(fail_obj, ensure_ascii=False) + "\n")
+                    fail_fp.flush()
+
             queue.task_done()
 
 def load_rows(path: str):
@@ -241,13 +323,19 @@ def load_rows(path: str):
         for row in arr:
             yield row
 
-async def run_batch(input_path: str, output_path: str, model: str, mode: str, concurrency: int, temperature: float, max_tokens: int, top_p: float):
+async def run_batch(input_path: str, output_path: str, model: str, mode: str, concurrency: int,
+                    temperature: float, max_tokens: int, top_p: float, failures: Optional[str],
+                    enrich_mode: str):
     q = asyncio.Queue(maxsize=concurrency * 2)
+
+    # Open failures file if provided
+    fail_fp = open(failures, "w", encoding="utf-8") if failures else None
 
     with open(output_path, "w", encoding="utf-8") as out_fp:
         # Start workers
         tasks = [
-            asyncio.create_task(worker(f"w{i}", q, out_fp, model, mode, temperature, max_tokens, top_p))
+            asyncio.create_task(worker(f"w{i}", q, out_fp, fail_fp, enrich_mode,
+                                       model, mode, temperature, max_tokens, top_p))
             for i in range(concurrency)
         ]
 
@@ -269,7 +357,7 @@ async def run_batch(input_path: str, output_path: str, model: str, mode: str, co
         # Progress
         pbar = tqdm(total=total, desc="Processing", unit="msg")
 
-        # Drain queue while updating progress
+        # Drain queue while updating progress (same behavior as your original)
         prev_done = 0
         while not q.empty():
             done_now = total - q.qsize()
@@ -287,6 +375,9 @@ async def run_batch(input_path: str, output_path: str, model: str, mode: str, co
             await q.put(None)
         await asyncio.gather(*tasks)
 
+    if fail_fp:
+        fail_fp.close()
+
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--input", required=True, help="Path to JSONL (recommended) or JSON array")
@@ -298,12 +389,20 @@ def main():
     parser.add_argument("--temperature", type=float, default=0.2)
     parser.add_argument("--max_tokens", type=int, default=4096)
     parser.add_argument("--top_p", type=float, default=1.0)
+
+    # NEW: optional failures file and enrichment mode
+    parser.add_argument("--failures", default=None, help="Path to write unparsed rows (NDJSON)")
+    parser.add_argument("--enrich", choices=["off", "safe"], default="off",
+                        help="off = unchanged; safe = fill only missing fields for transactions")
+
     args = parser.parse_args()
 
     if not API_URL:
         raise SystemExit("Set API_URL env var to your AWS endpoint.")
 
-    print(f"Endpoint: {API_URL} | Mode: {args.mode} | Model: {args.model} | Concurrency: {args.concurrency}")
+    print(f"Endpoint: {API_URL} | Mode: {args.mode} | Model: {args.model} "
+          f"| Concurrency: {args.concurrency} | Enrich: {args.enrich} | Failures: {args.failures or 'none'}")
+
     asyncio.run(run_batch(
         input_path=args.input,
         output_path=args.output,
@@ -313,6 +412,8 @@ def main():
         temperature=args.temperature,
         max_tokens=args.max_tokens,
         top_p=args.top_p,
+        failures=args.failures,
+        enrich_mode=args.enrich,
     ))
 
 if __name__ == "__main__":
