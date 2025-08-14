@@ -38,3 +38,7 @@ python3 extract_financial_array.py filtered_financial.json -o financial_array.js
 
 # Step 3: Process with AI (Data to information -> stored in mongodb)
 python3 main.py --input financial_array.json --output final_results.json --failures complete_failures.ndjson
+
+
+
+python3 main.py --input test_realtime.json --output test_results_realtime.json --failures test_failures_realtime.ndjson --batch-size 1 --parallel-batches 1

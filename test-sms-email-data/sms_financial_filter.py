@@ -209,8 +209,10 @@ class SMSFinancialFilter:
         
         logger.info(f"🔍 Processing {total_sms} SMS messages...")
         
-        for sms in sms_list:
+        for i, sms in enumerate(sms_list):
             if self.is_financial_sms(sms):
+                sms['unique_id'] = f"sms_{i+1:06d}"  # Add unique ID (e.g., sms_000001)
+                sms['isprocessed'] = False  # Mark as unprocessed
                 financial_sms.append(sms)
             else:
                 # Categorize exclusion reason
