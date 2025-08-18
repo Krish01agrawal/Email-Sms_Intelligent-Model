@@ -22,6 +22,7 @@ from typing import Any, Dict, Optional, List
 import math
 from datetime import datetime
 from dotenv import load_dotenv
+import statistics
 
 import aiohttp
 from tqdm import tqdm
@@ -39,6 +40,239 @@ print(f"   API_URL loaded: {'✅' if API_URL else '❌'} - '{API_URL}'")
 print(f"   API_KEY loaded: {'✅' if API_KEY else '❌'} - {'***' if API_KEY else 'Not set'}")
 print(f"   Current working directory: {os.getcwd()}")
 print(f"   .env file exists: {'✅' if os.path.exists('.env') else '❌'}")
+
+# Adaptive Rate Limiting Configuration
+class AdaptiveRateLimiter:
+    """Intelligent rate limiter that adapts to API performance"""
+    
+    def __init__(self, min_delay=0.5, max_delay=10.0, initial_delay=1.0):
+        self.min_delay = min_delay
+        self.max_delay = max_delay
+        self.current_delay = initial_delay
+        self.response_times = []
+        self.error_count = 0
+        self.success_count = 0
+        self.max_response_time = 5.0  # Target max response time
+    
+    def update_delay(self, response_time: float, success: bool):
+        """Update delay based on API performance"""
+        if success:
+            self.success_count += 1
+            self.error_count = max(0, self.error_count - 1)
+            
+            # Add response time to rolling window (keep last 10)
+            self.response_times.append(response_time)
+            if len(self.response_times) > 10:
+                self.response_times.pop(0)
+            
+            # Calculate average response time
+            if self.response_times:
+                avg_response_time = statistics.mean(self.response_times)
+                
+                # Adjust delay based on performance
+                if avg_response_time > self.max_response_time:
+                    # API is slow, increase delay
+                    self.current_delay = min(self.current_delay * 1.2, self.max_delay)
+                elif avg_response_time < self.max_response_time * 0.7:
+                    # API is fast, decrease delay
+                    self.current_delay = max(self.current_delay * 0.8, self.min_delay)
+        else:
+            self.error_count += 1
+            # Increase delay on errors
+            self.current_delay = min(self.current_delay * 1.5, self.max_delay)
+    
+    async def wait(self):
+        """Wait for the calculated delay"""
+        await asyncio.sleep(self.current_delay)
+    
+    def get_stats(self):
+        """Get current rate limiter statistics"""
+        return {
+            "current_delay": self.current_delay,
+            "avg_response_time": statistics.mean(self.response_times) if self.response_times else 0,
+            "success_rate": self.success_count / (self.success_count + self.error_count) if (self.success_count + self.error_count) > 0 else 0,
+            "error_count": self.error_count
+        }
+
+# Global rate limiter instance
+rate_limiter = AdaptiveRateLimiter()
+
+# Performance Monitoring
+class PerformanceMonitor:
+    """Comprehensive performance monitoring for the SMS processing system"""
+    
+    def __init__(self):
+        self.start_time = time.time()
+        self.api_calls = 0
+        self.successful_calls = 0
+        self.failed_calls = 0
+        self.total_processing_time = 0
+        self.batch_times = []
+        self.api_response_times = []
+        self.memory_usage = []
+        
+    def record_api_call(self, success: bool, response_time: float):
+        """Record API call performance"""
+        self.api_calls += 1
+        if success:
+            self.successful_calls += 1
+        else:
+            self.failed_calls += 1
+        self.api_response_times.append(response_time)
+    
+    def record_batch_time(self, batch_size: int, processing_time: float):
+        """Record batch processing performance"""
+        self.batch_times.append({
+            "batch_size": batch_size,
+            "processing_time": processing_time,
+            "sms_per_second": batch_size / processing_time
+        })
+    
+    def get_performance_stats(self):
+        """Get comprehensive performance statistics"""
+        total_time = time.time() - self.start_time
+        
+        if self.api_response_times:
+            avg_response_time = statistics.mean(self.api_response_times)
+            min_response_time = min(self.api_response_times)
+            max_response_time = max(self.api_response_times)
+        else:
+            avg_response_time = min_response_time = max_response_time = 0
+        
+        if self.batch_times:
+            avg_sms_per_second = statistics.mean([b["sms_per_second"] for b in self.batch_times])
+            total_sms_processed = sum([b["batch_size"] for b in self.batch_times])
+        else:
+            avg_sms_per_second = total_sms_processed = 0
+        
+        return {
+            "total_processing_time": total_time,
+            "total_api_calls": self.api_calls,
+            "successful_api_calls": self.successful_calls,
+            "failed_api_calls": self.failed_calls,
+            "api_success_rate": self.successful_calls / self.api_calls if self.api_calls > 0 else 0,
+            "avg_api_response_time": avg_response_time,
+            "min_api_response_time": min_response_time,
+            "max_api_response_time": max_response_time,
+            "avg_sms_per_second": avg_sms_per_second,
+            "total_sms_processed": total_sms_processed,
+            "overall_throughput": total_sms_processed / total_time if total_time > 0 else 0,
+            "rate_limiter_stats": rate_limiter.get_stats()
+        }
+    
+    def print_performance_summary(self):
+        """Print comprehensive performance summary"""
+        stats = self.get_performance_stats()
+        
+        print(f"\n📊 PERFORMANCE SUMMARY:")
+        print(f"   ⏱️  Total Processing Time: {stats['total_processing_time']:.2f}s")
+        print(f"   🔗 API Calls: {stats['total_api_calls']} (Success: {stats['successful_api_calls']}, Failed: {stats['failed_api_calls']})")
+        print(f"   ✅ API Success Rate: {stats['api_success_rate']:.1%}")
+        print(f"   ⚡ Average API Response: {stats['avg_api_response_time']:.2f}s")
+        print(f"   📱 Total SMS Processed: {stats['total_sms_processed']}")
+        print(f"   🚀 Overall Throughput: {stats['overall_throughput']:.2f} SMS/second")
+        print(f"   🔄 Rate Limiter Delay: {stats['rate_limiter_stats']['current_delay']:.2f}s")
+        print(f"   📈 Rate Limiter Success Rate: {stats['rate_limiter_stats']['success_rate']:.1%}")
+
+# Global performance monitor
+performance_monitor = PerformanceMonitor()
+
+# Enhanced Error Recovery System
+class ErrorRecoveryManager:
+    """Intelligent error recovery with retry logic and dead letter queue"""
+    
+    def __init__(self, max_retries=3, backoff_factor=2.0):
+        self.max_retries = max_retries
+        self.backoff_factor = backoff_factor
+        self.retry_queue = {}  # SMS that need retry
+        self.dead_letter_queue = []  # SMS that failed permanently
+        self.retry_delays = {}  # Track retry delays per SMS
+    
+    def should_retry(self, sms_id: str, error_type: str) -> bool:
+        """Determine if SMS should be retried based on error type and retry count"""
+        if sms_id not in self.retry_queue:
+            return True
+        
+        retry_count = self.retry_queue[sms_id]["retry_count"]
+        
+        # Don't retry certain error types
+        permanent_errors = ["validation_error", "parsing_error", "missing_essential_fields"]
+        if error_type in permanent_errors:
+            return False
+        
+        # Check retry count
+        return retry_count < self.max_retries
+    
+    def schedule_retry(self, sms_data: Dict[str, Any], error_type: str, error_message: str):
+        """Schedule SMS for retry with exponential backoff"""
+        sms_id = sms_data.get("_source_id") or sms_data.get("unique_id")
+        
+        if not self.should_retry(sms_id, error_type):
+            # Move to dead letter queue
+            self.add_to_dead_letter_queue(sms_data, error_type, error_message)
+            return
+        
+        if sms_id not in self.retry_queue:
+            self.retry_queue[sms_id] = {
+                "sms_data": sms_data,
+                "retry_count": 0,
+                "error_type": error_type,
+                "error_message": error_message,
+                "first_error_time": datetime.now(),
+                "last_error_time": datetime.now()
+            }
+            self.retry_delays[sms_id] = 1.0  # Start with 1 second delay
+        else:
+            # Increment retry count and update error info
+            self.retry_queue[sms_id]["retry_count"] += 1
+            self.retry_queue[sms_id]["last_error_time"] = datetime.now()
+            self.retry_queue[sms_id]["error_type"] = error_type
+            self.retry_queue[sms_id]["error_message"] = error_message
+            
+            # Exponential backoff
+            self.retry_delays[sms_id] = min(
+                self.retry_delays[sms_id] * self.backoff_factor, 
+                60.0  # Max 60 second delay
+            )
+    
+    def add_to_dead_letter_queue(self, sms_data: Dict[str, Any], error_type: str, error_message: str):
+        """Add permanently failed SMS to dead letter queue"""
+        dead_letter_entry = {
+            "sms_data": sms_data,
+            "error_type": error_type,
+            "error_message": error_message,
+            "failed_at": datetime.now(),
+            "retry_count": self.retry_queue.get(sms_data.get("_source_id"), {}).get("retry_count", 0)
+        }
+        self.dead_letter_queue.append(dead_letter_entry)
+        
+        # Remove from retry queue
+        sms_id = sms_data.get("_source_id") or sms_data.get("unique_id")
+        if sms_id in self.retry_queue:
+            del self.retry_queue[sms_id]
+        if sms_id in self.retry_delays:
+            del self.retry_delays[sms_id]
+    
+    def get_retry_stats(self):
+        """Get retry queue statistics"""
+        return {
+            "retry_queue_size": len(self.retry_queue),
+            "dead_letter_queue_size": len(self.dead_letter_queue),
+            "total_retries": sum(entry["retry_count"] for entry in self.retry_queue.values()),
+            "avg_retry_count": statistics.mean([entry["retry_count"] for entry in self.retry_queue.values()]) if self.retry_queue else 0
+        }
+    
+    def save_dead_letter_queue(self, file_path: str):
+        """Save dead letter queue to file for analysis"""
+        try:
+            with open(file_path, 'w', encoding='utf-8') as f:
+                json.dump(self.dead_letter_queue, f, indent=2, ensure_ascii=False, default=str)
+            print(f"💾 Dead letter queue saved to: {file_path}")
+        except Exception as e:
+            print(f"❌ Failed to save dead letter queue: {e}")
+
+# Global error recovery manager
+error_recovery_manager = ErrorRecoveryManager()
 
 # IMPROVED PROMPT - More explicit about JSON structure
 UNIVERSAL_RULES = """You are an expert financial data parser for LifafaV0. 
@@ -211,7 +445,7 @@ def extract_json_object(text: str) -> Optional[Dict[str, Any]]:
 
 async def call_openai_style(session: aiohttp.ClientSession, model: str, prompt: str, 
                            temperature: float, max_tokens: int, top_p: float):
-    """Enhanced API call with better error handling"""
+    """Enhanced API call with adaptive rate limiting and better error handling"""
     
     # Verify API_URL is loaded
     if not API_URL:
@@ -231,40 +465,82 @@ async def call_openai_style(session: aiohttp.ClientSession, model: str, prompt: 
 
     print(f"  🔗 Calling API: {API_URL}")
     print(f"  📤 Payload: model={model}, max_tokens={max_tokens}")
+    print(f"  ⏱️  Current rate limit delay: {rate_limiter.current_delay:.2f}s")
 
+    start_time = time.time()
+    
     for attempt in range(3):
         try:
-            # Much longer timeout for better reliability
-            timeout = aiohttp.ClientTimeout(total=120, connect=20)
+            # Adaptive timeout based on current rate limiter state
+            base_timeout = 60 if rate_limiter.current_delay < 2.0 else 90
+            timeout = aiohttp.ClientTimeout(total=base_timeout, connect=20)
             print(f"  📡 Attempt {attempt + 1}/3: Making API call...")
             
             async with session.post(API_URL, json=payload, headers=headers, timeout=timeout, ssl=False) as resp:
-                print(f"  📥 Response status: {resp.status}")
+                response_time = time.time() - start_time
+                print(f"  📥 Response status: {resp.status} (took {response_time:.2f}s)")
                 
                 if resp.status == 200:
                     data = await resp.json()
                     print(f"  ✅ API call successful on attempt {attempt + 1}")
+                    
+                    # Update rate limiter with success
+                    rate_limiter.update_delay(response_time, True)
+                    print(f"  ⚡ Rate limiter updated - New delay: {rate_limiter.current_delay:.2f}s")
+                    
+                    # Record performance metrics
+                    performance_monitor.record_api_call(True, response_time)
+                    
                     return data
                 elif resp.status in (429, 500, 502, 503, 504):
-                    wait_time = min(30, 5 ** attempt)  # Longer exponential backoff
+                    # Update rate limiter with failure
+                    rate_limiter.update_delay(response_time, False)
+                    
+                    # Record performance metrics
+                    performance_monitor.record_api_call(False, response_time)
+                    
+                    wait_time = min(30, 5 ** attempt)  # Exponential backoff
                     print(f"  ⏳ API rate limit/error {resp.status}, waiting {wait_time}s...")
+                    print(f"  ⚡ Rate limiter updated - New delay: {rate_limiter.current_delay:.2f}s")
                     await asyncio.sleep(wait_time)
                     continue
                 else:
                     error_text = await resp.text()
                     print(f"  ❌ API error {resp.status}: {error_text[:200]}")
+                    
+                    # Update rate limiter with failure
+                    rate_limiter.update_delay(response_time, False)
+                    
+                    # Record performance metrics
+                    performance_monitor.record_api_call(False, response_time)
+                    
                     return None
                     
         except asyncio.TimeoutError:
-            print(f"  ⏳ API timeout on attempt {attempt + 1}")
+            response_time = time.time() - start_time
+            print(f"  ⏳ API timeout on attempt {attempt + 1} (took {response_time:.2f}s)")
+            
+            # Update rate limiter with failure
+            rate_limiter.update_delay(response_time, False)
+            
             await asyncio.sleep(min(10, 2 ** attempt))
         except aiohttp.ClientError as e:
-            print(f"  🌐 Network error on attempt {attempt + 1}: {str(e)}")
+            response_time = time.time() - start_time
+            print(f"  🌐 Network error on attempt {attempt + 1}: {str(e)} (took {response_time:.2f}s)")
             print(f"  🔍 Error details: {type(e).__name__} - {e}")
+            
+            # Update rate limiter with failure
+            rate_limiter.update_delay(response_time, False)
+            
             await asyncio.sleep(min(5, 2 ** attempt))
         except Exception as e:
-            print(f"  ❌ Unexpected error on attempt {attempt + 1}: {str(e)}")
+            response_time = time.time() - start_time
+            print(f"  ❌ Unexpected error on attempt {attempt + 1}: {str(e)} (took {response_time:.2f}s)")
             print(f"  🔍 Error type: {type(e).__name__}")
+            
+            # Update rate limiter with failure
+            rate_limiter.update_delay(response_time, False)
+            
             await asyncio.sleep(min(5, 2 ** attempt))
     
     print(f"  ❌ All 3 API attempts failed")
@@ -519,6 +795,183 @@ def cleanup_empty_failures_file(failures_path: str):
     except Exception as e:
         print(f"  ⚠️  Could not check/cleanup failures file: {e}")
 
+async def process_sms_batch_parallel(sms_batch: List[Dict[str, Any]], batch_id: int, 
+                                    session: aiohttp.ClientSession, model: str, mode: str,
+                                    temperature: float, max_tokens: int, top_p: float, 
+                                    enrich_mode: str, pbar: tqdm, input_path: str) -> tuple:
+    """Process SMS batch with true parallel processing for maximum efficiency"""
+    batch_start_time = time.time()
+    results = []
+    failures = []
+    
+    print(f"🔄 Processing Batch {batch_id} ({len(sms_batch)} SMS) - PARALLEL MODE")
+    
+    # Apply rate limiting at batch level before starting parallel processing
+    await rate_limiter.wait()
+    
+    # Process all SMS in the batch concurrently
+    async def process_single_sms(sms_data):
+        src_id = sms_data.get("_source_id")  # Use _source_id (unique_id) instead of id
+        input_msg = sms_data
+        
+        try:
+            # Check cache first for similar SMS patterns
+            cached_result = intelligent_cache.get_cached_result(input_msg)
+            if cached_result:
+                # Use cached result with source ID
+                cached_result["_source_id"] = src_id
+                
+                # Cache hit event removed - not needed for production
+                
+                intent = cached_result.get('message_intent', 'unknown')
+                amount = cached_result.get('amount', 'N/A')
+                print(f"  🎯 SMS {src_id}: {intent} (₹{amount}) [CACHED]")
+                
+                # Success event removed - not needed for production
+                
+                # Real-time persistence: Mark as processed in input file
+                mark_sms_as_processed(input_path, src_id, success=True)
+                
+                return {"type": "success", "data": cached_result, "source_id": src_id}
+            
+            # SMS processing start event removed - not needed for production
+            
+            # No cache hit, process through API
+            prompt = build_prompt(input_msg)
+
+            if mode == "openai":
+                data = await call_openai_style(session, model, prompt, temperature, max_tokens, top_p)
+            else:
+                data = None
+
+            parsed = parse_response(data, mode)
+            
+            # Enhanced validation
+            if parsed and isinstance(parsed, dict) and len(parsed) > 1:
+                # Validate that we have essential fields
+                essential_fields = ['currency', 'message_intent']
+                has_essential = all(field in parsed for field in essential_fields)
+                
+                if has_essential:
+                    # Safe enrichment
+                    if enrich_mode == "safe":
+                        parsed = safe_enrich(input_msg, parsed)
+                    
+                    # CRITICAL: Add _source_id to successful results for status tracking
+                    parsed["_source_id"] = src_id
+                    
+                    # Cache the result for future similar SMS
+                    intelligent_cache.cache_result(input_msg, parsed)
+                    
+                    intent = parsed.get('message_intent', 'unknown')
+                    amount = parsed.get('amount', 'N/A')
+                    print(f"  ✅ SMS {src_id}: {intent} (₹{amount})")
+                    
+                    # Real-time persistence: Mark as processed in input file
+                    mark_sms_as_processed(input_path, src_id, success=True)
+                    
+                    return {"type": "success", "data": parsed, "source_id": src_id}
+                else:
+                    # Missing essential fields - treat as failure
+                    print(f"  ⚠️  SMS {src_id}: Missing essential fields")
+                    failure_info = {
+                        "_source_id": src_id,
+                        "batch_id": batch_id,
+                        "input": input_msg,
+                        "parsing_error": "Missing essential fields (currency, message_intent)",
+                        "partial_result": parsed
+                    }
+                    
+                    # Schedule for retry if appropriate
+                    error_recovery_manager.schedule_retry(
+                        input_msg, 
+                        "missing_essential_fields", 
+                        "Missing essential fields (currency, message_intent)"
+                    )
+                    
+                    # Real-time persistence: Mark as processed in input file
+                    mark_sms_as_processed(input_path, src_id, success=False)
+                    
+                    return {"type": "failure", "data": failure_info, "source_id": src_id}
+            else:
+                # Enhanced failure logging
+                raw_text = None
+                if data and mode == "openai":
+                    try:
+                        raw_text = data["choices"][0]["message"]["content"]
+                    except:
+                        raw_text = str(data)
+                
+                failure_info = {
+                    "_source_id": src_id,
+                    "batch_id": batch_id,
+                    "input": input_msg,
+                    "raw_response": raw_text[:500] if raw_text else None,  # Truncate long responses
+                    "parsing_error": "Failed to extract valid JSON" if raw_text else "No API response"
+                }
+                print(f"  ❌ SMS {src_id}: Processing failed")
+                
+                # Schedule for retry if appropriate
+                error_recovery_manager.schedule_retry(
+                    input_msg, 
+                    "parsing_error", 
+                    "Failed to extract valid JSON"
+                )
+                
+                # Real-time persistence: Mark as processed in input file
+                mark_sms_as_processed(input_path, src_id, success=False)
+                
+                return {"type": "failure", "data": failure_info, "source_id": src_id}
+            
+        except Exception as e:
+            print(f"  ❌ SMS {src_id}: Exception - {str(e)[:50]}")
+            failure_info = {
+                "_source_id": src_id,
+                "batch_id": batch_id,
+                "input": input_msg,
+                "error": str(e)
+            }
+            
+            # Schedule for retry if appropriate
+            error_recovery_manager.schedule_retry(
+                input_msg, 
+                "exception", 
+                str(e)
+            )
+            
+            return {"type": "failure", "data": failure_info, "source_id": src_id}
+    
+    # Create concurrent tasks for all SMS in the batch
+    tasks = [process_single_sms(sms) for sms in sms_batch]
+    
+    # Execute all tasks concurrently
+    batch_results = await asyncio.gather(*tasks, return_exceptions=True)
+    
+    # Process results
+    for result in batch_results:
+        if isinstance(result, Exception):
+            print(f"  ❌ SMS processing exception: {result}")
+            continue
+        
+        if result["type"] == "success":
+            results.append(result["data"])
+        else:
+            failures.append(result["data"])
+        
+        # Update progress bar
+        pbar.update(1)
+    
+    # Record batch performance metrics
+    batch_processing_time = time.time() - batch_start_time
+    performance_monitor.record_batch_time(len(sms_batch), batch_processing_time)
+    
+    success_count = len(results)
+    failure_count = len(failures)
+    print(f"✅ Batch {batch_id} completed: {success_count} success, {failure_count} failed in {batch_processing_time:.2f}s")
+    print(f"   🚀 Batch throughput: {len(sms_batch)/batch_processing_time:.2f} SMS/second")
+    
+    return results, failures
+
 async def process_sms_batch(sms_batch: List[Dict[str, Any]], batch_id: int, 
                            session: aiohttp.ClientSession, model: str, mode: str,
                            temperature: float, max_tokens: int, top_p: float, 
@@ -612,8 +1065,8 @@ async def process_sms_batch(sms_batch: List[Dict[str, Any]], batch_id: int,
         # Update progress
         pbar.update(1)
         
-        # Much longer delay to avoid overwhelming server
-        await asyncio.sleep(3.0)
+        # Use adaptive rate limiting instead of fixed delay
+        await rate_limiter.wait()
     
     success_count = len(results)
     failure_count = len(failures)
@@ -671,12 +1124,43 @@ def load_sms_data(path: str) -> List[Dict[str, Any]]:
     
     return normalized_sms
 
-def create_batches(sms_list: List[Dict[str, Any]], batch_size: int) -> List[List[Dict[str, Any]]]:
-    """Create batches from SMS list"""
+def create_adaptive_batches(sms_list: List[Dict[str, Any]], base_batch_size: int, rate_limiter: AdaptiveRateLimiter) -> List[List[Dict[str, Any]]]:
+    """Create adaptive batches based on current API performance"""
+    if not sms_list:
+        return []
+    
+    # Get rate limiter stats
+    stats = rate_limiter.get_stats()
+    current_delay = rate_limiter.current_delay
+    success_rate = stats["success_rate"]
+    
+    # Only adjust batch size if we have enough data to make informed decisions
+    # Check if we have any API calls made (success_rate will be 0 if no calls yet)
+    if success_rate > 0 or current_delay > rate_limiter.min_delay:
+        # Calculate optimal batch size based on performance
+        if success_rate > 0.9 and current_delay < 1.5:
+            # API performing well - increase batch size
+            optimal_batch_size = min(base_batch_size * 2, 20)
+            print(f"🚀 High performance mode: batch size {optimal_batch_size}")
+        elif success_rate > 0.7 and current_delay < 3.0:
+            # API performing moderately - use base batch size
+            optimal_batch_size = base_batch_size
+            print(f"⚡ Normal performance mode: batch size {optimal_batch_size}")
+        else:
+            # API struggling - reduce batch size but respect minimum
+            optimal_batch_size = max(base_batch_size // 2, 1)
+            print(f"🐌 Conservative mode: batch size {optimal_batch_size}")
+    else:
+        # Not enough data yet - use requested batch size
+        optimal_batch_size = base_batch_size
+        print(f"📊 Initial mode: using requested batch size {optimal_batch_size}")
+    
+    # Create batches
     batches = []
-    for i in range(0, len(sms_list), batch_size):
-        batch = sms_list[i:i + batch_size]
+    for i in range(0, len(sms_list), optimal_batch_size):
+        batch = sms_list[i:i + optimal_batch_size]
         batches.append(batch)
+    
     return batches
 
 async def process_all_batches(input_path: str, output_path: str, model: str, mode: str,
@@ -738,7 +1222,7 @@ async def process_all_batches(input_path: str, output_path: str, model: str, mod
                 json.dump([], f)
             print(f"📝 Created new results file: {output_path}")
     
-    batches = create_batches(sms_data, batch_size)
+    batches = create_adaptive_batches(sms_data, batch_size, rate_limiter)
     total_batches = len(batches)
     print(f"📦 Created {total_batches} batches of {batch_size} SMS each")
     print(f"🔄 Processing {max_parallel_batches} batches in parallel")
@@ -764,7 +1248,7 @@ async def process_all_batches(input_path: str, output_path: str, model: str, mod
             tasks = []
             for j, batch in enumerate(batch_group):
                 batch_id = i + j + 1
-                task = process_sms_batch(
+                task = process_sms_batch_parallel(
                     batch, batch_id, session, model, mode,
                     temperature, max_tokens, top_p, enrich_mode, pbar, input_path
                 )
@@ -866,6 +1350,394 @@ async def process_all_batches(input_path: str, output_path: str, model: str, mod
         print(f"\n📋 Message Intent Breakdown:")
         for intent, count in sorted(intent_counts.items()):
             print(f"   {intent.title()}: {count}")
+    
+    # Print comprehensive performance summary
+    performance_monitor.print_performance_summary()
+    
+    # Print cache performance summary
+    cache_stats = intelligent_cache.get_cache_stats()
+    if cache_stats["cache_hits"] > 0 or cache_stats["cache_misses"] > 0:
+        print(f"\n🎯 CACHE PERFORMANCE SUMMARY:")
+        print(f"   💾 Cache size: {cache_stats['cache_size']}/{cache_stats['max_cache_size']}")
+        print(f"   🎯 Cache hits: {cache_stats['cache_hits']}")
+        print(f"   ❌ Cache misses: {cache_stats['cache_misses']}")
+        print(f"   📈 Hit rate: {cache_stats['hit_rate']:.1%}")
+        print(f"   🧠 Memory usage: {cache_stats['memory_usage_mb']:.2f} MB")
+        
+        # Calculate API call savings
+        total_requests = cache_stats["cache_hits"] + cache_stats["cache_misses"]
+        if total_requests > 0:
+            api_savings = cache_stats["cache_hits"] / total_requests * 100
+            print(f"   🚀 API calls saved: {api_savings:.1f}%")
+    
+    # Print error recovery summary
+    retry_stats = error_recovery_manager.get_retry_stats()
+    if retry_stats["retry_queue_size"] > 0 or retry_stats["dead_letter_queue_size"] > 0:
+        print(f"\n🔄 ERROR RECOVERY SUMMARY:")
+        print(f"   📋 SMS in retry queue: {retry_stats['retry_queue_size']}")
+        print(f"   💀 SMS in dead letter queue: {retry_stats['dead_letter_queue_size']}")
+        print(f"   🔄 Total retry attempts: {retry_stats['total_retries']}")
+        print(f"   📊 Average retry count: {retry_stats['avg_retry_count']:.1f}")
+        
+        # Save dead letter queue if any
+        if retry_stats["dead_letter_queue_size"] > 0:
+            dead_letter_path = f"dead_letter_queue_{datetime.now().strftime('%Y%m%d_%H%M%S')}.json"
+            error_recovery_manager.save_dead_letter_queue(dead_letter_path)
+            print(f"   💾 Dead letter queue saved to: {dead_letter_path}")
+    
+    # Event processing summary removed - not needed for production, just clutters codebase
+
+# Intelligent Caching System
+class IntelligentCache:
+    """Smart caching system to reduce API calls and improve efficiency"""
+    
+    def __init__(self, max_cache_size=10000, ttl_hours=24):
+        self.cache = {}
+        self.max_cache_size = max_cache_size
+        self.ttl_seconds = ttl_hours * 3600
+        self.cache_hits = 0
+        self.cache_misses = 0
+        self.pattern_recognition = {}
+        
+    def generate_cache_key(self, sms_data: Dict[str, Any]) -> str:
+        """Generate intelligent cache key based on SMS content patterns"""
+        # Extract key identifying features
+        sender = sms_data.get('sender', '').lower()
+        body = sms_data.get('body', '').lower()
+        
+        # Create pattern-based key
+        if 'upi' in body or 'transaction' in body:
+            # Financial transaction pattern
+            amount_pattern = self._extract_amount_pattern(body)
+            transaction_type = self._classify_transaction_type(body)
+            key = f"financial_{transaction_type}_{amount_pattern}_{sender}"
+        elif 'otp' in body or 'verification' in body:
+            # OTP/Verification pattern
+            key = f"otp_{sender}"
+        elif 'balance' in body or 'account' in body:
+            # Balance/Account pattern
+            key = f"balance_{sender}"
+        else:
+            # Generic pattern based on content similarity
+            content_hash = self._content_similarity_hash(body)
+            key = f"generic_{content_hash}_{sender}"
+        
+        return key
+    
+    def _extract_amount_pattern(self, body: str) -> str:
+        """Extract amount pattern for caching similar transactions"""
+        import re
+        
+        # Look for amount patterns
+        amount_patterns = [
+            r'rs\.?\s*(\d+(?:,\d+)*(?:\.\d+)?)',  # Rs. 1,000.00
+            r'₹\s*(\d+(?:,\d+)*(?:\.\d+)?)',      # ₹ 1,000.00
+            r'(\d+(?:,\d+)*(?:\.\d+)?)\s*rs',     # 1,000.00 Rs
+            r'(\d+(?:,\d+)*(?:\.\d+)?)\s*rupees'  # 1,000.00 rupees
+        ]
+        
+        for pattern in amount_patterns:
+            match = re.search(pattern, body, re.IGNORECASE)
+            if match:
+                amount = match.group(1)
+                # Categorize amount ranges for better caching
+                try:
+                    num_amount = float(amount.replace(',', ''))
+                    if num_amount < 100:
+                        return "small"
+                    elif num_amount < 1000:
+                        return "medium"
+                    elif num_amount < 10000:
+                        return "large"
+                    else:
+                        return "xlarge"
+                except ValueError:
+                    return "unknown"
+        
+        return "no_amount"
+    
+    def _classify_transaction_type(self, body: str) -> str:
+        """Classify transaction type for pattern-based caching"""
+        body_lower = body.lower()
+        
+        if any(word in body_lower for word in ['debit', 'deducted', 'spent', 'paid']):
+            return "debit"
+        elif any(word in body_lower for word in ['credit', 'credited', 'received', 'added']):
+            return "credit"
+        elif any(word in body_lower for word in ['transfer', 'sent', 'moved']):
+            return "transfer"
+        else:
+            return "unknown"
+    
+    def _content_similarity_hash(self, body: str) -> str:
+        """Generate similarity hash for content-based caching"""
+        import hashlib
+        
+        # Normalize content for better matching
+        normalized = re.sub(r'\s+', ' ', body.lower().strip())
+        normalized = re.sub(r'[^\w\s]', '', normalized)
+        
+        # Create hash of normalized content
+        return hashlib.md5(normalized.encode()).hexdigest()[:8]
+    
+    def get_cached_result(self, sms_data: Dict[str, Any]) -> Optional[Dict[str, Any]]:
+        """Get cached result if available and valid"""
+        cache_key = self.generate_cache_key(sms_data)
+        
+        if cache_key in self.cache:
+            cached_item = self.cache[cache_key]
+            
+            # Check if cache is still valid
+            if time.time() - cached_item['timestamp'] < self.ttl_seconds:
+                self.cache_hits += 1
+                print(f"  🎯 Cache HIT: Using cached result for pattern '{cache_key}'")
+                return cached_item['result']
+            else:
+                # Expired cache entry
+                del self.cache[cache_key]
+                print(f"  ⏰ Cache EXPIRED: Removing expired entry '{cache_key}'")
+        
+        self.cache_misses += 1
+        return None
+    
+    def cache_result(self, sms_data: Dict[str, Any], result: Dict[str, Any]):
+        """Cache processing result for future use"""
+        cache_key = self.generate_cache_key(sms_data)
+        
+        # Manage cache size
+        if len(self.cache) >= self.max_cache_size:
+            self._evict_oldest_entries()
+        
+        # Store result with timestamp
+        self.cache[cache_key] = {
+            'result': result,
+            'timestamp': time.time(),
+            'pattern': cache_key
+        }
+        
+        print(f"  💾 Cached result for pattern '{cache_key}'")
+    
+    def _evict_oldest_entries(self):
+        """Evict oldest cache entries when size limit is reached"""
+        if not self.cache:
+            return
+        
+        # Sort by timestamp and remove oldest 20%
+        sorted_entries = sorted(self.cache.items(), key=lambda x: x[1]['timestamp'])
+        entries_to_remove = int(len(sorted_entries) * 0.2)
+        
+        for i in range(entries_to_remove):
+            key = sorted_entries[i][0]
+            del self.cache[key]
+        
+        print(f"  🗑️  Cache cleanup: Removed {entries_to_remove} oldest entries")
+    
+    def get_cache_stats(self) -> Dict[str, Any]:
+        """Get cache performance statistics"""
+        return {
+            "cache_size": len(self.cache),
+            "max_cache_size": self.max_cache_size,
+            "cache_hits": self.cache_hits,
+            "cache_misses": self.cache_misses,
+            "hit_rate": self.cache_hits / (self.cache_hits + self.cache_misses) if (self.cache_hits + self.cache_misses) > 0 else 0,
+            "memory_usage_mb": len(self.cache) * 0.001  # Rough estimate
+        }
+    
+    def clear_cache(self):
+        """Clear all cached data"""
+        self.cache.clear()
+        self.cache_hits = 0
+        self.cache_misses = 0
+        print("  🧹 Cache cleared")
+
+# Global intelligent cache
+intelligent_cache = IntelligentCache()
+
+# Streaming and Memory Management
+class StreamingProcessor:
+    """Streaming processor for unlimited dataset handling"""
+    
+    def __init__(self, chunk_size=1000):
+        self.chunk_size = chunk_size
+        self.processed_count = 0
+        self.memory_usage = 0
+        
+    async def process_sms_stream(self, input_path: str, output_path: str, 
+                          session: aiohttp.ClientSession, model: str, mode: str,
+                          temperature: float, max_tokens: int, top_p: float,
+                          enrich_mode: str, batch_size: int) -> Dict[str, Any]:
+        """Process SMS data in streaming mode for unlimited scalability"""
+        
+        print(f"🌊 STREAMING MODE: Processing unlimited dataset in chunks of {self.chunk_size}")
+        
+        # Initialize tracking
+        total_processed = 0
+        total_success = 0
+        total_failures = 0
+        chunk_results = []
+        
+        # Process in chunks to manage memory
+        chunk_number = 0
+        
+        try:
+            # Stream process the dataset
+            for chunk in self._read_sms_chunks(input_path):
+                chunk_number += 1
+                print(f"\n📦 Processing Chunk {chunk_number}: {len(chunk)} SMS")
+                
+                # Process this chunk
+                chunk_success, chunk_failures = await self._process_chunk(
+                    chunk, chunk_number, session, model, mode,
+                    temperature, max_tokens, top_p, enrich_mode, batch_size
+                )
+                
+                # Update totals
+                total_processed += len(chunk)
+                total_success += chunk_success
+                total_failures += chunk_failures
+                
+                # Save chunk results immediately (streaming persistence)
+                chunk_output = f"{output_path}_chunk_{chunk_number}.json"
+                self._save_chunk_results(chunk_output, chunk_results)
+                
+                # Clear chunk results to free memory
+                chunk_results.clear()
+                
+                # Memory management
+                self._manage_memory()
+                
+                print(f"   ✅ Chunk {chunk_number} completed: {chunk_success} success, {chunk_failures} failed")
+                print(f"   📊 Running totals: {total_success} success, {total_failures} failed")
+                
+        except Exception as e:
+            print(f"❌ Streaming processing error: {e}")
+            # Continue with partial results
+        
+        # Final summary
+        final_results = {
+            "total_processed": total_processed,
+            "total_success": total_success,
+            "total_failures": total_failures,
+            "chunks_processed": chunk_number,
+            "memory_usage_mb": self.memory_usage / (1024 * 1024)
+        }
+        
+        print(f"\n🌊 STREAMING PROCESSING COMPLETED:")
+        print(f"   📦 Total chunks: {chunk_number}")
+        print(f"   📱 Total SMS: {total_processed}")
+        print(f"   ✅ Success: {total_success}")
+        print(f"   ❌ Failures: {total_failures}")
+        print(f"   💾 Memory used: {self.memory_usage / (1024 * 1024):.2f} MB")
+        
+        return final_results
+    
+    def _read_sms_chunks(self, input_path: str):
+        """Read SMS data in chunks to manage memory"""
+        try:
+            with open(input_path, 'r', encoding='utf-8') as f:
+                # Read file line by line for JSONL or parse JSON in chunks
+                if input_path.endswith('.ndjson') or input_path.endswith('.jsonl'):
+                    # JSONL format - read line by line
+                    chunk = []
+                    for line_num, line in enumerate(f):
+                        if line.strip():
+                            try:
+                                sms_data = json.loads(line.strip())
+                                chunk.append(sms_data)
+                                
+                                if len(chunk) >= self.chunk_size:
+                                    yield chunk
+                                    chunk = []
+                                    
+                            except json.JSONDecodeError:
+                                print(f"⚠️  Skipping invalid JSON at line {line_num + 1}")
+                                continue
+                    
+                    # Yield remaining chunk
+                    if chunk:
+                        yield chunk
+                        
+                else:
+                    # JSON format - load in chunks
+                    data = json.load(f)
+                    if isinstance(data, list):
+                        for i in range(0, len(data), self.chunk_size):
+                            yield data[i:i + self.chunk_size]
+                    else:
+                        # Single object or dict
+                        yield [data]
+                        
+        except Exception as e:
+            print(f"❌ Error reading SMS chunks: {e}")
+            yield []
+    
+    async def _process_chunk(self, chunk: List[Dict[str, Any]], chunk_number: int,
+                           session: aiohttp.ClientSession, model: str, mode: str,
+                           temperature: float, max_tokens: int, top_p: float,
+                           enrich_mode: str, batch_size: int) -> tuple:
+        """Process a single chunk of SMS data"""
+        
+        # Create adaptive batches for this chunk
+        batches = create_adaptive_batches(chunk, batch_size, rate_limiter)
+        
+        results = []
+        failures = []
+        
+        # Process batches in parallel
+        batch_tasks = []
+        for i, batch in enumerate(batches):
+            batch_id = f"{chunk_number}_{i+1}"
+            task = process_sms_batch_parallel(
+                batch, batch_id, session, model, mode,
+                temperature, max_tokens, top_p, enrich_mode, 
+                None, "streaming_mode"  # No progress bar in streaming mode
+            )
+            batch_tasks.append(task)
+        
+        # Execute all batches concurrently
+        batch_results = await asyncio.gather(*batch_tasks, return_exceptions=True)
+        
+        # Process results
+        for result in batch_results:
+            if isinstance(result, Exception):
+                print(f"  ❌ Batch processing exception: {result}")
+                continue
+            
+            batch_results, batch_failures = result
+            results.extend(batch_results)
+            failures.extend(batch_failures)
+        
+        return len(results), len(failures)
+    
+    def _save_chunk_results(self, output_path: str, results: List[Dict[str, Any]]):
+        """Save chunk results immediately for streaming persistence"""
+        try:
+            with open(output_path, 'w', encoding='utf-8') as f:
+                json.dump(results, f, indent=2, ensure_ascii=False, default=str)
+            print(f"   💾 Chunk results saved to: {output_path}")
+        except Exception as e:
+            print(f"   ❌ Failed to save chunk results: {e}")
+    
+    def _manage_memory(self):
+        """Manage memory usage and cleanup"""
+        import gc
+        
+        # Force garbage collection
+        gc.collect()
+        
+        # Track memory usage
+        try:
+            import psutil
+            process = psutil.Process()
+            self.memory_usage = process.memory_info().rss
+        except ImportError:
+            # psutil not available, use basic tracking
+            pass
+        
+        print(f"   🧠 Memory managed, current usage: {self.memory_usage / (1024 * 1024):.2f} MB")
+
+# Global streaming processor
+streaming_processor = StreamingProcessor()
 
 def main():
     parser = argparse.ArgumentParser(description="Fixed Optimized SMS Processing")

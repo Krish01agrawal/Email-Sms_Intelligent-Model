@@ -26,7 +26,7 @@ class MongoDBOperations:
     """MongoDB operations for LifafaV0 financial data pipeline"""
     
     def __init__(self, connection_string: str = None, db_name: str = None):
-        """Initialize MongoDB connection"""
+        """Initialize MongoDB connection with connection pooling"""
         try:
             # Use environment variable or default
             if connection_string is None:
@@ -35,7 +35,22 @@ class MongoDBOperations:
             if db_name is None:
                 db_name = os.getenv('MONGODB_DB', 'pluto_money')
             
-            self.client = MongoClient(connection_string)
+            # Enhanced connection with pooling and optimization
+            self.client = MongoClient(
+                connection_string,
+                maxPoolSize=50,           # Maximum connections in pool
+                minPoolSize=10,           # Minimum connections to maintain
+                maxIdleTimeMS=30000,      # Close idle connections after 30s
+                waitQueueTimeoutMS=5000,  # Wait up to 5s for available connection
+                retryWrites=True,         # Retry write operations on failure
+                retryReads=True,          # Retry read operations on failure
+                serverSelectionTimeoutMS=5000,  # Fast server selection
+                connectTimeoutMS=10000,   # Connection timeout
+                socketTimeoutMS=30000,    # Socket timeout
+                heartbeatFrequencyMS=10000,  # Heartbeat frequency
+                appName="LifafaV0-SMS-Processor"  # Application identifier
+            )
+            
             self.db = self.client[db_name]
             self.db_name = db_name
             
@@ -48,6 +63,7 @@ class MongoDBOperations:
             self.client.admin.command('ping')
             logger.info(f"✅ Connected to MongoDB: {connection_string}")
             logger.info(f"✅ Database: {self.db_name}")
+            logger.info(f"🔗 Connection pool: max={50}, min={10}")
             
             # Create indexes
             self._create_indexes()
@@ -60,28 +76,94 @@ class MongoDBOperations:
             raise
     
     def _create_indexes(self):
-        """Create database indexes for better performance"""
+        """Create advanced database indexes for optimal performance"""
         try:
             # SMS data collection indexes
-            self.sms_collection.create_index([("user_id", 1)])
-            self.sms_collection.create_index([("timestamp", -1)])
+            self._create_index_safe(self.sms_collection, [("user_id", 1)])
+            self._create_index_safe(self.sms_collection, [("timestamp", -1)])
+            self._create_index_safe(self.sms_collection, [("date", -1)])
+            self._create_index_safe(self.sms_collection, [("sender", 1)])
+            
+            # Text search index for SMS content analysis
+            self._create_index_safe(self.sms_collection, [("body", "text")])
             
             # Financial raw data collection indexes
-            self.fin_raw_collection.create_index([("unique_id", 1)], unique=True)
-            self.fin_raw_collection.create_index([("isprocessed", 1)])
-            self.fin_raw_collection.create_index([("user_id", 1)])
-            self.fin_raw_collection.create_index([("processing_timestamp", -1)])
+            self._create_index_safe(self.fin_raw_collection, [("unique_id", 1)], unique=True)
+            self._create_index_safe(self.fin_raw_collection, [("isprocessed", 1)])
+            self._create_index_safe(self.fin_raw_collection, [("user_id", 1)])
+            self._create_index_safe(self.fin_raw_collection, [("processing_timestamp", -1)])
+            self._create_index_safe(self.fin_raw_collection, [("processing_status", 1)])
+            
+            # Compound indexes for common query patterns
+            self._create_index_safe(self.fin_raw_collection, [
+                ("user_id", 1), 
+                ("isprocessed", 1), 
+                ("processing_timestamp", -1)
+            ])
             
             # Financial transactions collection indexes
-            self.transactions_collection.create_index([("unique_id", 1)], unique=True)
-            self.transactions_collection.create_index([("user_id", 1)])
-            self.transactions_collection.create_index([("transaction_date", -1)])
+            self._create_index_safe(self.transactions_collection, [("unique_id", 1)], unique=True)
+            self._create_index_safe(self.transactions_collection, [("user_id", 1)])
+            self._create_index_safe(self.transactions_collection, [("transaction_date", -1)])
+            self._create_index_safe(self.transactions_collection, [("amount", 1)])
+            self._create_index_safe(self.transactions_collection, [("transaction_type", 1)])
+            self._create_index_safe(self.transactions_collection, [("message_intent", 1)])
+            self._create_index_safe(self.transactions_collection, [("currency", 1)])
             
-            logger.info("✅ MongoDB indexes created successfully")
+            # Compound indexes for common transaction queries
+            self._create_index_safe(self.transactions_collection, [
+                ("user_id", 1), 
+                ("transaction_date", -1), 
+                ("amount", 1)
+            ])
+            
+            self._create_index_safe(self.transactions_collection, [
+                ("user_id", 1), 
+                ("transaction_type", 1), 
+                ("transaction_date", -1)
+            ])
+            
+            self._create_index_safe(self.transactions_collection, [
+                ("message_intent", 1), 
+                ("transaction_date", -1)
+            ])
+            
+            # Partial index for active transactions (recent dates) - with unique name
+            self._create_index_safe(
+                self.transactions_collection,
+                [("transaction_date", -1)],
+                partialFilterExpression={"transaction_date": {"$gte": "2020-01-01"}},
+                name="transaction_date_recent_partial"
+            )
+            
+            logger.info("✅ Advanced MongoDB indexes created successfully")
             
         except Exception as e:
             logger.error(f"❌ Error creating indexes: {e}")
-            raise
+            # Don't raise - continue with existing indexes
+    
+    def _create_index_safe(self, collection, keys, **kwargs):
+        """Safely create index, skip if already exists"""
+        try:
+            # Generate a unique name if not provided
+            if 'name' not in kwargs:
+                index_name = "_".join([f"{field}_{order}" for field, order in keys])
+                kwargs['name'] = index_name
+            
+            # Check if index already exists
+            existing_indexes = collection.list_indexes()
+            for idx in existing_indexes:
+                if idx['name'] == kwargs['name']:
+                    logger.info(f"⏭️  Index {kwargs['name']} already exists, skipping")
+                    return
+            
+            # Create the index
+            collection.create_index(keys, **kwargs)
+            logger.info(f"✅ Created index: {kwargs['name']}")
+            
+        except Exception as e:
+            logger.warning(f"⚠️  Could not create index {kwargs.get('name', 'unnamed')}: {e}")
+            # Continue with other indexes
     
     def store_financial_raw_sms(self, financial_sms: List[Dict[str, Any]]) -> int:
         """Store financial SMS in sms_fin_rawdata collection"""
@@ -89,8 +171,15 @@ class MongoDBOperations:
             if not financial_sms:
                 return 0
             
+            logger.info(f"🔄 Preparing {len(financial_sms)} financial SMS for storage...")
+            
             # Prepare financial SMS for storage
-            for sms in financial_sms:
+            for i, sms in enumerate(financial_sms):
+                # Remove MongoDB _id field to prevent duplicate key errors
+                if '_id' in sms:
+                    logger.debug(f"🗑️  Removing _id field from SMS {i+1}: {sms.get('unique_id', 'NO_ID')}")
+                    del sms['_id']
+                
                 # Ensure required fields
                 if 'isprocessed' not in sms:
                     sms['isprocessed'] = False
@@ -102,6 +191,8 @@ class MongoDBOperations:
                     sms['created_at'] = datetime.now()
                 if 'updated_at' not in sms:
                     sms['updated_at'] = datetime.now()
+                
+                logger.debug(f"✅ Prepared SMS {i+1}: {sms.get('unique_id', 'NO_ID')} for storage")
             
             # Use bulk operations for better performance
             bulk_operations = []
@@ -115,14 +206,19 @@ class MongoDBOperations:
                 )
             
             if bulk_operations:
+                logger.info(f"📤 Executing bulk write operation for {len(bulk_operations)} SMS...")
                 result = self.fin_raw_collection.bulk_write(bulk_operations)
-                logger.info(f"💾 Stored {len(financial_sms)} financial SMS in sms_fin_rawdata collection")
+                logger.info(f"💾 Successfully stored {len(financial_sms)} financial SMS in sms_fin_rawdata collection")
+                logger.info(f"📊 Bulk write result: {result.bulk_api_result}")
                 return len(financial_sms)
             
             return 0
             
         except Exception as e:
             logger.error(f"❌ Error storing financial raw SMS: {e}")
+            logger.error(f"🔍 Error type: {type(e).__name__}")
+            if hasattr(e, 'details'):
+                logger.error(f"📋 Error details: {e.details}")
             return 0
     
     def get_financial_raw_sms(self, user_id: str = None, unprocessed_only: bool = True, limit: int = None) -> List[Dict[str, Any]]:
@@ -401,6 +497,64 @@ class MongoDBOperations:
         except Exception as e:
             logger.error(f"❌ Error getting processing stats: {e}")
             return {}
+    
+    def get_already_processed_sms_ids(self) -> List[str]:
+        """Get list of SMS IDs that have already been processed in sms_fin_rawdata"""
+        try:
+            # Query sms_fin_rawdata collection for already processed SMS
+            query = {
+                "$or": [
+                    {"isprocessed": True},
+                    {"processing_status": "success"},
+                    {"processing_status": "failed"}
+                ]
+            }
+            
+            cursor = self.fin_raw_collection.find(query, {"unique_id": 1})
+            processed_ids = [doc.get("unique_id") for doc in cursor if doc.get("unique_id")]
+            
+            logger.info(f"🔍 Found {len(processed_ids)} already processed SMS IDs")
+            return processed_ids
+            
+        except Exception as e:
+            logger.error(f"❌ Error retrieving already processed SMS IDs: {e}")
+            return []
+    
+    def is_sms_already_processed(self, sms_id: str) -> bool:
+        """Check if a specific SMS is already processed in sms_fin_rawdata"""
+        try:
+            # Handle different ID formats
+            # sms_id could be: "user_20250818_162257_sms_000001" or "sms_000001"
+            # Extract the base SMS ID (e.g., "sms_000001")
+            base_sms_id = sms_id
+            if "_sms_" in sms_id:
+                base_sms_id = sms_id.split("_sms_")[-1]
+                if not base_sms_id.startswith("sms_"):
+                    base_sms_id = f"sms_{base_sms_id}"
+            
+            # Check if SMS exists in sms_fin_rawdata and is marked as processed
+            query = {
+                "unique_id": base_sms_id,
+                "$or": [
+                    {"isprocessed": True},
+                    {"processing_status": "success"},
+                    {"processing_status": "failed"}
+                ]
+            }
+            
+            result = self.fin_raw_collection.find_one(query)
+            is_processed = result is not None
+            
+            if is_processed:
+                logger.info(f"🔍 SMS {sms_id} (base: {base_sms_id}) is already processed")
+            else:
+                logger.info(f"🔍 SMS {sms_id} (base: {base_sms_id}) is not yet processed")
+            
+            return is_processed
+            
+        except Exception as e:
+            logger.error(f"❌ Error checking if SMS {sms_id} is processed: {e}")
+            return False
     
     def close_connection(self):
         """Close MongoDB connection"""
