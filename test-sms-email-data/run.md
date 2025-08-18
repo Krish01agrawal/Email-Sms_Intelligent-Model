@@ -21,7 +21,7 @@ python3 main.py --input test_sms.json --output test_pretty_output.ndjson --failu
 
 batch_processing sms to llm
 
-python3 optimized_main.py --input test_sms.json --output optimized_test_result.json --model "qwen3:8b" --mode openai --batch-size 1 --parallel-batches 1 --temperature 0.1 --failures optimized_failures.ndjson --enrich safe
+python3 main.py --input test_sms.json --output optimized_test_result.json --model "qwen3:8b" --mode openai --batch-size 1 --parallel-batches 1 --temperature 0.1 --failures optimized_failures.ndjson --enrich safe
 
 
 
@@ -61,6 +61,7 @@ python3 main.py --input test_realtime.json --output test_results_realtime.json -
 python3 sms_mongodb_uploader.py --input test_sms.json
 
 python3 sms_mongodb_uploader.py --input "assets/sms_data/sms_data_divyam.json" --batch-size 100 --create-indexes --stats
+
 
 
 
