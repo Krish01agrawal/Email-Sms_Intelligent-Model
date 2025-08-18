@@ -21,12 +21,24 @@ import asyncio
 from typing import Any, Dict, Optional, List
 import math
 from datetime import datetime
+from dotenv import load_dotenv
 
 import aiohttp
 from tqdm import tqdm
+from mongodb_operations import MongoDBOperations
+
+# Load environment variables from .env file
+load_dotenv()
 
 API_URL = os.getenv("API_URL", "")
 API_KEY = os.getenv("API_KEY", "")
+
+# Debug: Show loaded environment variables
+print(f"🔧 Environment Debug:")
+print(f"   API_URL loaded: {'✅' if API_URL else '❌'} - '{API_URL}'")
+print(f"   API_KEY loaded: {'✅' if API_KEY else '❌'} - {'***' if API_KEY else 'Not set'}")
+print(f"   Current working directory: {os.getcwd()}")
+print(f"   .env file exists: {'✅' if os.path.exists('.env') else '❌'}")
 
 # IMPROVED PROMPT - More explicit about JSON structure
 UNIVERSAL_RULES = """You are an expert financial data parser for LifafaV0. 
@@ -50,7 +62,7 @@ REQUIRED OUTPUT STRUCTURE:
 {
   "transaction_type": "credit | debit",
   "amount": number,
-  "currency": "INR", 
+  "currency": "INR",
   "transaction_date": "ISO 8601 timestamp",
   "account": {
     "bank": "bank_name",
@@ -195,11 +207,17 @@ def extract_json_object(text: str) -> Optional[Dict[str, Any]]:
     except Exception:
         pass
     
-    return None
+        return None
 
 async def call_openai_style(session: aiohttp.ClientSession, model: str, prompt: str, 
                            temperature: float, max_tokens: int, top_p: float):
     """Enhanced API call with better error handling"""
+    
+    # Verify API_URL is loaded
+    if not API_URL:
+        print(f"  ❌ ERROR: API_URL is not set! Current value: '{API_URL}'")
+        return None
+    
     payload = {
         "model": model,
         "temperature": temperature,
@@ -211,13 +229,21 @@ async def call_openai_style(session: aiohttp.ClientSession, model: str, prompt: 
     if API_KEY:
         headers["Authorization"] = f"Bearer {API_KEY}"
 
+    print(f"  🔗 Calling API: {API_URL}")
+    print(f"  📤 Payload: model={model}, max_tokens={max_tokens}")
+
     for attempt in range(3):
         try:
             # Much longer timeout for better reliability
             timeout = aiohttp.ClientTimeout(total=120, connect=20)
+            print(f"  📡 Attempt {attempt + 1}/3: Making API call...")
+            
             async with session.post(API_URL, json=payload, headers=headers, timeout=timeout, ssl=False) as resp:
+                print(f"  📥 Response status: {resp.status}")
+                
                 if resp.status == 200:
                     data = await resp.json()
+                    print(f"  ✅ API call successful on attempt {attempt + 1}")
                     return data
                 elif resp.status in (429, 500, 502, 503, 504):
                     wait_time = min(30, 5 ** attempt)  # Longer exponential backoff
@@ -225,15 +251,23 @@ async def call_openai_style(session: aiohttp.ClientSession, model: str, prompt: 
                     await asyncio.sleep(wait_time)
                     continue
                 else:
-                    print(f"  ❌ API error {resp.status}: {await resp.text()}")
+                    error_text = await resp.text()
+                    print(f"  ❌ API error {resp.status}: {error_text[:200]}")
                     return None
+                    
         except asyncio.TimeoutError:
             print(f"  ⏳ API timeout on attempt {attempt + 1}")
             await asyncio.sleep(min(10, 2 ** attempt))
+        except aiohttp.ClientError as e:
+            print(f"  🌐 Network error on attempt {attempt + 1}: {str(e)}")
+            print(f"  🔍 Error details: {type(e).__name__} - {e}")
+            await asyncio.sleep(min(5, 2 ** attempt))
         except Exception as e:
-            print(f"  ❌ API error on attempt {attempt + 1}: {str(e)[:100]}")
+            print(f"  ❌ Unexpected error on attempt {attempt + 1}: {str(e)}")
+            print(f"  🔍 Error type: {type(e).__name__}")
             await asyncio.sleep(min(5, 2 ** attempt))
     
+    print(f"  ❌ All 3 API attempts failed")
     return None
 
 def parse_response(data: Dict[str, Any], mode: str) -> Optional[Dict[str, Any]]:
@@ -298,6 +332,25 @@ def safe_enrich(input_msg: Dict[str, Any], parsed: Dict[str, Any]) -> Dict[str, 
         if "original_text" not in parsed["metadata"]:
             parsed["metadata"]["original_text"] = input_msg.get("body", "")
         
+        # CRITICAL: Preserve user_id and email_id from input SMS for MongoDB storage
+        if "user_id" in input_msg:
+            parsed["user_id"] = input_msg["user_id"]
+        if "email_id" in input_msg:
+            parsed["email_id"] = input_msg["email_id"]
+        
+        # CRITICAL: Ensure unique_id is set for MongoDB storage
+        if "unique_id" in input_msg:
+            # Use the original unique_id but make it unique for this transaction
+            base_id = input_msg["unique_id"]
+            parsed["unique_id"] = f"{base_id}_{datetime.now().strftime('%Y%m%d_%H%M%S_%f')}"
+        elif "_source_id" in input_msg:
+            # Use _source_id but make it unique for this transaction
+            base_id = input_msg["_source_id"]
+            parsed["unique_id"] = f"{base_id}_{datetime.now().strftime('%Y%m%d_%H%M%S_%f')}"
+        else:
+            # Generate a completely unique ID
+            parsed["unique_id"] = f"txn_{datetime.now().strftime('%Y%m%d_%H%M%S_%f')}"
+        
         return parsed
     except Exception as e:
         print(f"  ⚠️  Enrichment error: {e}")
@@ -329,7 +382,7 @@ def mark_sms_as_processed(input_path: str, source_id: str, success: bool = True)
                 print(f"  🔄 Marked SMS {source_id} as processed in input file")
                 sms_found = True
                 break
-        
+
         if not sms_found:
             print(f"  ❌ ERROR: Could not find SMS {source_id} by unique_id in input file")
             print(f"  🔍 Available unique_ids: {[sms.get('unique_id', 'NO_ID') for sms in sms_list[:3]]}...")
@@ -482,12 +535,12 @@ async def process_sms_batch(sms_batch: List[Dict[str, Any]], batch_id: int,
         
         try:
             prompt = build_prompt(input_msg)
-            
+
             if mode == "openai":
                 data = await call_openai_style(session, model, prompt, temperature, max_tokens, top_p)
             else:
                 data = None
-            
+
             parsed = parse_response(data, mode)
             
             # Enhanced validation
@@ -500,6 +553,9 @@ async def process_sms_batch(sms_batch: List[Dict[str, Any]], batch_id: int,
                     # Safe enrichment
                     if enrich_mode == "safe":
                         parsed = safe_enrich(input_msg, parsed)
+                    
+                    # CRITICAL: Add _source_id to successful results for status tracking
+                    parsed["_source_id"] = src_id
                     
                     results.append(parsed)
                     intent = parsed.get('message_intent', 'unknown')
@@ -626,37 +682,61 @@ def create_batches(sms_list: List[Dict[str, Any]], batch_size: int) -> List[List
 async def process_all_batches(input_path: str, output_path: str, model: str, mode: str,
                              batch_size: int, max_parallel_batches: int,
                              temperature: float, max_tokens: int, top_p: float, 
-                             failures_path: Optional[str], enrich_mode: str):
+                             failures_path: Optional[str], enrich_mode: str, 
+                             use_mongodb: bool = False, user_id: str = None):
     """Enhanced batch processing with better progress tracking"""
     
-    print(f"📱 Loading SMS data from: {input_path}")
-    sms_data = load_sms_data(input_path)
-    total_sms = len(sms_data)
-    print(f"📊 Loaded {total_sms} SMS messages")
-    
-    # Initialize output files for real-time updates
-    if failures_path:
-        # Create empty failures file
-        with open(failures_path, 'w', encoding='utf-8') as f:
-            pass  # Create empty file
-        print(f"📝 Initialized failures file: {failures_path}")
-    
-    # Initialize results file - PRESERVE existing results if file exists
-    if os.path.exists(output_path):
+    # Initialize MongoDB if requested
+    mongo_ops = None
+    if use_mongodb:
         try:
-            with open(output_path, 'r', encoding='utf-8') as f:
-                existing_results = json.load(f)
-            print(f"📝 Preserved existing results file: {output_path} with {len(existing_results)} previous results")
-        except:
-            # If file is corrupted, start fresh
+            mongo_ops = MongoDBOperations()
+            print(f"🗄️  MongoDB connected: {mongo_ops.db_name}")
+            
+            # Get SMS data from MongoDB instead of file
+            if user_id:
+                sms_data = mongo_ops.get_user_sms_data(user_id, unprocessed_only=True)
+                print(f"📱 Loaded {len(sms_data)} unprocessed SMS from MongoDB for user: {user_id}")
+            else:
+                sms_data = mongo_ops.get_all_sms_data(unprocessed_only=True)
+                print(f"📱 Loaded {len(sms_data)} unprocessed SMS from MongoDB (all users)")
+        except Exception as e:
+            print(f"❌ MongoDB connection failed: {e}")
+            print(f"🔄 Falling back to file-based processing")
+            use_mongodb = False
+    
+    # Load SMS data from file if MongoDB not used
+    if not use_mongodb:
+        print(f"📱 Loading SMS data from: {input_path}")
+        sms_data = load_sms_data(input_path)
+    
+    total_sms = len(sms_data)
+    print(f"📊 Total SMS to process: {total_sms}")
+    
+    # Initialize output files for real-time updates (only if not using MongoDB)
+    if not use_mongodb:
+        if failures_path:
+            # Create empty failures file
+            with open(failures_path, 'w', encoding='utf-8') as f:
+                pass  # Create empty file
+            print(f"📝 Initialized failures file: {failures_path}")
+        
+        # Initialize results file - PRESERVE existing results if file exists
+        if os.path.exists(output_path):
+            try:
+                with open(output_path, 'r', encoding='utf-8') as f:
+                    existing_results = json.load(f)
+                print(f"📝 Preserved existing results file: {output_path} with {len(existing_results)} previous results")
+            except:
+                # If file is corrupted, start fresh
+                with open(output_path, 'w', encoding='utf-8') as f:
+                    json.dump([], f)
+                print(f"📝 Started fresh results file: {output_path}")
+        else:
+            # Create new results file
             with open(output_path, 'w', encoding='utf-8') as f:
                 json.dump([], f)
-            print(f"📝 Started fresh results file: {output_path}")
-    else:
-        # Create new results file
-        with open(output_path, 'w', encoding='utf-8') as f:
-            json.dump([], f)
-        print(f"📝 Created new results file: {output_path}")
+            print(f"📝 Created new results file: {output_path}")
     
     batches = create_batches(sms_data, batch_size)
     total_batches = len(batches)
@@ -671,7 +751,7 @@ async def process_all_batches(input_path: str, output_path: str, model: str, mod
         total=total_sms, 
         desc="Processing SMS", 
         unit="msg",
-        bar_format='{l_bar}{bar}| {n_fmt}/{total_fmt} [{elapsed}<{remaining}, {rate_fmt}] Success: {postfix}'
+        bar_format='{l_bar}{bar}| {n_fmt}/{total_fmt} [{elapsed}<{remaining}, {rate_fmt}] {postfix}'
     )
     
     async with aiohttp.ClientSession() as session:
@@ -708,32 +788,66 @@ async def process_all_batches(input_path: str, output_path: str, model: str, mod
                 all_results.extend(results)
                 all_failures.extend(failures)
             
-            # Real-time persistence: Update input file with batch progress
+            # Real-time persistence: Update input file or MongoDB with batch progress
             if batch_results_collected or batch_failures_collected:
-                update_input_file_progress(input_path, batch_results_collected, batch_failures_collected)
+                if use_mongodb and mongo_ops:
+                    # Update MongoDB
+                    for sms in batch_results_collected:
+                        source_id = sms.get('_source_id')
+                        if source_id:
+                            mongo_ops.mark_sms_as_processed(source_id, "success")
+                    
+                    for sms in batch_failures_collected:
+                        source_id = sms.get('_source_id')
+                        if source_id:
+                            mongo_ops.mark_sms_as_processed(source_id, "failed")
+                    
+                    # Store transactions in MongoDB
+                    if batch_results_collected:
+                        stored_count = mongo_ops.store_financial_transactions_batch(batch_results_collected)
+                        print(f"  💾 MongoDB: Stored {stored_count} transactions")
+                else:
+                    # Update input file
+                    update_input_file_progress(input_path, batch_results_collected, batch_failures_collected)
             
-            # Real-time file updates: Write results and failures immediately
-            if batch_results_collected:
-                write_results_real_time(output_path, batch_results_collected, mode="append")
-            if batch_failures_collected:
-                write_failures_real_time(failures_path, batch_failures_collected, mode="append")
+            # Real-time file updates: Write results and failures immediately (only if not using MongoDB)
+            if not use_mongodb:
+                if batch_results_collected:
+                    write_results_real_time(output_path, batch_results_collected, mode="append")
+                if batch_failures_collected:
+                    write_failures_real_time(failures_path, batch_failures_collected, mode="append")
             
             # Update progress bar postfix
-            pbar.set_postfix_str(f"{len(all_results)}/{total_sms}")
+            pbar.set_postfix_str(f"✅{len(all_results)} ❌{len(all_failures)}")
             
             # Longer pause between batch groups
             if i + max_parallel_batches < total_batches:
                 await asyncio.sleep(5)
     
-    pbar.close()
-    
+        pbar.close()
+
     # Final cleanup and summary
-    print(f"\n💾 Final results file: {output_path}")
-    print(f"📊 Total results written: {len(all_results)}")
-    
-    # Cleanup failures file if empty
-    if failures_path:
-        cleanup_empty_failures_file(failures_path)
+    if use_mongodb and mongo_ops:
+        # MongoDB summary
+        stats = mongo_ops.get_processing_stats()
+        print(f"\n🗄️  MongoDB Processing Summary:")
+        print(f"   Database: {mongo_ops.db_name}")
+        print(f"   Total SMS: {stats.get('total_sms', 0)}")
+        print(f"   Processed SMS: {stats.get('processed_sms', 0)}")
+        print(f"   Unprocessed SMS: {stats.get('unprocessed_sms', 0)}")
+        print(f"   Total Transactions: {stats.get('total_transactions', 0)}")
+        print(f"   Processing Progress: {stats.get('processing_percentage', 0)}%")
+        
+        # Close MongoDB connection
+        mongo_ops.close_connection()
+    else:
+        # File-based summary
+        print(f"\n💾 Final results file: {output_path}")
+        print(f"📊 Total results written: {len(all_results)}")
+        
+        # Cleanup failures file if empty
+        if failures_path:
+            cleanup_empty_failures_file(failures_path)
     
     # Final summary
     success_rate = (len(all_results) / total_sms) * 100
@@ -766,6 +880,8 @@ def main():
     parser.add_argument("--top_p", type=float, default=0.9, help="Top-p sampling")
     parser.add_argument("--failures", help="Failures log path (NDJSON)")
     parser.add_argument("--enrich", choices=["off", "safe"], default="safe")
+    parser.add_argument("--mongodb", action="store_true", help="Use MongoDB instead of files")
+    parser.add_argument("--user-id", help="Process SMS for specific user ID (when using MongoDB)")
 
     args = parser.parse_args()
 
@@ -790,6 +906,8 @@ def main():
         top_p=args.top_p,
         failures_path=args.failures,
         enrich_mode=args.enrich,
+        use_mongodb=args.mongodb,
+        user_id=args.user_id,
     ))
 
 if __name__ == "__main__":

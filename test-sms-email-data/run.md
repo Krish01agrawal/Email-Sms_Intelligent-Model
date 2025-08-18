@@ -42,3 +42,34 @@ python3 main.py --input financial_array.json --output final_results.json --failu
 
 
 python3 main.py --input test_realtime.json --output test_results_realtime.json --failures test_failures_realtime.ndjson --batch-size 1 --parallel-batches 1
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# 1. First, upload fresh SMS data
+python3 sms_mongodb_uploader.py --input test_sms.json
+
+python3 sms_mongodb_uploader.py --input "assets/sms_data/sms_data_divyam.json" --batch-size 100 --create-indexes --stats
+
+
+
+# 2. Run complete pipeline
+python3 mongodb_pipeline.py --limit 100 --batch-size 10
+
+python3 mongodb_pipeline.py --user-id "divyam_user" --limit 50 --batch-size 2
+
+
+
+# 3. Verify results
+python3 -c "from mongodb_operations import MongoDBOperations; mongo = MongoDBOperations(); stats = mongo.get_processing_stats(); print('📊 Final Stats:', stats); mongo.close_connection()"
