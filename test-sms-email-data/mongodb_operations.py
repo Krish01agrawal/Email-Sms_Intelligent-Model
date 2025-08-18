@@ -136,6 +136,14 @@ class MongoDBOperations:
                 name="transaction_date_recent_partial"
             )
             
+            # Create processing_checkpoints collection indexes
+            self.db.processing_checkpoints.create_index("user_id")
+            self.db.processing_checkpoints.create_index("batch_id")
+            self.db.processing_checkpoints.create_index("status")
+            self.db.processing_checkpoints.create_index("checkpoint_timestamp")
+            self.db.processing_checkpoints.create_index([("user_id", 1), ("status", 1)])
+            self.db.processing_checkpoints.create_index([("user_id", 1), ("batch_id", 1)])
+            
             logger.info("✅ Advanced MongoDB indexes created successfully")
             
         except Exception as e:
@@ -245,30 +253,88 @@ class MongoDBOperations:
             logger.error(f"❌ Error retrieving financial raw SMS: {e}")
             return []
     
-    def mark_financial_sms_as_processed(self, unique_id: str, status: str = "success") -> bool:
+    def mark_financial_sms_as_processed(self, sms_id: str, status: str = "success") -> bool:
         """Mark financial SMS as processed in sms_fin_rawdata collection"""
         try:
+            logger.info(f"🔍 DEBUG: Marking SMS {sms_id} as processed with status: {status}")
+            logger.info(f"🔍 DEBUG: Database connection: {self.db is not None}")
+            logger.info(f"🔍 DEBUG: Fin raw collection: {self.fin_raw_collection is not None}")
+            
+            # Verify database connection - FIXED for Python 3.13 compatibility
+            if self.db is None:
+                logger.error("❌ ERROR: Database connection is None!")
+                return False
+            
+            if self.fin_raw_collection is None:
+                logger.error("❌ ERROR: Fin raw collection is None!")
+                return False
+            
+            # Handle different ID formats
+            base_sms_id = sms_id
+            if "_sms_" in sms_id:
+                base_sms_id = sms_id.split("_sms_")[-1]
+                if not base_sms_id.startswith("sms_"):
+                    base_sms_id = f"sms_{base_sms_id}"
+            
+            logger.info(f"🔍 DEBUG: Original SMS ID: {sms_id}")
+            logger.info(f"🔍 DEBUG: Base SMS ID: {base_sms_id}")
+            
+            # Update the SMS document
+            update_data = {
+                "isprocessed": True,
+                "processing_timestamp": datetime.now(),
+                "processing_status": status,
+                "updated_at": datetime.now()
+            }
+            
+            logger.info(f"🔍 DEBUG: Update data: {update_data}")
+            
+            # Find the SMS first to verify it exists
+            existing_sms = self.fin_raw_collection.find_one({"unique_id": base_sms_id})
+            if existing_sms:
+                logger.info(f"🔍 DEBUG: Found existing SMS: {existing_sms.get('unique_id')}")
+                logger.info(f"🔍 DEBUG: Current isprocessed: {existing_sms.get('isprocessed')}")
+                logger.info(f"🔍 DEBUG: Current processing_status: {existing_sms.get('processing_status')}")
+            else:
+                logger.warning(f"⚠️  SMS {base_sms_id} not found in sms_fin_rawdata collection")
+                # Try alternative search
+                alt_search = self.fin_raw_collection.find_one({"$or": [
+                    {"unique_id": sms_id},
+                    {"unique_id": base_sms_id},
+                    {"_source_id": sms_id},
+                    {"_source_id": base_sms_id}
+                ]})
+                if alt_search:
+                    logger.info(f"🔍 DEBUG: Found SMS with alternative search: {alt_search.get('unique_id')}")
+                    base_sms_id = alt_search.get('unique_id')
+                else:
+                    logger.error(f"❌ SMS {sms_id} not found with any search method")
+                    return False
+            
+            # Perform the update
             result = self.fin_raw_collection.update_one(
-                {"unique_id": unique_id},
-                {
-                    "$set": {
-                        "isprocessed": True,
-                        "processing_timestamp": datetime.now(),
-                        "processing_status": status,
-                        "updated_at": datetime.now()
-                    }
-                }
+                {"unique_id": base_sms_id},
+                {"$set": update_data}
             )
             
+            logger.info(f"🔍 DEBUG: Update result: {result.modified_count} documents modified")
+            logger.info(f"🔍 DEBUG: Update result: {result.matched_count} documents matched")
+            
             if result.modified_count > 0:
-                logger.info(f"🔄 Marked financial SMS {unique_id} as processed ({status})")
+                logger.info(f"✅ Successfully marked SMS {sms_id} as processed")
+                return True
+            elif result.matched_count > 0:
+                logger.warning(f"⚠️  SMS {sms_id} found but not modified (already processed?)")
                 return True
             else:
-                logger.warning(f"⚠️  Financial SMS {unique_id} not found for marking as processed")
+                logger.error(f"❌ Failed to mark SMS {sms_id} as processed - no documents matched")
                 return False
                 
         except Exception as e:
-            logger.error(f"❌ Error marking financial SMS as processed: {e}")
+            logger.error(f"❌ Error marking SMS {sms_id} as processed: {e}")
+            logger.error(f"🔍 DEBUG: Error type: {type(e).__name__}")
+            import traceback
+            logger.error(f"🔍 DEBUG: Full traceback: {traceback.format_exc()}")
             return False
     
     def get_user_sms_data(self, user_id: str, limit: int = None, unprocessed_only: bool = True) -> List[Dict[str, Any]]:
@@ -284,6 +350,18 @@ class MongoDBOperations:
                 cursor = cursor.limit(limit)
             
             sms_list = list(cursor)
+            
+            # Add _source_id to each SMS for proper tracking
+            for sms in sms_list:
+                # Use unique_id as _source_id, fallback to _id if unique_id doesn't exist
+                if 'unique_id' in sms:
+                    sms['_source_id'] = sms['unique_id']
+                elif '_id' in sms:
+                    sms['_source_id'] = str(sms['_id'])
+                else:
+                    # Generate a fallback ID
+                    sms['_source_id'] = f"sms_{hash(str(sms)) % 1000000}"
+            
             logger.info(f"📱 Retrieved {len(sms_list)} SMS for user {user_id}")
             return sms_list
             
@@ -304,6 +382,18 @@ class MongoDBOperations:
                 cursor = cursor.limit(limit)
             
             sms_list = list(cursor)
+            
+            # Add _source_id to each SMS for proper tracking
+            for sms in sms_list:
+                # Use unique_id as _source_id, fallback to _id if unique_id doesn't exist
+                if 'unique_id' in sms:
+                    sms['_source_id'] = sms['unique_id']
+                elif '_id' in sms:
+                    sms['_source_id'] = str(sms['_id'])
+                else:
+                    # Generate a fallback ID
+                    sms['_source_id'] = f"sms_{hash(str(sms)) % 1000000}"
+            
             logger.info(f"📱 Retrieved {len(sms_list)} SMS (all users)")
             return sms_list
             
@@ -347,18 +437,34 @@ class MongoDBOperations:
         """Store multiple financial transactions in batch"""
         try:
             if not transactions:
+                logger.info("🔍 DEBUG: No transactions to store")
+                return 0
+            
+            logger.info(f"🔍 DEBUG: Starting to store {len(transactions)} transactions")
+            logger.info(f"🔍 DEBUG: Database connection: {self.db is not None}")
+            logger.info(f"🔍 DEBUG: Transactions collection: {self.transactions_collection is not None}")
+            
+            # Verify database connection - FIXED for Python 3.13 compatibility
+            if self.db is None:
+                logger.error("❌ ERROR: Database connection is None!")
+                return 0
+            
+            if self.transactions_collection is None:
+                logger.error("❌ ERROR: Transactions collection is None!")
                 return 0
             
             # Add metadata to each transaction
-            for transaction in transactions:
+            for i, transaction in enumerate(transactions):
                 transaction["created_at"] = datetime.now()
                 transaction["updated_at"] = datetime.now()
+                logger.debug(f"🔍 DEBUG: Prepared transaction {i+1}: {transaction.get('unique_id', 'NO_ID')}")
             
             # Use bulk operations for better performance
             bulk_operations = []
-            for transaction in transactions:
+            for i, transaction in enumerate(transactions):
                 # Clean the transaction document for MongoDB
                 clean_transaction = self._clean_transaction_document(transaction)
+                logger.debug(f"🔍 DEBUG: Cleaned transaction {i+1}: {clean_transaction.get('unique_id', 'NO_ID')}")
                 
                 if "unique_id" in clean_transaction:
                     # Upsert operation - use proper MongoDB syntax
@@ -369,21 +475,30 @@ class MongoDBOperations:
                             upsert=True
                         )
                     )
+                    logger.debug(f"🔍 DEBUG: Added upsert operation for {clean_transaction['unique_id']}")
                 else:
                     # Insert operation - use proper MongoDB syntax
                     bulk_operations.append(
                         InsertOne(clean_transaction)
                     )
+                    logger.debug(f"🔍 DEBUG: Added insert operation for transaction {i+1}")
+            
+            logger.info(f"🔍 DEBUG: Created {len(bulk_operations)} bulk operations")
             
             if bulk_operations:
+                logger.info(f"🔍 DEBUG: Executing bulk write operation...")
                 result = self.transactions_collection.bulk_write(bulk_operations)
                 logger.info(f"💾 Batch stored {len(transactions)} transactions")
+                logger.info(f"🔍 DEBUG: Bulk write result: {result.bulk_api_result}")
                 return len(transactions)
             
             return 0
             
         except Exception as e:
             logger.error(f"❌ Error in batch transaction storage: {e}")
+            logger.error(f"🔍 DEBUG: Error type: {type(e).__name__}")
+            import traceback
+            logger.error(f"🔍 DEBUG: Full traceback: {traceback.format_exc()}")
             # Try individual inserts as fallback
             return self._fallback_individual_inserts(transactions)
     
@@ -556,6 +671,118 @@ class MongoDBOperations:
             logger.error(f"❌ Error checking if SMS {sms_id} is processed: {e}")
             return False
     
+    def create_processing_checkpoint(self, user_id: str, batch_id: int, total_sms: int, processed_sms: int, 
+                                   last_processed_id: str = None) -> bool:
+        """Create a processing checkpoint for resume capability"""
+        try:
+            checkpoint_data = {
+                "user_id": user_id,
+                "batch_id": batch_id,
+                "total_sms": total_sms,
+                "processed_sms": processed_sms,
+                "last_processed_id": last_processed_id,
+                "checkpoint_timestamp": datetime.now(),
+                "status": "in_progress"
+            }
+            
+            # Upsert checkpoint
+            result = self.db.processing_checkpoints.update_one(
+                {"user_id": user_id, "batch_id": batch_id},
+                {"$set": checkpoint_data},
+                upsert=True
+            )
+            
+            logger.info(f"💾 Created checkpoint: {user_id} - Batch {batch_id} - {processed_sms}/{total_sms} SMS")
+            return True
+            
+        except Exception as e:
+            logger.error(f"❌ Error creating checkpoint: {e}")
+            return False
+    
+    def get_processing_checkpoint(self, user_id: str, batch_id: int) -> Dict[str, Any]:
+        """Get processing checkpoint for resume capability"""
+        try:
+            checkpoint = self.db.processing_checkpoints.find_one(
+                {"user_id": user_id, "batch_id": batch_id}
+            )
+            
+            if checkpoint:
+                logger.info(f"📋 Found checkpoint: {user_id} - Batch {batch_id} - {checkpoint['processed_sms']}/{checkpoint['total_sms']} SMS")
+                return checkpoint
+            else:
+                logger.info(f"📋 No checkpoint found for: {user_id} - Batch {batch_id}")
+                return None
+                
+        except Exception as e:
+            logger.error(f"❌ Error retrieving checkpoint: {e}")
+            return None
+    
+    def update_processing_checkpoint(self, user_id: str, batch_id: int, processed_sms: int, 
+                                   last_processed_id: str = None, status: str = "in_progress") -> bool:
+        """Update processing checkpoint with progress"""
+        try:
+            update_data = {
+                "processed_sms": processed_sms,
+                "last_processed_id": last_processed_id,
+                "checkpoint_timestamp": datetime.now(),
+                "status": status
+            }
+            
+            result = self.db.processing_checkpoints.update_one(
+                {"user_id": user_id, "batch_id": batch_id},
+                {"$set": update_data}
+            )
+            
+            if result.modified_count > 0:
+                logger.info(f"💾 Updated checkpoint: {user_id} - Batch {batch_id} - {processed_sms} SMS - {status}")
+                return True
+            else:
+                logger.warning(f"⚠️  Checkpoint not found for update: {user_id} - Batch {batch_id}")
+                return False
+                
+        except Exception as e:
+            logger.error(f"❌ Error updating checkpoint: {e}")
+            return False
+    
+    def mark_checkpoint_completed(self, user_id: str, batch_id: int) -> bool:
+        """Mark processing checkpoint as completed"""
+        try:
+            result = self.db.processing_checkpoints.update_one(
+                {"user_id": user_id, "batch_id": batch_id},
+                {"$set": {"status": "completed", "completion_timestamp": datetime.now()}}
+            )
+            
+            if result.modified_count > 0:
+                logger.info(f"✅ Marked checkpoint completed: {user_id} - Batch {batch_id}")
+                return True
+            else:
+                logger.warning(f"⚠️  Checkpoint not found for completion: {user_id} - Batch {batch_id}")
+                return False
+                
+        except Exception as e:
+            logger.error(f"❌ Error marking checkpoint completed: {e}")
+            return False
+    
+    def get_resume_point(self, user_id: str) -> Dict[str, Any]:
+        """Get resume point for user after crash"""
+        try:
+            # Find the latest incomplete checkpoint
+            checkpoint = self.db.processing_checkpoints.find_one(
+                {"user_id": user_id, "status": "in_progress"},
+                sort=[("checkpoint_timestamp", -1)]
+            )
+            
+            if checkpoint:
+                logger.info(f"🔄 Resume point found: {user_id} - Batch {checkpoint['batch_id']} - {checkpoint['processed_sms']}/{checkpoint['total_sms']} SMS")
+                return checkpoint
+            else:
+                logger.info(f"🔄 No resume point found for: {user_id}")
+                return None
+                
+        except Exception as e:
+            logger.error(f"❌ Error getting resume point: {e}")
+            return None
+    
     def close_connection(self):
         """Close MongoDB connection"""
         try:
@@ -563,6 +790,86 @@ class MongoDBOperations:
             logger.info("🔌 MongoDB connection closed")
         except Exception as e:
             logger.error(f"❌ Error closing MongoDB connection: {e}")
+
+    def recover_unstored_transactions(self, user_id: str) -> int:
+        """Recover any processed SMS that weren't stored due to crashes"""
+        try:
+            print(f"🔄 Checking for unstored transactions for user: {user_id}")
+            
+            # Find SMS that are marked as processed but don't have corresponding transactions
+            processed_sms = self.fin_raw_collection.find({
+                "user_id": user_id,
+                "isprocessed": True
+            })
+            
+            recovered_count = 0
+            for sms in processed_sms:
+                # Check if transaction exists
+                transaction_exists = self.transactions_collection.find_one({
+                    "unique_id": sms.get("unique_id")
+                })
+                
+                if not transaction_exists:
+                    print(f"  🔍 Found unstored transaction for SMS: {sms.get('unique_id')}")
+                    
+                    # Try to reconstruct transaction data from SMS
+                    transaction_data = self._reconstruct_transaction_from_sms(sms)
+                    if transaction_data:
+                        try:
+                            # Store the recovered transaction
+                            result = self.transactions_collection.insert_one(transaction_data)
+                            if result.inserted_id:
+                                recovered_count += 1
+                                print(f"  ✅ Recovered transaction: {sms.get('unique_id')}")
+                            else:
+                                print(f"  ❌ Failed to recover transaction: {sms.get('unique_id')}")
+                        except Exception as e:
+                            print(f"  ❌ Error recovering transaction {sms.get('unique_id')}: {e}")
+                    else:
+                        print(f"  ⚠️  Could not reconstruct transaction for: {sms.get('unique_id')}")
+            
+            print(f"🔄 Recovery complete: {recovered_count} transactions recovered")
+            return recovered_count
+            
+        except Exception as e:
+            logger.error(f"❌ Error in transaction recovery: {e}")
+            return 0
+    
+    def _reconstruct_transaction_from_sms(self, sms: Dict[str, Any]) -> Dict[str, Any]:
+        """Reconstruct transaction data from SMS for recovery"""
+        try:
+            # Basic transaction structure
+            transaction = {
+                "unique_id": sms.get("unique_id"),
+                "user_id": sms.get("user_id"),
+                "sender": sms.get("sender"),
+                "body": sms.get("body"),
+                "date": sms.get("date"),
+                "transaction_date": sms.get("date"),
+                "amount": None,  # Will need to be extracted from body
+                "transaction_type": "unknown",
+                "message_intent": "unknown",
+                "currency": "INR",
+                "created_at": datetime.now(),
+                "updated_at": datetime.now(),
+                "recovery_source": "sms_reconstruction",
+                "recovery_timestamp": datetime.now()
+            }
+            
+            # Try to extract amount from body if possible
+            body = sms.get("body", "")
+            if "Rs." in body or "₹" in body:
+                # Simple amount extraction (can be enhanced)
+                import re
+                amount_match = re.search(r'[Rr]s\.?\s*(\d+(?:\.\d+)?)', body)
+                if amount_match:
+                    transaction["amount"] = float(amount_match.group(1))
+            
+            return transaction
+            
+        except Exception as e:
+            logger.error(f"❌ Error reconstructing transaction: {e}")
+            return None
 
 def test_mongodb_connection():
     """Test MongoDB connection and basic operations"""

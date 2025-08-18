@@ -337,9 +337,43 @@ Debit SMS: "Rs.2000 withdrawn at ATM from A/cX9855"
 
 RESPOND WITH ONLY THE JSON OBJECT - NO OTHER TEXT."""
 
+def clean_mongodb_document(doc: Dict[str, Any]) -> Dict[str, Any]:
+    """Clean MongoDB document by converting ObjectId to strings and removing problematic fields"""
+    if not isinstance(doc, dict):
+        return doc
+    
+    cleaned = {}
+    for key, value in doc.items():
+        # Skip MongoDB internal fields
+        if key in ['_id', '__v']:
+            continue
+            
+        # Convert ObjectId to string
+        if hasattr(value, '__class__') and value.__class__.__name__ == 'ObjectId':
+            cleaned[key] = str(value)
+        # Convert datetime to ISO string
+        elif hasattr(value, '__class__') and value.__class__.__name__ == 'datetime':
+            cleaned[key] = value.isoformat()
+        # Convert date to ISO string
+        elif hasattr(value, '__class__') and value.__class__.__name__ == 'date':
+            cleaned[key] = value.isoformat()
+        # Handle nested dictionaries
+        elif isinstance(value, dict):
+            cleaned[key] = clean_mongodb_document(value)
+        # Handle lists
+        elif isinstance(value, list):
+            cleaned[key] = [clean_mongodb_document(item) if isinstance(item, dict) else item for item in value]
+        # Keep other values as is
+        else:
+            cleaned[key] = value
+    
+    return cleaned
+
 def build_prompt(input_msg: Dict[str, Any]) -> str:
     """Build the prompt for LLM processing"""
-    return UNIVERSAL_RULES + f"\n\nSMS TO PARSE:\n{json.dumps(input_msg, ensure_ascii=False)}\n\nJSON OUTPUT:"
+    # Clean the MongoDB document before sending to API
+    cleaned_msg = clean_mongodb_document(input_msg)
+    return UNIVERSAL_RULES + f"\n\nSMS TO PARSE:\n{json.dumps(cleaned_msg, ensure_ascii=False)}\n\nJSON OUTPUT:"
 
 def extract_json_object(text: str) -> Optional[Dict[str, Any]]:
     """Enhanced JSON extraction with multiple fallback strategies"""
@@ -1176,26 +1210,29 @@ async def process_all_batches(input_path: str, output_path: str, model: str, mod
         try:
             mongo_ops = MongoDBOperations()
             print(f"🗄️  MongoDB connected: {mongo_ops.db_name}")
-            
-            # Get SMS data from MongoDB instead of file
-            if user_id:
-                sms_data = mongo_ops.get_user_sms_data(user_id, unprocessed_only=True)
-                print(f"📱 Loaded {len(sms_data)} unprocessed SMS from MongoDB for user: {user_id}")
-            else:
-                sms_data = mongo_ops.get_all_sms_data(unprocessed_only=True)
-                print(f"📱 Loaded {len(sms_data)} unprocessed SMS from MongoDB (all users)")
         except Exception as e:
             print(f"❌ MongoDB connection failed: {e}")
             print(f"🔄 Falling back to file-based processing")
             use_mongodb = False
     
-    # Load SMS data from file if MongoDB not used
-    if not use_mongodb:
-        print(f"📱 Loading SMS data from: {input_path}")
-        sms_data = load_sms_data(input_path)
+    # Load SMS data from input file (this contains the filtered financial SMS)
+    print(f"📱 Loading SMS data from: {input_path}")
+    sms_data = load_sms_data(input_path)
     
     total_sms = len(sms_data)
     print(f"📊 Total SMS to process: {total_sms}")
+    
+    # Verify we're processing the correct number of SMS
+    if total_sms > 1000:
+        print(f"⚠️  WARNING: Processing {total_sms} SMS - this seems high!")
+        print(f"🔍 Expected: ~1400-1500 financial SMS from filtering")
+        print(f"📁 Input file: {input_path}")
+        print(f"🔄 Continue anyway? (Ctrl+C to stop)")
+        try:
+            await asyncio.sleep(3)  # Give user time to stop
+        except asyncio.CancelledError:
+            print("🛑 Processing cancelled by user")
+            return
     
     # Initialize output files for real-time updates (only if not using MongoDB)
     if not use_mongodb:
@@ -1239,10 +1276,32 @@ async def process_all_batches(input_path: str, output_path: str, model: str, mod
     )
     
     async with aiohttp.ClientSession() as session:
+        # Initialize checkpoint for resume capability
+        if use_mongodb and mongo_ops:
+            checkpoint_created = mongo_ops.create_processing_checkpoint(
+                user_id=user_id or "all_users",
+                batch_id=1,
+                total_sms=total_sms,
+                processed_sms=0
+            )
+            if checkpoint_created:
+                print(f"💾 Created processing checkpoint for resume capability")
+        
+        # Process batches with parallel execution
         for i in range(0, total_batches, max_parallel_batches):
-            batch_group = batches[i:i + max_parallel_batches]
+            batch_group_start = time.time()
+            print(f"🚀 Processing batch group {i//max_parallel_batches + 1}/{total_batches//max_parallel_batches + 1}")
             
-            print(f"\n🚀 Processing batch group {i//max_parallel_batches + 1}/{math.ceil(total_batches/max_parallel_batches)}")
+            # Create batch group checkpoint
+            if use_mongodb and mongo_ops:
+                mongo_ops.create_processing_checkpoint(
+                    user_id=user_id or "all_users",
+                    batch_id=i//max_parallel_batches + 1,
+                    total_sms=total_sms,
+                    processed_sms=len(all_results)
+                )
+            
+            batch_group = batches[i:i + max_parallel_batches]
             
             # Process batches in parallel
             tasks = []
@@ -1286,13 +1345,64 @@ async def process_all_batches(input_path: str, output_path: str, model: str, mod
                         if source_id:
                             mongo_ops.mark_sms_as_processed(source_id, "failed")
                     
-                    # Store transactions in MongoDB
-                    if batch_results_collected:
-                        stored_count = mongo_ops.store_financial_transactions_batch(batch_results_collected)
-                        print(f"  💾 MongoDB: Stored {stored_count} transactions")
-                else:
-                    # Update input file
-                    update_input_file_progress(input_path, batch_results_collected, batch_failures_collected)
+                    # Store transactions in MongoDB IMMEDIATELY after each batch
+                    if use_mongodb and mongo_ops and batch_results_collected:
+                        try:
+                            print(f"  🔍 DEBUG: Attempting to store {len(batch_results_collected)} transactions in MongoDB...")
+                            print(f"  🔍 DEBUG: MongoDB connection status: {mongo_ops.db is not None}")
+                            
+                            # Verify MongoDB connection
+                            if mongo_ops.db is None:
+                                print(f"  ❌ ERROR: MongoDB connection is None!")
+                                raise Exception("MongoDB connection is None")
+                            
+                            stored_count = mongo_ops.store_financial_transactions_batch(batch_results_collected)
+                            print(f"  💾 MongoDB: Stored {stored_count} transactions IMMEDIATELY")
+                            
+                            if stored_count != len(batch_results_collected):
+                                print(f"  ⚠️  WARNING: Expected to store {len(batch_results_collected)}, but stored {stored_count}")
+                            
+                            # Mark SMS as processed IMMEDIATELY after storage
+                            success_count = 0
+                            for sms in batch_results_collected:
+                                source_id = sms.get('_source_id')
+                                if source_id:
+                                    print(f"  🔍 DEBUG: Marking SMS {source_id} as processed...")
+                                    success = mongo_ops.mark_financial_sms_as_processed(source_id, "success")
+                                    if success:
+                                        success_count += 1
+                                        print(f"  ✅ Marked SMS {source_id} as processed IMMEDIATELY")
+                                    else:
+                                        print(f"  ❌ Failed to mark SMS {source_id} as processed")
+                                else:
+                                    print(f"  ⚠️  Result missing _source_id: {sms.get('unique_id', 'NO_ID')}")
+                            
+                            print(f"  ✅ IMMEDIATE Status Update: {success_count}/{len(batch_results_collected)} SMS marked as processed")
+                            
+                            # Update checkpoint IMMEDIATELY after each batch
+                            if user_id:
+                                print(f"  🔍 DEBUG: Updating checkpoint for user {user_id}...")
+                                checkpoint_updated = mongo_ops.update_processing_checkpoint(
+                                    user_id=user_id,
+                                    batch_id=1,  # For now, using batch 1
+                                    processed_sms=len(all_results),
+                                    last_processed_id=batch_results_collected[-1].get('_source_id') if batch_results_collected else None
+                                )
+                                if checkpoint_updated:
+                                    print(f"  💾 Checkpoint updated IMMEDIATELY: {len(all_results)} SMS processed")
+                                else:
+                                    print(f"  ❌ Failed to update checkpoint")
+                            
+                        except Exception as e:
+                            print(f"  ❌ CRITICAL ERROR in IMMEDIATE storage: {e}")
+                            print(f"  🔍 Error type: {type(e).__name__}")
+                            import traceback
+                            print(f"  🔍 Full traceback: {traceback.format_exc()}")
+                            # Continue processing even if storage fails
+                    else:
+                        print(f"  🔍 DEBUG: Skipping MongoDB storage - use_mongodb: {use_mongodb}, mongo_ops: {mongo_ops is not None}, batch_results: {len(batch_results_collected) if batch_results_collected else 0}")
+                        # Update input file
+                        update_input_file_progress(input_path, batch_results_collected, batch_failures_collected)
             
             # Real-time file updates: Write results and failures immediately (only if not using MongoDB)
             if not use_mongodb:
@@ -1300,6 +1410,15 @@ async def process_all_batches(input_path: str, output_path: str, model: str, mod
                     write_results_real_time(output_path, batch_results_collected, mode="append")
                 if batch_failures_collected:
                     write_failures_real_time(failures_path, batch_failures_collected, mode="append")
+            
+            # Update checkpoint with batch completion
+            if use_mongodb and mongo_ops:
+                mongo_ops.update_processing_checkpoint(
+                    user_id=user_id or "all_users",
+                    batch_id=i//max_parallel_batches + 1,
+                    processed_sms=len(all_results),
+                    last_processed_id=batch_results_collected[-1].get('_source_id') if batch_results_collected else None
+                )
             
             # Update progress bar postfix
             pbar.set_postfix_str(f"✅{len(all_results)} ❌{len(all_failures)}")
@@ -1312,6 +1431,17 @@ async def process_all_batches(input_path: str, output_path: str, model: str, mod
 
     # Final cleanup and summary
     if use_mongodb and mongo_ops:
+        # Mark all checkpoints as completed
+        if user_id:
+            mongo_ops.mark_checkpoint_completed(user_id, 1)
+        else:
+            # Mark all checkpoints for all users
+            mongo_ops.db.processing_checkpoints.update_many(
+                {"status": "in_progress"},
+                {"$set": {"status": "completed", "completion_timestamp": datetime.now()}}
+            )
+            print(f"✅ Marked all processing checkpoints as completed")
+        
         # MongoDB summary
         stats = mongo_ops.get_processing_stats()
         print(f"\n🗄️  MongoDB Processing Summary:")

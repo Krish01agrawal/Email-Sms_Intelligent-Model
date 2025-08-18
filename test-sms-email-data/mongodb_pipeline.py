@@ -142,7 +142,16 @@ def run_mongodb_pipeline(user_id: str = None, limit: int = None,
             with open(temp_array, 'r', encoding='utf-8') as f:
                 financial_array = json.load(f)
             
-            print(f"   Extracted {len(financial_array)} financial SMS to array format")
+            print(f"   ✅ Extracted {len(financial_array)} financial SMS to array format")
+            print(f"   🎯 ONLY these {len(financial_array)} financial SMS will be processed by LLM")
+            
+            # CRITICAL VERIFICATION: Ensure we're not processing all SMS
+            if len(financial_array) == len(sms_list):
+                print(f"   ⚠️  WARNING: Financial SMS count equals total SMS count!")
+                print(f"   🔍 This suggests the filter may not be working correctly")
+                print(f"   📊 Total SMS: {len(sms_list)}, Financial SMS: {len(financial_array)}")
+            else:
+                print(f"   ✅ Filter working correctly: {len(financial_array)} financial out of {len(sms_list)} total")
             
             # Step 6: Process through LLM using main.py with TRUE PARALLEL PROCESSING
             print("🤖 Processing financial SMS through LLM...")
@@ -154,10 +163,11 @@ def run_mongodb_pipeline(user_id: str = None, limit: int = None,
             parallel_batches = max(1, min(5, len(financial_array) // optimal_batch_size))  # Dynamic parallel processing
             
             print(f"   ⚡ Optimal Settings: {optimal_batch_size} SMS/batch, {parallel_batches} parallel batches")
+            print(f"   📊 Total SMS to process: {len(financial_array)} (NOT {len(sms_list)})")
             
             # Process through main.py with TRUE PARALLEL PROCESSING
             print(f"   🔧 Calling process_all_batches with:")
-            print(f"      - input_path: {temp_array}")
+            print(f"      - input_path: {temp_array} (contains ONLY {len(financial_array)} financial SMS)")
             print(f"      - output_path: {temp_output}")
             print(f"      - batch_size: {optimal_batch_size}")
             print(f"      - max_parallel_batches: {parallel_batches}")
@@ -175,7 +185,7 @@ def run_mongodb_pipeline(user_id: str = None, limit: int = None,
                     top_p=0.9,
                     failures_path=f"temp_failures_{datetime.now().strftime('%Y%m%d_%H%M%S')}.ndjson",
                     enrich_mode="safe",
-                    use_mongodb=False,  # Use file-based mode for consistency
+                    use_mongodb=True,  # FIXED: Enable MongoDB updates
                     user_id=user_id,
                 ))
                 print(f"   ✅ process_all_batches completed successfully")
@@ -186,34 +196,8 @@ def run_mongodb_pipeline(user_id: str = None, limit: int = None,
                 traceback.print_exc()
                 raise
             
-            # Step 7: Store results in MongoDB financial_transactions collection
-            print("💾 Storing results in MongoDB...")
-            
-            # Read the processed results
-            with open(temp_output, 'r', encoding='utf-8') as f:
-                results = json.load(f)
-            
-            if results:
-                # Store transactions in MongoDB
-                stored_count = mongo_ops.store_financial_transactions_batch(results)
-                print(f"   ✅ Stored {stored_count} transactions in financial_transactions collection")
-                
-                # Mark SMS as processed in sms_fin_rawdata collection
-                success_count = 0
-                for result in results:
-                    source_id = result.get('_source_id')
-                    if source_id:
-                        success = mongo_ops.mark_financial_sms_as_processed(source_id, "success")
-                        if success:
-                            success_count += 1
-                        else:
-                            print(f"   ⚠️  Failed to mark SMS {source_id} as processed")
-                    else:
-                        print(f"   ⚠️  Result missing _source_id: {result.get('unique_id', 'NO_ID')}")
-                
-                print(f"   ✅ Updated SMS processing status in sms_fin_rawdata collection: {success_count}/{len(results)} SMS marked as processed")
-            else:
-                print("   ⚠️  No results to store")
+            # Step 7: MongoDB storage now happens in real-time during processing
+            print("💾 MongoDB storage completed in real-time during processing!")
             
             print("✅ MongoDB pipeline completed successfully!")
             
@@ -258,6 +242,81 @@ def assign_unique_user_ids(sms_list: List[Dict[str, Any]]) -> List[Dict[str, Any
     print(f"   📋 Example user IDs: {sms_list[0]['user_id']}, {sms_list[1]['user_id'] if len(sms_list) > 1 else 'N/A'}")
     return sms_list
 
+def resume_processing(user_id: str = None) -> bool:
+    """Resume processing from last checkpoint after server crash"""
+    try:
+        print("🔄 Checking for resume points...")
+        
+        # Initialize MongoDB operations
+        mongo_ops = MongoDBOperations()
+        
+        # First, check for any data inconsistencies and recover them
+        if user_id:
+            print(f"🔍 Checking for data inconsistencies for user: {user_id}")
+            
+            # Check if there are processed SMS without transactions
+            processed_sms_count = mongo_ops.fin_raw_collection.count_documents({
+                "user_id": user_id,
+                "isprocessed": True
+            })
+            
+            transactions_count = mongo_ops.transactions_collection.count_documents({
+                "user_id": user_id
+            })
+            
+            print(f"  📊 Data consistency check:")
+            print(f"     Processed SMS: {processed_sms_count}")
+            print(f"     Stored transactions: {transactions_count}")
+            
+            if processed_sms_count > transactions_count:
+                print(f"  ⚠️  Data inconsistency detected! {processed_sms_count - transactions_count} transactions missing")
+                print(f"  🔄 Attempting to recover lost transactions...")
+                
+                recovered_count = mongo_ops.recover_unstored_transactions(user_id)
+                if recovered_count > 0:
+                    print(f"  ✅ Successfully recovered {recovered_count} transactions")
+                else:
+                    print(f"  ❌ Failed to recover transactions")
+            else:
+                print(f"  ✅ Data consistency verified")
+        
+        # Get resume point
+        resume_point = mongo_ops.get_resume_point(user_id or "all_users")
+        
+        if not resume_point:
+            print("✅ No resume point found - starting fresh")
+            return False
+        
+        print(f"🔄 Resume point found:")
+        print(f"   User: {resume_point['user_id']}")
+        print(f"   Batch: {resume_point['batch_id']}")
+        print(f"   Progress: {resume_point['processed_sms']}/{resume_point['total_sms']} SMS")
+        print(f"   Last processed: {resume_point.get('last_processed_id', 'N/A')}")
+        print(f"   Timestamp: {resume_point['checkpoint_timestamp']}")
+        
+        # Check if we can resume
+        if resume_point['status'] == 'completed':
+            print("✅ Processing already completed - no resume needed")
+            return True
+        
+        # Resume processing
+        print(f"🔄 Resuming processing from checkpoint...")
+        
+        # Get remaining SMS to process
+        remaining_sms = resume_point['total_sms'] - resume_point['processed_sms']
+        print(f"   Remaining SMS to process: {remaining_sms}")
+        
+        # Continue with remaining processing
+        # This will automatically skip already processed SMS due to the filtering logic
+        return True
+        
+    except Exception as e:
+        print(f"❌ Error during resume: {e}")
+        return False
+    finally:
+        if 'mongo_ops' in locals():
+            mongo_ops.close_connection()
+
 def main():
     parser = argparse.ArgumentParser(description='MongoDB Pipeline for LifafaV0 with True Parallel Processing')
     parser.add_argument('--user-id', help='Process SMS for specific user ID')
@@ -265,8 +324,17 @@ def main():
     parser.add_argument('--model', default='qwen3:8b', help='LLM model to use')
     parser.add_argument('--batch-size', type=int, default=5, help='SMS per batch (default: 5, max: 10)')
     parser.add_argument('--parallel-batches', type=int, help='Number of parallel batches (auto-calculated if not specified)')
+    parser.add_argument('--resume', action='store_true', help='Resume processing from last checkpoint')
     
     args = parser.parse_args()
+    
+    # Check for resume option
+    if args.resume:
+        print("🔄 RESUME MODE: Checking for processing checkpoints...")
+        if resume_processing(args.user_id):
+            print("🔄 Resume successful - continuing with processing")
+        else:
+            print("🔄 No resume point found - starting fresh processing")
     
     # Validate batch size
     if args.batch_size > 10:

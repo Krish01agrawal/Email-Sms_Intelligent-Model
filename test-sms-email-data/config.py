@@ -163,6 +163,58 @@ class Config:
         print(f"   Processing: {self.processing_config['batch_size']} SMS per batch, {self.processing_config['max_parallel_batches']} parallel")
         print(f"   Rate Limiting: {self.rate_limiting_config['initial_delay']:.1f}s delay, adaptive")
         print(f"   Error Handling: {self.error_handling_config['max_retries']} retries with exponential backoff")
+        
+        # Show enterprise capabilities
+        enterprise = self.get_enterprise_capabilities()
+        print(f"\n🚀 ENTERPRISE SCALING CAPABILITIES:")
+        print(f"   Max Concurrent Users: {enterprise['max_concurrent_users']}")
+        print(f"   Max SMS per User: {enterprise['max_sms_per_user']}")
+        print(f"   Max Batch Size: {enterprise['max_batch_size']}")
+        print(f"   Database Pool: {enterprise['database_pool']['min_size']}-{enterprise['database_pool']['max_size']}")
+        
+        # Show scalability examples
+        print(f"\n📊 SCALABILITY EXAMPLES:")
+        test_scenarios = [100, 1000, 5000, 10000]
+        for sms_count in test_scenarios:
+            config = self.get_optimal_batch_config(sms_count)
+            print(f"   {sms_count} SMS: {config['batch_size']} SMS/batch, {config['parallel_batches']} parallel, ~{config['estimated_time_minutes']:.1f} min")
+    
+    def get_optimal_batch_config(self, total_sms: int, user_count: int = 1) -> dict:
+        """Calculate optimal batch configuration for enterprise scaling"""
+        batch_size = self.processing_config["batch_size"]
+        max_batch_size = self.processing_config.get("max_batch_size", 20)
+        min_batch_size = self.processing_config.get("min_batch_size", 5)
+        max_parallel = self.processing_config["max_parallel_batches"]
+        
+        # Calculate optimal batch size based on scale
+        if total_sms <= 100:
+            optimal_batch_size = min_batch_size
+            parallel_batches = 2
+        elif total_sms <= 1000:
+            optimal_batch_size = batch_size
+            parallel_batches = 3
+        else:
+            optimal_batch_size = min(max_batch_size, batch_size * 2)
+            parallel_batches = max_parallel
+        
+        return {
+            "batch_size": optimal_batch_size,
+            "parallel_batches": parallel_batches,
+            "estimated_time_minutes": (total_sms * 5.0) / (optimal_batch_size * parallel_batches) / 60
+        }
+    
+    def get_enterprise_capabilities(self) -> dict:
+        """Get enterprise scaling capabilities"""
+        return {
+            "max_concurrent_users": self.processing_config.get("max_concurrent_users", 1000),
+            "max_sms_per_user": self.processing_config.get("max_sms_per_user", 10000),
+            "max_batch_size": self.processing_config.get("max_batch_size", 20),
+            "max_parallel_batches": self.processing_config["max_parallel_batches"],
+            "database_pool": {
+                "max_size": self.database_config["connection_pool"]["max_pool_size"],
+                "min_size": self.database_config["connection_pool"]["min_pool_size"]
+            }
+        }
 
 # Global configuration instance
 config = Config()
