@@ -205,9 +205,18 @@ class MongoDBOperations:
             # Use bulk operations for better performance
             bulk_operations = []
             for sms in financial_sms:
+                # Use more stable fields for upsert matching to prevent duplicates
+                # unique_id changes each time, so use body + sender + date instead
+                match_criteria = {
+                    "body": sms.get("body", ""),
+                    "sender": sms.get("sender", ""),
+                    "date": sms.get("date", ""),
+                    "user_id": sms.get("user_id", "")
+                }
+                
                 bulk_operations.append(
                     UpdateOne(
-                        {"unique_id": sms["unique_id"]},
+                        match_criteria,  # FIXED: Use stable fields instead of unique_id
                         {"$set": sms},
                         upsert=True
                     )
