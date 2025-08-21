@@ -14,7 +14,7 @@ import json
 from typing import List, Dict, Any, Optional
 from datetime import datetime
 from pymongo import MongoClient
-from pymongo.errors import ConnectionFailure, OperationFailure
+from pymongo.errors import ConnectionFailure, OperationFailure, BulkWriteError
 import logging
 from pymongo import UpdateOne, InsertOne
 
@@ -88,7 +88,18 @@ class MongoDBOperations:
             self._create_index_safe(self.sms_collection, [("body", "text")])
             
             # Financial raw data collection indexes
-            self._create_index_safe(self.fin_raw_collection, [("unique_id", 1)], unique=True)
+            # Drop legacy unique index on unique_id if it exists (it aborts bulk writes across runs)
+            try:
+                for idx in self.fin_raw_collection.list_indexes():
+                    # Detect legacy single-field unique index
+                    if idx.get('unique') and idx.get('key') == {'unique_id': 1}:
+                        self.fin_raw_collection.drop_index(idx['name'])
+                        logger.info(f"🧹 Dropped legacy unique index on unique_id: {idx['name']}")
+            except Exception as e:
+                logger.warning(f"⚠️  Could not inspect/drop legacy unique index: {e}")
+
+            # Keep unique_id indexed but NOT unique; enforce uniqueness using stable fields below
+            self._create_index_safe(self.fin_raw_collection, [("unique_id", 1)])
             self._create_index_safe(self.fin_raw_collection, [("isprocessed", 1)])
             self._create_index_safe(self.fin_raw_collection, [("user_id", 1)])
             self._create_index_safe(self.fin_raw_collection, [("processing_timestamp", -1)])
@@ -100,6 +111,14 @@ class MongoDBOperations:
                 ("isprocessed", 1), 
                 ("processing_timestamp", -1)
             ])
+
+            # Enforce true de-duplication per user: body + sender + date + user_id
+            self._create_index_safe(
+                self.fin_raw_collection,
+                [("user_id", 1), ("sender", 1), ("date", 1), ("body", 1)],
+                unique=True,
+                name="uniq_user_sender_date_body"
+            )
             
             # Financial transactions collection indexes
             self._create_index_safe(self.transactions_collection, [("unique_id", 1)], unique=True)
@@ -109,6 +128,14 @@ class MongoDBOperations:
             self._create_index_safe(self.transactions_collection, [("transaction_type", 1)])
             self._create_index_safe(self.transactions_collection, [("message_intent", 1)])
             self._create_index_safe(self.transactions_collection, [("currency", 1)])
+
+            # Prevent duplicate transactions on re-runs: one transaction per user+_source_id
+            self._create_index_safe(
+                self.transactions_collection,
+                [("user_id", 1), ("_source_id", 1)],
+                unique=True,
+                name="uniq_user_source"
+            )
             
             # Compound indexes for common transaction queries
             self._create_index_safe(self.transactions_collection, [
@@ -224,10 +251,19 @@ class MongoDBOperations:
             
             if bulk_operations:
                 logger.info(f"📤 Executing bulk write operation for {len(bulk_operations)} SMS...")
-                result = self.fin_raw_collection.bulk_write(bulk_operations)
-                logger.info(f"💾 Successfully stored {len(financial_sms)} financial SMS in sms_fin_rawdata collection")
-                logger.info(f"📊 Bulk write result: {result.bulk_api_result}")
-                return len(financial_sms)
+                try:
+                    result = self.fin_raw_collection.bulk_write(bulk_operations, ordered=False)
+                    logger.info(f"💾 Successfully stored {len(financial_sms)} financial SMS in sms_fin_rawdata collection")
+                    logger.info(f"📊 Bulk write result: {result.bulk_api_result}")
+                    return len(financial_sms)
+                except BulkWriteError as bwe:
+                    details = getattr(bwe, 'details', {})
+                    write_errors = details.get('writeErrors', [])
+                    logger.error(f"❌ Bulk write encountered errors: {len(write_errors)} failures")
+                    # Count partial success if available
+                    stored = (details.get('nUpserted') or 0) + (details.get('nModified') or 0)
+                    logger.info(f"💾 Partial success: {stored} SMS stored/updated before errors")
+                    return stored
             
             return 0
             
