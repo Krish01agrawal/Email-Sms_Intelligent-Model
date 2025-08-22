@@ -4,13 +4,6 @@ user_sms.json    -->      user_financial.json
 
 
 
-
-
-
-
-
-
-
 user_financial.json     -->         structured_user_finData.json
 
 python3 main.py --input test_sms.json --output test_pretty_output.ndjson --failures failures.ndjson --enrich off
@@ -18,10 +11,13 @@ python3 main.py --input test_sms.json --output test_pretty_output.ndjson --failu
 
 
 
-
 batch_processing sms to llm
 
 python3 main.py --input test_sms.json --output optimized_test_result.json --model "qwen3:8b" --mode openai --batch-size 1 --parallel-batches 1 --temperature 0.1 --failures optimized_failures.ndjson --enrich safe
+
+
+
+
 
 
 
@@ -42,6 +38,9 @@ python3 main.py --input financial_array.json --output final_results.json --failu
 
 
 python3 main.py --input test_realtime.json --output test_results_realtime.json --failures test_failures_realtime.ndjson --batch-size 1 --parallel-batches 1
+
+
+
 
 
 
