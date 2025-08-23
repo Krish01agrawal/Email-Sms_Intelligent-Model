@@ -1,0 +1,4110 @@
+[
+  {
+    "income_sources": [
+      {
+        "_id": {
+          "month": "2023-10",
+          "source": "BSE"
+        },
+        "total_income": 0.0,
+        "count": 1
+      },
+      {
+        "_id": {
+          "month": "2023-11",
+          "source": "YOGESWARAN K"
+        },
+        "total_income": 2000,
+        "count": 1
+      },
+      {
+        "_id": {
+          "month": "2023-11",
+          "source": "Jio"
+        },
+        "total_income": 61,
+        "count": 1
+      },
+      {
+        "_id": {
+          "month": "2023-11",
+          "source": "ZERODHA BROKING LIMITED"
+        },
+        "total_income": 25.16,
+        "count": 2
+      },
+      {
+        "_id": {
+          "month": "2023-11",
+          "source": "MobiKwik"
+        },
+        "total_income": 20,
+        "count": 1
+      },
+      {
+        "_id": {
+          "month": "2023-11",
+          "source": "ZERODHA BROKING"
+        },
+        "total_income": 12.58,
+        "count": 1
+      },
+      {
+        "_id": {
+          "month": "2023-11",
+          "source": "SBICAP SECURITIES LIMITED"
+        },
+        "total_income": 0,
+        "count": 3
+      },
+      {
+        "_id": {
+          "month": "2023-11",
+          "source": "VD-ViCARE"
+        },
+        "total_income": 0.0,
+        "count": 1
+      },
+      {
+        "_id": {
+          "month": "2023-11",
+          "source": "YONO SBI app"
+        },
+        "total_income": 0,
+        "count": 1
+      },
+      {
+        "_id": {
+          "month": "2023-12",
+          "source": "Mr. DivyamVerma"
+        },
+        "total_income": 5028.0,
+        "count": 1
+      },
+      {
+        "_id": {
+          "month": "2023-12",
+          "source": "Lenskart"
+        },
+        "total_income": 4546,
+        "count": 3
+      },
+      {
+        "_id": {
+          "month": "2023-12",
+          "source": "Sony LIV"
+        },
+        "total_income": 82,
+        "count": 1
+      },
+      {
+        "_id": {
+          "month": "2023-12",
+          "source": "Zerodha"
+        },
+        "total_income": 12.58,
+        "count": 1
+      },
+      {
+        "_id": {
+          "month": "2023-12",
+          "source": "ZERODHA BROKING"
+        },
+        "total_income": 12.58,
+        "count": 2
+      },
+      {
+        "_id": {
+          "month": "2023-12",
+          "source": "SBICAP SECURITIES LIMITED"
+        },
+        "total_income": 0,
+        "count": 1
+      },
+      {
+        "_id": {
+          "month": "2023-12",
+          "source": "NSE"
+        },
+        "total_income": 0,
+        "count": 2
+      },
+      {
+        "_id": {
+          "month": "2023-12",
+          "source": "CDSL"
+        },
+        "total_income": 0,
+        "count": 1
+      },
+      {
+        "_id": {
+          "month": "2024-01",
+          "source": "Mr. DivyamVerma"
+        },
+        "total_income": 655.0,
+        "count": 1
+      },
+      {
+        "_id": {
+          "month": "2024-01",
+          "source": "NACH- KDDL LIMITED"
+        },
+        "total_income": 116.0,
+        "count": 1
+      },
+      {
+        "_id": {
+          "month": "2024-01",
+          "source": "ZERODHA BROKING"
+        },
+        "total_income": 0.0,
+        "count": 2
+      },
+      {
+        "_id": {
+          "month": "2024-01",
+          "source": "SBICAP SECURITIES LIMITED"
+        },
+        "total_income": 0,
+        "count": 6
+      },
+      {
+        "_id": {
+          "month": "2024-01",
+          "source": "NSE"
+        },
+        "total_income": 0,
+        "count": 2
+      },
+      {
+        "_id": {
+          "month": "2024-02",
+          "source": "SBICAP SECURITIES LIMITED"
+        },
+        "total_income": 0,
+        "count": 4
+      },
+      {
+        "_id": {
+          "month": "2024-03",
+          "source": "Mr. DivyamVerma"
+        },
+        "total_income": 20229.0,
+        "count": 3
+      },
+      {
+        "_id": {
+          "month": "2024-03",
+          "source": "K' Footlance Fashion"
+        },
+        "total_income": 409.0,
+        "count": 1
+      },
+      {
+        "_id": {
+          "month": "2024-03",
+          "source": "Mobikwik"
+        },
+        "total_income": 20,
+        "count": 1
+      },
+      {
+        "_id": {
+          "month": "2024-03",
+          "source": "LIFE INSURANCE CORPO"
+        },
+        "total_income": 8.0,
+        "count": 1
+      },
+      {
+        "_id": {
+          "month": "2024-03",
+          "source": "NSE CLEARING LIMITED"
+        },
+        "total_income": 2.25,
+        "count": 1
+      },
+      {
+        "_id": {
+          "month": "2024-03",
+          "source": "SBICAP SECURITIES LIMITED"
+        },
+        "total_income": 0,
+        "count": 1
+      },
+      {
+        "_id": {
+          "month": "2024-03",
+          "source": "VE-ViCARE"
+        },
+        "total_income": 0,
+        "count": 1
+      },
+      {
+        "_id": {
+          "month": "2024-04",
+          "source": "Mr. DivyamVerma"
+        },
+        "total_income": 50010.0,
+        "count": 3
+      },
+      {
+        "_id": {
+          "month": "2024-04",
+          "source": "SBI"
+        },
+        "total_income": 40000.0,
+        "count": 2
+      },
+      {
+        "_id": {
+          "month": "2024-04",
+          "source": "Broker 6498"
+        },
+        "total_income": 36970.05,
+        "count": 1
+      },
+      {
+        "_id": {
+          "month": "2024-04",
+          "source": "NoBroker"
+        },
+        "total_income": 22000,
+        "count": 2
+      },
+      {
+        "_id": {
+          "month": "2024-04",
+          "source": "quant Mid Cap Fund - Direct Plan"
+        },
+        "total_income": 15446.13,
+        "count": 1
+      },
+      {
+        "_id": {
+          "month": "2024-04",
+          "source": "INDIAN CLEARING CORPORATION L9262"
+        },
+        "total_income": 15445.98,
+        "count": 1
+      },
+      {
+        "_id": {
+          "month": "2024-04",
+          "source": "quant Small Cap Fund - Direct Plan Growth"
+        },
+        "total_income": 15164.54,
+        "count": 1
+      },
+      {
+        "_id": {
+          "month": "2024-04",
+          "source": "Closure of TD A/c XXXXX340254"
+        },
+        "total_income": 10010.0,
+        "count": 1
+      },
+      {
+        "_id": {
+          "month": "2024-04",
+          "source": "IPRUMF"
+        },
+        "total_income": 8975.47,
+        "count": 1
+      },
+      {
+        "_id": {
+          "month": "2024-04",
+          "source": "quant TeCk Fund - Direct Plan"
+        },
+        "total_income": 6111.99,
+        "count": 1
+      },
+      {
+        "_id": {
+          "month": "2024-04",
+          "source": "SBI Technology Opport Fund Dir Gr"
+        },
+        "total_income": 5744.11,
+        "count": 1
+      },
+      {
+        "_id": {
+          "month": "2024-04",
+          "source": "Policy Bazaar"
+        },
+        "total_income": 1299.9,
+        "count": 1
+      },
+      {
+        "_id": {
+          "month": "2024-04",
+          "source": "UPI/445821809443"
+        },
+        "total_income": 651.0,
+        "count": 1
+      },
+      {
+        "_id": {
+          "month": "2024-04",
+          "source": ""
+        },
+        "total_income": 125,
+        "count": 1
+      },
+      {
+        "_id": {
+          "month": "2024-04",
+          "source": "Tata 1mg"
+        },
+        "total_income": 25,
+        "count": 1
+      },
+      {
+        "_id": {
+          "month": "2024-04",
+          "source": "ZERODHA BROKING LIMITED"
+        },
+        "total_income": 0.5700000000000001,
+        "count": 3
+      },
+      {
+        "_id": {
+          "month": "2024-04",
+          "source": "ZERODHA BROKING"
+        },
+        "total_income": 0.19,
+        "count": 1
+      },
+      {
+        "_id": {
+          "month": "2024-04",
+          "source": "IDFC FIRST Bank"
+        },
+        "total_income": 0,
+        "count": 1
+      },
+      {
+        "_id": {
+          "month": "2024-04",
+          "source": "Vi App"
+        },
+        "total_income": 0,
+        "count": 1
+      },
+      {
+        "_id": {
+          "month": "2024-04",
+          "source": "SBICAP SECURITIES LIMITED"
+        },
+        "total_income": 0,
+        "count": 3
+      },
+      {
+        "_id": {
+          "month": "2024-05",
+          "source": "Mr. DivyamVerma"
+        },
+        "total_income": 11500.0,
+        "count": 1
+      },
+      {
+        "_id": {
+          "month": "2024-05",
+          "source": "Vi App"
+        },
+        "total_income": 839,
+        "count": 1
+      },
+      {
+        "_id": {
+          "month": "2024-05",
+          "source": "Zepto"
+        },
+        "total_income": 160,
+        "count": 4
+      },
+      {
+        "_id": {
+          "month": "2024-05",
+          "source": "Vi"
+        },
+        "total_income": 49,
+        "count": 1
+      },
+      {
+        "_id": {
+          "month": "2024-05",
+          "source": "Vodafone Idea"
+        },
+        "total_income": 39,
+        "count": 1
+      },
+      {
+        "_id": {
+          "month": "2024-05",
+          "source": "ZERODHA BROKING LIMITED"
+        },
+        "total_income": 1.12,
+        "count": 6
+      },
+      {
+        "_id": {
+          "month": "2024-05",
+          "source": "ZERODHA BROKING"
+        },
+        "total_income": 0.55,
+        "count": 3
+      },
+      {
+        "_id": {
+          "month": "2024-05",
+          "source": "SBICAP SECURITIES LIMITED"
+        },
+        "total_income": 0,
+        "count": 9
+      },
+      {
+        "_id": {
+          "month": "2024-06",
+          "source": "STATION91 TECHNOLOG"
+        },
+        "total_income": 80000.0,
+        "count": 2
+      },
+      {
+        "_id": {
+          "month": "2024-06",
+          "source": "BHIM SBI PAY"
+        },
+        "total_income": 400.0,
+        "count": 2
+      },
+      {
+        "_id": {
+          "month": "2024-06",
+          "source": "Disney+Hotstar"
+        },
+        "total_income": 338,
+        "count": 2
+      },
+      {
+        "_id": {
+          "month": "2024-06",
+          "source": "Vi"
+        },
+        "total_income": 151,
+        "count": 1
+      },
+      {
+        "_id": {
+          "month": "2024-06",
+          "source": "Jio"
+        },
+        "total_income": 126.0,
+        "count": 6
+      },
+      {
+        "_id": {
+          "month": "2024-06",
+          "source": "Apollo247"
+        },
+        "total_income": 83.88,
+        "count": 2
+      },
+      {
+        "_id": {
+          "month": "2024-06",
+          "source": "Mr. DivyamVerma"
+        },
+        "total_income": 50.0,
+        "count": 2
+      },
+      {
+        "_id": {
+          "month": "2024-06",
+          "source": "Tata 1mg"
+        },
+        "total_income": 50,
+        "count": 2
+      },
+      {
+        "_id": {
+          "month": "2024-06",
+          "source": "JioPay"
+        },
+        "total_income": 38.0,
+        "count": 2
+      },
+      {
+        "_id": {
+          "month": "2024-06",
+          "source": "Wynk"
+        },
+        "total_income": 20,
+        "count": 2
+      },
+      {
+        "_id": {
+          "month": "2024-06",
+          "source": "ZERODHA BROKING LIMITED"
+        },
+        "total_income": 1.1400000000000001,
+        "count": 6
+      },
+      {
+        "_id": {
+          "month": "2024-06",
+          "source": "ZERODHA BROKING"
+        },
+        "total_income": 0.76,
+        "count": 4
+      },
+      {
+        "_id": {
+          "month": "2024-06",
+          "source": "NSE"
+        },
+        "total_income": 0.19,
+        "count": 1
+      },
+      {
+        "_id": {
+          "month": "2024-06",
+          "source": "YONO SBI app"
+        },
+        "total_income": 0,
+        "count": 2
+      },
+      {
+        "_id": {
+          "month": "2024-06",
+          "source": "SBICAP SECURITIES LIMITED"
+        },
+        "total_income": 0,
+        "count": 4
+      },
+      {
+        "_id": {
+          "month": "2024-07",
+          "source": "STATION91 TECHNOLOGIES PRIVATE LIMI"
+        },
+        "total_income": 80000.0,
+        "count": 2
+      },
+      {
+        "_id": {
+          "month": "2024-07",
+          "source": "SBI"
+        },
+        "total_income": 24000.0,
+        "count": 4
+      },
+      {
+        "_id": {
+          "month": "2024-07",
+          "source": "Closure of TD A/c XXXXX857461"
+        },
+        "total_income": 16016.0,
+        "count": 2
+      },
+      {
+        "_id": {
+          "month": "2024-07",
+          "source": "Mr. DivyamVerma"
+        },
+        "total_income": 16000.0,
+        "count": 4
+      },
+      {
+        "_id": {
+          "month": "2024-07",
+          "source": "BZ-CBSSBI"
+        },
+        "total_income": 8000.0,
+        "count": 2
+      },
+      {
+        "_id": {
+          "month": "2024-07",
+          "source": "Vi Hero Unlimited"
+        },
+        "total_income": 400,
+        "count": 4
+      },
+      {
+        "_id": {
+          "month": "2024-07",
+          "source": "Zepto"
+        },
+        "total_income": 375.0,
+        "count": 3
+      },
+      {
+        "_id": {
+          "month": "2024-07",
+          "source": "JioPay"
+        },
+        "total_income": 311.0,
+        "count": 9
+      },
+      {
+        "_id": {
+          "month": "2024-07",
+          "source": "Sony LIV"
+        },
+        "total_income": 190,
+        "count": 2
+      },
+      {
+        "_id": {
+          "month": "2024-07",
+          "source": "Jio"
+        },
+        "total_income": 76.0,
+        "count": 4
+      },
+      {
+        "_id": {
+          "month": "2024-07",
+          "source": "ZERODHA BROKING LIMITED"
+        },
+        "total_income": 0.76,
+        "count": 4
+      },
+      {
+        "_id": {
+          "month": "2024-07",
+          "source": "ZERODHA BROKING"
+        },
+        "total_income": 0.38,
+        "count": 2
+      },
+      {
+        "_id": {
+          "month": "2024-07",
+          "source": "Income Tax Department"
+        },
+        "total_income": 0,
+        "count": 10
+      },
+      {
+        "_id": {
+          "month": "2024-07",
+          "source": "SBICAP SECURITIES LIMITED"
+        },
+        "total_income": 0,
+        "count": 3
+      },
+      {
+        "_id": {
+          "month": "2024-07",
+          "source": "VE-ViCARE"
+        },
+        "total_income": 0,
+        "count": 2
+      },
+      {
+        "_id": {
+          "month": "2024-08",
+          "source": "Closure of TD A/c XXXXX407558"
+        },
+        "total_income": 24028.0,
+        "count": 2
+      },
+      {
+        "_id": {
+          "month": "2024-08",
+          "source": "Mr. DivyamVerma"
+        },
+        "total_income": 22009.0,
+        "count": 7
+      },
+      {
+        "_id": {
+          "month": "2024-08",
+          "source": "SBI"
+        },
+        "total_income": 9000.0,
+        "count": 5
+      },
+      {
+        "_id": {
+          "month": "2024-08",
+          "source": ""
+        },
+        "total_income": 349,
+        "count": 1
+      },
+      {
+        "_id": {
+          "month": "2024-08",
+          "source": "Tata 1mg"
+        },
+        "total_income": 100,
+        "count": 2
+      },
+      {
+        "_id": {
+          "month": "2024-08",
+          "source": "Jio"
+        },
+        "total_income": 50,
+        "count": 2
+      },
+      {
+        "_id": {
+          "month": "2024-08",
+          "source": "ZERODHA BROKING"
+        },
+        "total_income": 0.38,
+        "count": 2
+      },
+      {
+        "_id": {
+          "month": "2024-08",
+          "source": "ZERODHA BROKING LIMITED"
+        },
+        "total_income": 0.19,
+        "count": 1
+      },
+      {
+        "_id": {
+          "month": "2024-08",
+          "source": "SBICAP SECURITIES LIMITED"
+        },
+        "total_income": 0,
+        "count": 11
+      },
+      {
+        "_id": {
+          "month": "2024-09",
+          "source": "Mr. DivyamVerma"
+        },
+        "total_income": 47027.0,
+        "count": 7
+      },
+      {
+        "_id": {
+          "month": "2024-09",
+          "source": "SBI"
+        },
+        "total_income": 4000.0,
+        "count": 2
+      },
+      {
+        "_id": {
+          "month": "2024-09",
+          "source": "BHM SBI PAY"
+        },
+        "total_income": 1997.89,
+        "count": 1
+      },
+      {
+        "_id": {
+          "month": "2024-09",
+          "source": "VX-ViCARE"
+        },
+        "total_income": 25.02,
+        "count": 2
+      },
+      {
+        "_id": {
+          "month": "2024-09",
+          "source": "SBICAP SECURITIES LIMITED"
+        },
+        "total_income": 0,
+        "count": 2
+      },
+      {
+        "_id": {
+          "month": "2024-10",
+          "source": "SBI"
+        },
+        "total_income": 8872.0,
+        "count": 7
+      },
+      {
+        "_id": {
+          "month": "2024-10",
+          "source": "Mr. DivyamVerma"
+        },
+        "total_income": 7508.0,
+        "count": 3
+      },
+      {
+        "_id": {
+          "month": "2024-10",
+          "source": "VX-ViCARE"
+        },
+        "total_income": 1477.98,
+        "count": 3
+      },
+      {
+        "_id": {
+          "month": "2024-10",
+          "source": "bigbasket"
+        },
+        "total_income": 207.0,
+        "count": 1
+      },
+      {
+        "_id": {
+          "month": "2024-10",
+          "source": "SBICAP SECURITIES LIMITED"
+        },
+        "total_income": 0,
+        "count": 12
+      },
+      {
+        "_id": {
+          "month": "2024-11",
+          "source": "HDFC ERGO"
+        },
+        "total_income": 2476,
+        "count": 2
+      },
+      {
+        "_id": {
+          "month": "2024-11",
+          "source": "VX-ViCARE"
+        },
+        "total_income": 985.32,
+        "count": 2
+      },
+      {
+        "_id": {
+          "month": "2024-11",
+          "source": "Jio"
+        },
+        "total_income": 698,
+        "count": 2
+      },
+      {
+        "_id": {
+          "month": "2024-11",
+          "source": ""
+        },
+        "total_income": 0,
+        "count": 1
+      },
+      {
+        "_id": {
+          "month": "2024-11",
+          "source": "SBICAP SECURITIES LIMITED"
+        },
+        "total_income": 0,
+        "count": 5
+      },
+      {
+        "_id": {
+          "month": "2024-12",
+          "source": "HDFC ERGO"
+        },
+        "total_income": 2476,
+        "count": 2
+      },
+      {
+        "_id": {
+          "month": "2024-12",
+          "source": "Jio"
+        },
+        "total_income": 1495,
+        "count": 5
+      },
+      {
+        "_id": {
+          "month": "2024-12",
+          "source": "Google"
+        },
+        "total_income": 1298.0,
+        "count": 2
+      },
+      {
+        "_id": {
+          "month": "2024-12",
+          "source": "VX-ViCARE"
+        },
+        "total_income": 1221.32,
+        "count": 2
+      },
+      {
+        "_id": {
+          "month": "2024-12",
+          "source": "SBI"
+        },
+        "total_income": 540.0,
+        "count": 3
+      },
+      {
+        "_id": {
+          "month": "2024-12",
+          "source": "UPI"
+        },
+        "total_income": 419.57,
+        "count": 1
+      },
+      {
+        "_id": {
+          "month": "2024-12",
+          "source": "SBICAP SECURITIES LIMITED"
+        },
+        "total_income": 0,
+        "count": 6
+      },
+      {
+        "_id": {
+          "month": "2024-12",
+          "source": "Delhivery"
+        },
+        "total_income": 0,
+        "count": 2
+      },
+      {
+        "_id": {
+          "month": "2025-01",
+          "source": "STATION91 TECHNOLOGIES PRIVATE LIMICIF ID 25060906FLAT NO 2A KLASSIK L"
+        },
+        "total_income": 80000.0,
+        "count": 2
+      },
+      {
+        "_id": {
+          "month": "2025-01",
+          "source": "CapFloat Financial Services Pvt Ltd"
+        },
+        "total_income": 46000,
+        "count": 2
+      },
+      {
+        "_id": {
+          "month": "2025-01",
+          "source": "Mr. DivyamVerma"
+        },
+        "total_income": 32012.0,
+        "count": 5
+      },
+      {
+        "_id": {
+          "month": "2025-01",
+          "source": "SBI"
+        },
+        "total_income": 22950.0,
+        "count": 10
+      },
+      {
+        "_id": {
+          "month": "2025-01",
+          "source": "TDR/STDR"
+        },
+        "total_income": 6000.0,
+        "count": 1
+      },
+      {
+        "_id": {
+          "month": "2025-01",
+          "source": "quant Mutual Fund"
+        },
+        "total_income": 4999.75,
+        "count": 1
+      },
+      {
+        "_id": {
+          "month": "2025-01",
+          "source": "Jio"
+        },
+        "total_income": 3588,
+        "count": 12
+      },
+      {
+        "_id": {
+          "month": "2025-01",
+          "source": "Airtel"
+        },
+        "total_income": 427.28,
+        "count": 1
+      },
+      {
+        "_id": {
+          "month": "2025-01",
+          "source": "CRUNCHYROLL INDIA PRIVATE LIMITED"
+        },
+        "total_income": 198.0,
+        "count": 2
+      },
+      {
+        "_id": {
+          "month": "2025-01",
+          "source": "UIICHO"
+        },
+        "total_income": 0.9,
+        "count": 2
+      },
+      {
+        "_id": {
+          "month": "2025-01",
+          "source": "Niva Bupa Health app"
+        },
+        "total_income": 0,
+        "count": 2
+      },
+      {
+        "_id": {
+          "month": "2025-01",
+          "source": "SBICAP SECURITIES LIMITED"
+        },
+        "total_income": 0,
+        "count": 4
+      },
+      {
+        "_id": {
+          "month": "2025-01",
+          "source": "State Bank of India"
+        },
+        "total_income": 0,
+        "count": 1
+      },
+      {
+        "_id": {
+          "month": "2025-01",
+          "source": "YONO SBI app"
+        },
+        "total_income": 0,
+        "count": 2
+      },
+      {
+        "_id": {
+          "month": "2025-02",
+          "source": "STATION91 TECHNOLOG"
+        },
+        "total_income": 11000.0,
+        "count": 1
+      },
+      {
+        "_id": {
+          "month": "2025-02",
+          "source": "SBI"
+        },
+        "total_income": 2207.06,
+        "count": 4
+      },
+      {
+        "_id": {
+          "month": "2025-02",
+          "source": "Jio"
+        },
+        "total_income": 598,
+        "count": 2
+      },
+      {
+        "_id": {
+          "month": "2025-02",
+          "source": "Airtel"
+        },
+        "total_income": 529.82,
+        "count": 1
+      },
+      {
+        "_id": {
+          "month": "2025-02",
+          "source": "SBICAP SECURITIES LIMITED"
+        },
+        "total_income": 0,
+        "count": 4
+      },
+      {
+        "_id": {
+          "month": "2025-03",
+          "source": "Mr. DivyamVerma"
+        },
+        "total_income": 97083.0,
+        "count": 7
+      },
+      {
+        "_id": {
+          "month": "2025-03",
+          "source": "STATION91 TECHNOLOGIES PRIVATE LIMI"
+        },
+        "total_income": 40000.0,
+        "count": 1
+      },
+      {
+        "_id": {
+          "month": "2025-03",
+          "source": "SBI"
+        },
+        "total_income": 33500.0,
+        "count": 6
+      },
+      {
+        "_id": {
+          "month": "2025-03",
+          "source": "quant Mid Cap Fund - Direct Plan"
+        },
+        "total_income": 4999.75,
+        "count": 1
+      },
+      {
+        "_id": {
+          "month": "2025-03",
+          "source": "SOCIAL"
+        },
+        "total_income": 2500,
+        "count": 1
+      },
+      {
+        "_id": {
+          "month": "2025-03",
+          "source": "Airtel"
+        },
+        "total_income": 1589.46,
+        "count": 3
+      },
+      {
+        "_id": {
+          "month": "2025-03",
+          "source": "Zomato"
+        },
+        "total_income": 50,
+        "count": 2
+      },
+      {
+        "_id": {
+          "month": "2025-03",
+          "source": "reversal of txn"
+        },
+        "total_income": 40,
+        "count": 2
+      },
+      {
+        "_id": {
+          "month": "2025-03",
+          "source": "SBICAP SECURITIES LIMITED"
+        },
+        "total_income": 0,
+        "count": 3
+      },
+      {
+        "_id": {
+          "month": "2025-04",
+          "source": "Closure of TD A/c XXXXX699725"
+        },
+        "total_income": 9005.0,
+        "count": 1
+      },
+      {
+        "_id": {
+          "month": "2025-04",
+          "source": "quant Mid Cap Fund - Direct Plan"
+        },
+        "total_income": 4999.76,
+        "count": 2
+      },
+      {
+        "_id": {
+          "month": "2025-04",
+          "source": "quant Mutual Fund"
+        },
+        "total_income": 2499.88,
+        "count": 1
+      },
+      {
+        "_id": {
+          "month": "2025-04",
+          "source": "Airtel"
+        },
+        "total_income": 1342.2,
+        "count": 4
+      },
+      {
+        "_id": {
+          "month": "2025-04",
+          "source": "SBI"
+        },
+        "total_income": 800.0,
+        "count": 8
+      },
+      {
+        "_id": {
+          "month": "2025-04",
+          "source": "NSE"
+        },
+        "total_income": 0.06,
+        "count": 1
+      },
+      {
+        "_id": {
+          "month": "2025-04",
+          "source": "ZERODHA BROKING LIMITED"
+        },
+        "total_income": 0.06,
+        "count": 1
+      },
+      {
+        "_id": {
+          "month": "2025-04",
+          "source": "JioHotstar"
+        },
+        "total_income": 0,
+        "count": 2
+      },
+      {
+        "_id": {
+          "month": "2025-04",
+          "source": "SBICAP SECURITIES LIMITED"
+        },
+        "total_income": 0,
+        "count": 4
+      },
+      {
+        "_id": {
+          "month": "2025-05",
+          "source": "STATION91 TECHNOLOGIES PRIVATE LIMI"
+        },
+        "total_income": 60000.0,
+        "count": 1
+      },
+      {
+        "_id": {
+          "month": "2025-05",
+          "source": "SBI"
+        },
+        "total_income": 44000.0,
+        "count": 4
+      },
+      {
+        "_id": {
+          "month": "2025-05",
+          "source": "Mr. DivyamVerma"
+        },
+        "total_income": 22044.0,
+        "count": 2
+      },
+      {
+        "_id": {
+          "month": "2025-05",
+          "source": "Closure of TD A/c XXXXX384491"
+        },
+        "total_income": 22000.0,
+        "count": 2
+      },
+      {
+        "_id": {
+          "month": "2025-05",
+          "source": "NSE"
+        },
+        "total_income": 0.24,
+        "count": 4
+      },
+      {
+        "_id": {
+          "month": "2025-05",
+          "source": "ZERODHA BROKING"
+        },
+        "total_income": 0.06,
+        "count": 1
+      },
+      {
+        "_id": {
+          "month": "2025-05",
+          "source": "ZERODHA BROKING LIMITED"
+        },
+        "total_income": 0.06,
+        "count": 1
+      },
+      {
+        "_id": {
+          "month": "2025-05",
+          "source": "Airtel Xstream Play"
+        },
+        "total_income": 0,
+        "count": 2
+      },
+      {
+        "_id": {
+          "month": "2025-05",
+          "source": "Airtel"
+        },
+        "total_income": 0,
+        "count": 1
+      },
+      {
+        "_id": {
+          "month": "2025-05",
+          "source": "JioHotstar"
+        },
+        "total_income": 0,
+        "count": 1
+      },
+      {
+        "_id": {
+          "month": "2025-05",
+          "source": "SBICAP SECURITIES LIMITED"
+        },
+        "total_income": 0,
+        "count": 1
+      },
+      {
+        "_id": {
+          "month": "2025-06",
+          "source": "SBI"
+        },
+        "total_income": 23800.0,
+        "count": 9
+      },
+      {
+        "_id": {
+          "month": "2025-06",
+          "source": "quant Mutual Fund"
+        },
+        "total_income": 6999.66,
+        "count": 2
+      },
+      {
+        "_id": {
+          "month": "2025-06",
+          "source": "quant Mid Cap Fund - Direct Plan"
+        },
+        "total_income": 6999.66,
+        "count": 2
+      },
+      {
+        "_id": {
+          "month": "2025-06",
+          "source": "KFNCRA"
+        },
+        "total_income": 2000.0,
+        "count": 2
+      },
+      {
+        "_id": {
+          "month": "2025-06",
+          "source": "PRAN"
+        },
+        "total_income": 2000.0,
+        "count": 2
+      },
+      {
+        "_id": {
+          "month": "2025-06",
+          "source": "Airtel"
+        },
+        "total_income": 1598.0,
+        "count": 5
+      },
+      {
+        "_id": {
+          "month": "2025-06",
+          "source": "Income Tax Department"
+        },
+        "total_income": 0,
+        "count": 2
+      },
+      {
+        "_id": {
+          "month": "2025-06",
+          "source": "SBICAP SECURITIES LIMITED"
+        },
+        "total_income": 0,
+        "count": 2
+      },
+      {
+        "_id": {
+          "month": "2025-07",
+          "source": "STATION91 TECHNOLOG"
+        },
+        "total_income": 60000.0,
+        "count": 1
+      },
+      {
+        "_id": {
+          "month": "2025-07",
+          "source": "quant Mutual Fund"
+        },
+        "total_income": 9999.5,
+        "count": 2
+      },
+      {
+        "_id": {
+          "month": "2025-07",
+          "source": "Closure of TD A/c XXXXX304600"
+        },
+        "total_income": 9060.0,
+        "count": 1
+      },
+      {
+        "_id": {
+          "month": "2025-07",
+          "source": "quant Mid Cap Fund - Direct Plan"
+        },
+        "total_income": 7499.64,
+        "count": 3
+      },
+      {
+        "_id": {
+          "month": "2025-07",
+          "source": "KFNCRA"
+        },
+        "total_income": 1026.64,
+        "count": 1
+      },
+      {
+        "_id": {
+          "month": "2025-07",
+          "source": "JioHotstar"
+        },
+        "total_income": 279,
+        "count": 1
+      },
+      {
+        "_id": {
+          "month": "2025-07",
+          "source": "Pluto Money"
+        },
+        "total_income": 242.0,
+        "count": 3
+      },
+      {
+        "_id": {
+          "month": "2025-07",
+          "source": "SBICAP SECURITIES LIMITED"
+        },
+        "total_income": 0,
+        "count": 4
+      },
+      {
+        "_id": {
+          "month": "2025-07",
+          "source": "Delhivery"
+        },
+        "total_income": 0,
+        "count": 1
+      },
+      {
+        "_id": {
+          "month": "2025-07",
+          "source": "Airtel Wi-Fi"
+        },
+        "total_income": 0,
+        "count": 1
+      }
+    ],
+    "major_expenses": [
+      {
+        "_id": {
+          "month": "2023-11",
+          "category": "other"
+        },
+        "total_spent": 475,
+        "count": 3
+      },
+      {
+        "_id": {
+          "month": "2023-12",
+          "category": "payment"
+        },
+        "total_spent": 3187.47,
+        "count": 1
+      },
+      {
+        "_id": {
+          "month": "2023-12",
+          "category": "other"
+        },
+        "total_spent": 239,
+        "count": 1
+      },
+      {
+        "_id": {
+          "month": "2023-12",
+          "category": "transfer"
+        },
+        "total_spent": 126.0,
+        "count": 3
+      },
+      {
+        "_id": {
+          "month": "2023-12",
+          "category": "investment"
+        },
+        "total_spent": -1180.0,
+        "count": 2
+      },
+      {
+        "_id": {
+          "month": "2024-01",
+          "category": "other"
+        },
+        "total_spent": 3628.81,
+        "count": 3
+      },
+      {
+        "_id": {
+          "month": "2024-01",
+          "category": "transfer"
+        },
+        "total_spent": 305.0,
+        "count": 1
+      },
+      {
+        "_id": {
+          "month": "2024-02",
+          "category": "other"
+        },
+        "total_spent": 3647.63,
+        "count": 3
+      },
+      {
+        "_id": {
+          "month": "2024-03",
+          "category": "transfer"
+        },
+        "total_spent": 20081.0,
+        "count": 4
+      },
+      {
+        "_id": {
+          "month": "2024-03",
+          "category": "payment"
+        },
+        "total_spent": 3408.63,
+        "count": 1
+      },
+      {
+        "_id": {
+          "month": "2024-03",
+          "category": "other"
+        },
+        "total_spent": 1808,
+        "count": 2
+      },
+      {
+        "_id": {
+          "month": "2024-04",
+          "category": "transfer"
+        },
+        "total_spent": 50088.0,
+        "count": 3
+      },
+      {
+        "_id": {
+          "month": "2024-04",
+          "category": "other"
+        },
+        "total_spent": 15719.0,
+        "count": 6
+      },
+      {
+        "_id": {
+          "month": "2024-04",
+          "category": "payment_request"
+        },
+        "total_spent": 1299.9,
+        "count": 1
+      },
+      {
+        "_id": {
+          "month": "2024-04",
+          "category": "insurance"
+        },
+        "total_spent": 1238,
+        "count": 1
+      },
+      {
+        "_id": {
+          "month": "2024-04",
+          "category": "investment"
+        },
+        "total_spent": 63.648,
+        "count": 1
+      },
+      {
+        "_id": {
+          "month": "2024-05",
+          "category": "other"
+        },
+        "total_spent": 296992.9,
+        "count": 14
+      },
+      {
+        "_id": {
+          "month": "2024-05",
+          "category": "payment_request"
+        },
+        "total_spent": 1622.38,
+        "count": 1
+      },
+      {
+        "_id": {
+          "month": "2024-06",
+          "category": "other"
+        },
+        "total_spent": 17357,
+        "count": 35
+      },
+      {
+        "_id": {
+          "month": "2024-06",
+          "category": "transfer"
+        },
+        "total_spent": 11805.0,
+        "count": 3
+      },
+      {
+        "_id": {
+          "month": "2024-06",
+          "category": "investment"
+        },
+        "total_spent": 0,
+        "count": 1
+      },
+      {
+        "_id": {
+          "month": "2024-07",
+          "category": "transfer"
+        },
+        "total_spent": 32016.0,
+        "count": 6
+      },
+      {
+        "_id": {
+          "month": "2024-07",
+          "category": "payment"
+        },
+        "total_spent": 4666.08,
+        "count": 3
+      },
+      {
+        "_id": {
+          "month": "2024-07",
+          "category": "other"
+        },
+        "total_spent": 3651.92,
+        "count": 6
+      },
+      {
+        "_id": {
+          "month": "2024-08",
+          "category": "transfer"
+        },
+        "total_spent": 34034.0,
+        "count": 8
+      },
+      {
+        "_id": {
+          "month": "2024-08",
+          "category": "atm-withdrawal"
+        },
+        "total_spent": 11000,
+        "count": 1
+      },
+      {
+        "_id": {
+          "month": "2024-08",
+          "category": "other"
+        },
+        "total_spent": 905,
+        "count": 15
+      },
+      {
+        "_id": {
+          "month": "2024-09",
+          "category": "other"
+        },
+        "total_spent": 111517.0,
+        "count": 32
+      },
+      {
+        "_id": {
+          "month": "2024-09",
+          "category": "transfer"
+        },
+        "total_spent": 19027.0,
+        "count": 4
+      },
+      {
+        "_id": {
+          "month": "2024-09",
+          "category": "investment"
+        },
+        "total_spent": 0,
+        "count": 2
+      },
+      {
+        "_id": {
+          "month": "2024-10",
+          "category": "transfer"
+        },
+        "total_spent": 5008.0,
+        "count": 2
+      },
+      {
+        "_id": {
+          "month": "2024-10",
+          "category": "other"
+        },
+        "total_spent": 3184.66,
+        "count": 14
+      },
+      {
+        "_id": {
+          "month": "2024-11",
+          "category": "other"
+        },
+        "total_spent": 20531.64,
+        "count": 19
+      },
+      {
+        "_id": {
+          "month": "2024-11",
+          "category": "transfer"
+        },
+        "total_spent": 74.0,
+        "count": 2
+      },
+      {
+        "_id": {
+          "month": "2024-12",
+          "category": "other"
+        },
+        "total_spent": 8881399401.63,
+        "count": 48
+      },
+      {
+        "_id": {
+          "month": "2024-12",
+          "category": "atm-withdrawal"
+        },
+        "total_spent": 10000,
+        "count": 2
+      },
+      {
+        "_id": {
+          "month": "2024-12",
+          "category": "transfer"
+        },
+        "total_spent": 1568.0,
+        "count": 3
+      },
+      {
+        "_id": {
+          "month": "2025-01",
+          "category": "other"
+        },
+        "total_spent": 59091.36,
+        "count": 63
+      },
+      {
+        "_id": {
+          "month": "2025-01",
+          "category": "transfer"
+        },
+        "total_spent": 28292.0,
+        "count": 5
+      },
+      {
+        "_id": {
+          "month": "2025-01",
+          "category": "investment"
+        },
+        "total_spent": 2476,
+        "count": 2
+      },
+      {
+        "_id": {
+          "month": "2025-01",
+          "category": "insurance"
+        },
+        "total_spent": 1238,
+        "count": 1
+      },
+      {
+        "_id": {
+          "month": "2025-01",
+          "category": "payment_request"
+        },
+        "total_spent": 198,
+        "count": 2
+      },
+      {
+        "_id": {
+          "month": "2025-02",
+          "category": "other"
+        },
+        "total_spent": 48561.9,
+        "count": 52
+      },
+      {
+        "_id": {
+          "month": "2025-02",
+          "category": "transfer"
+        },
+        "total_spent": 16638.0,
+        "count": 4
+      },
+      {
+        "_id": {
+          "month": "2025-02",
+          "category": "payment_request"
+        },
+        "total_spent": 2139.44,
+        "count": 2
+      },
+      {
+        "_id": {
+          "month": "2025-03",
+          "category": "transfer"
+        },
+        "total_spent": 33460.95,
+        "count": 9
+      },
+      {
+        "_id": {
+          "month": "2025-03",
+          "category": "other"
+        },
+        "total_spent": 15073.55,
+        "count": 27
+      },
+      {
+        "_id": {
+          "month": "2025-03",
+          "category": "payment"
+        },
+        "total_spent": 1198.0,
+        "count": 2
+      },
+      {
+        "_id": {
+          "month": "2025-04",
+          "category": "atm-withdrawal"
+        },
+        "total_spent": 24000,
+        "count": 3
+      },
+      {
+        "_id": {
+          "month": "2025-04",
+          "category": "transfer"
+        },
+        "total_spent": 23121.64,
+        "count": 6
+      },
+      {
+        "_id": {
+          "month": "2025-04",
+          "category": "other"
+        },
+        "total_spent": 2873.04,
+        "count": 11
+      },
+      {
+        "_id": {
+          "month": "2025-05",
+          "category": "transfer"
+        },
+        "total_spent": 89444.0,
+        "count": 20
+      },
+      {
+        "_id": {
+          "month": "2025-05",
+          "category": "investment"
+        },
+        "total_spent": 38249.0,
+        "count": 1
+      },
+      {
+        "_id": {
+          "month": "2025-05",
+          "category": "atm-withdrawal"
+        },
+        "total_spent": 25000,
+        "count": 4
+      },
+      {
+        "_id": {
+          "month": "2025-05",
+          "category": "other"
+        },
+        "total_spent": 4682.64,
+        "count": 5
+      },
+      {
+        "_id": {
+          "month": "2025-06",
+          "category": "transfer"
+        },
+        "total_spent": 19079.0,
+        "count": 7
+      },
+      {
+        "_id": {
+          "month": "2025-06",
+          "category": "other"
+        },
+        "total_spent": 7036.0,
+        "count": 9
+      },
+      {
+        "_id": {
+          "month": "2025-07",
+          "category": "other"
+        },
+        "total_spent": 33230.9,
+        "count": 6
+      },
+      {
+        "_id": {
+          "month": "2025-07",
+          "category": "atm-withdrawal"
+        },
+        "total_spent": 22000,
+        "count": 5
+      },
+      {
+        "_id": {
+          "month": "2025-07",
+          "category": "transfer"
+        },
+        "total_spent": 11449.0,
+        "count": 18
+      }
+    ],
+    "recurring_transactions": [
+      {
+        "_id": {
+          "month": ""
+        },
+        "txn_count": 215,
+        "total_amount": 0
+      },
+      {
+        "_id": {
+          "month": "",
+          "counterparty": ""
+        },
+        "txn_count": 2,
+        "total_amount": 0
+      },
+      {
+        "_id": {
+          "month": "2023-11",
+          "counterparty": "SBICAP SECURITIES LIMITED"
+        },
+        "txn_count": 3,
+        "total_amount": 0
+      },
+      {
+        "_id": {
+          "month": "2023-11"
+        },
+        "txn_count": 2,
+        "total_amount": 0
+      },
+      {
+        "_id": {
+          "month": "2023-11",
+          "counterparty": "ZERODHA BROKING LIMITED"
+        },
+        "txn_count": 2,
+        "total_amount": 25.16
+      },
+      {
+        "_id": {
+          "month": "2023-11",
+          "counterparty": "Jio"
+        },
+        "txn_count": 2,
+        "total_amount": 86
+      },
+      {
+        "_id": {
+          "month": "2023-11",
+          "counterparty": ""
+        },
+        "txn_count": 2,
+        "total_amount": 0
+      },
+      {
+        "_id": {
+          "month": "2023-12",
+          "counterparty": "Lenskart"
+        },
+        "txn_count": 3,
+        "total_amount": 4546
+      },
+      {
+        "_id": {
+          "month": "2023-12",
+          "counterparty": "SBICAP SECURITIES LIMITED"
+        },
+        "txn_count": 2,
+        "total_amount": -590
+      },
+      {
+        "_id": {
+          "month": "2023-12",
+          "counterparty": ""
+        },
+        "txn_count": 2,
+        "total_amount": 0
+      },
+      {
+        "_id": {
+          "month": "2023-12",
+          "counterparty": "NSE"
+        },
+        "txn_count": 2,
+        "total_amount": 0
+      },
+      {
+        "_id": {
+          "month": "2023-12",
+          "counterparty": "ZERODHA BROKING"
+        },
+        "txn_count": 2,
+        "total_amount": 12.58
+      },
+      {
+        "_id": {
+          "month": "2023-12"
+        },
+        "txn_count": 2,
+        "total_amount": 0
+      },
+      {
+        "_id": {
+          "month": "2024-01",
+          "counterparty": "SBICAP SECURITIES LIMITED"
+        },
+        "txn_count": 6,
+        "total_amount": 0
+      },
+      {
+        "_id": {
+          "month": "2024-01"
+        },
+        "txn_count": 4,
+        "total_amount": 0
+      },
+      {
+        "_id": {
+          "month": "2024-01",
+          "counterparty": "ZERODHA BROKING"
+        },
+        "txn_count": 2,
+        "total_amount": 0.0
+      },
+      {
+        "_id": {
+          "month": "2024-01",
+          "counterparty": "Jio"
+        },
+        "txn_count": 2,
+        "total_amount": 598
+      },
+      {
+        "_id": {
+          "month": "2024-01",
+          "counterparty": "NSE"
+        },
+        "txn_count": 2,
+        "total_amount": 0
+      },
+      {
+        "_id": {
+          "month": "2024-02",
+          "counterparty": "SBICAP SECURITIES LIMITED"
+        },
+        "txn_count": 4,
+        "total_amount": 0
+      },
+      {
+        "_id": {
+          "month": "2024-03",
+          "counterparty": "Mr. DivyamVerma"
+        },
+        "txn_count": 3,
+        "total_amount": 20229.0
+      },
+      {
+        "_id": {
+          "month": "2024-03",
+          "counterparty": "transfer"
+        },
+        "txn_count": 2,
+        "total_amount": 19871.0
+      },
+      {
+        "_id": {
+          "month": "2024-03"
+        },
+        "txn_count": 2,
+        "total_amount": 0
+      },
+      {
+        "_id": {
+          "month": "2024-04"
+        },
+        "txn_count": 4,
+        "total_amount": 0
+      },
+      {
+        "_id": {
+          "month": "2024-04",
+          "counterparty": "Mr. DivyamVerma"
+        },
+        "txn_count": 4,
+        "total_amount": 70010.0
+      },
+      {
+        "_id": {
+          "month": "2024-04",
+          "counterparty": "SBICAP SECURITIES LIMITED"
+        },
+        "txn_count": 3,
+        "total_amount": 0
+      },
+      {
+        "_id": {
+          "month": "2024-04",
+          "counterparty": "ZERODHA BROKING LIMITED"
+        },
+        "txn_count": 3,
+        "total_amount": 0.5700000000000001
+      },
+      {
+        "_id": {
+          "month": "2024-04",
+          "counterparty": "HDFC ERGO"
+        },
+        "txn_count": 3,
+        "total_amount": 3714
+      },
+      {
+        "_id": {
+          "month": "2024-04",
+          "counterparty": "Housing"
+        },
+        "txn_count": 2,
+        "total_amount": 0
+      },
+      {
+        "_id": {
+          "month": "2024-04",
+          "counterparty": "transfer"
+        },
+        "txn_count": 2,
+        "total_amount": 30088.0
+      },
+      {
+        "_id": {
+          "month": "2024-04",
+          "counterparty": "NoBroker"
+        },
+        "txn_count": 2,
+        "total_amount": 22000
+      },
+      {
+        "_id": {
+          "month": "2024-04",
+          "counterparty": "Goibibo"
+        },
+        "txn_count": 2,
+        "total_amount": 13243.0
+      },
+      {
+        "_id": {
+          "month": "2024-04",
+          "counterparty": ""
+        },
+        "txn_count": 2,
+        "total_amount": 125
+      },
+      {
+        "_id": {
+          "month": "2024-04",
+          "counterparty": "CDSL"
+        },
+        "txn_count": 2,
+        "total_amount": 0
+      },
+      {
+        "_id": {
+          "month": "2024-04",
+          "counterparty": "SBI"
+        },
+        "txn_count": 2,
+        "total_amount": 40000.0
+      },
+      {
+        "_id": {
+          "month": "2024-04",
+          "counterparty": "Policy Bazaar"
+        },
+        "txn_count": 2,
+        "total_amount": 2599.8
+      },
+      {
+        "_id": {
+          "month": "2024-05",
+          "counterparty": "SBICAP SECURITIES LIMITED"
+        },
+        "txn_count": 9,
+        "total_amount": 0
+      },
+      {
+        "_id": {
+          "month": "2024-05",
+          "counterparty": "ZERODHA BROKING LIMITED"
+        },
+        "txn_count": 6,
+        "total_amount": 1.12
+      },
+      {
+        "_id": {
+          "month": "2024-05",
+          "counterparty": "Zepto"
+        },
+        "txn_count": 4,
+        "total_amount": 160
+      },
+      {
+        "_id": {
+          "month": "2024-05",
+          "counterparty": "Policybazaar Insurance Brokers"
+        },
+        "txn_count": 3,
+        "total_amount": 0
+      },
+      {
+        "_id": {
+          "month": "2024-05",
+          "counterparty": "ZERODHA BROKING"
+        },
+        "txn_count": 3,
+        "total_amount": 0.55
+      },
+      {
+        "_id": {
+          "month": "2024-05",
+          "counterparty": "Policy Bazaar"
+        },
+        "txn_count": 2,
+        "total_amount": 2922.28
+      },
+      {
+        "_id": {
+          "month": "2024-05",
+          "counterparty": ""
+        },
+        "txn_count": 2,
+        "total_amount": 0
+      },
+      {
+        "_id": {
+          "month": "2024-05",
+          "counterparty": "HDFC ERGO"
+        },
+        "txn_count": 2,
+        "total_amount": 2476
+      },
+      {
+        "_id": {
+          "month": "2024-05"
+        },
+        "txn_count": 2,
+        "total_amount": 0
+      },
+      {
+        "_id": {
+          "month": "2024-05",
+          "counterparty": "Confidential"
+        },
+        "txn_count": 2,
+        "total_amount": 0
+      },
+      {
+        "_id": {
+          "month": "2024-05",
+          "counterparty": "S5NI000813625"
+        },
+        "txn_count": 2,
+        "total_amount": 0
+      },
+      {
+        "_id": {
+          "month": "2024-06",
+          "counterparty": "Jio"
+        },
+        "txn_count": 25,
+        "total_amount": 13608.0
+      },
+      {
+        "_id": {
+          "month": "2024-06",
+          "counterparty": "Vi"
+        },
+        "txn_count": 11,
+        "total_amount": 1510
+      },
+      {
+        "_id": {
+          "month": "2024-06",
+          "counterparty": ""
+        },
+        "txn_count": 7,
+        "total_amount": 0
+      },
+      {
+        "_id": {
+          "month": "2024-06",
+          "counterparty": "ZERODHA BROKING LIMITED"
+        },
+        "txn_count": 7,
+        "total_amount": 1.1400000000000001
+      },
+      {
+        "_id": {
+          "month": "2024-06",
+          "counterparty": "SBICAP SECURITIES LIMITED"
+        },
+        "txn_count": 4,
+        "total_amount": 0
+      },
+      {
+        "_id": {
+          "month": "2024-06",
+          "counterparty": "ZERODHA BROKING"
+        },
+        "txn_count": 4,
+        "total_amount": 0.76
+      },
+      {
+        "_id": {
+          "month": "2024-06",
+          "counterparty": "YONO SBI app"
+        },
+        "txn_count": 2,
+        "total_amount": 0
+      },
+      {
+        "_id": {
+          "month": "2024-06",
+          "counterparty": "S5NI000813625"
+        },
+        "txn_count": 2,
+        "total_amount": 0
+      },
+      {
+        "_id": {
+          "month": "2024-06",
+          "counterparty": "JioPay"
+        },
+        "txn_count": 2,
+        "total_amount": 38.0
+      },
+      {
+        "_id": {
+          "month": "2024-06",
+          "counterparty": "MyKhana"
+        },
+        "txn_count": 2,
+        "total_amount": 40
+      },
+      {
+        "_id": {
+          "month": "2024-06",
+          "counterparty": "Tata 1mg"
+        },
+        "txn_count": 2,
+        "total_amount": 50
+      },
+      {
+        "_id": {
+          "month": "2024-06"
+        },
+        "txn_count": 2,
+        "total_amount": 0
+      },
+      {
+        "_id": {
+          "month": "2024-06",
+          "counterparty": "Mr. DivyamVerma"
+        },
+        "txn_count": 2,
+        "total_amount": 50.0
+      },
+      {
+        "_id": {
+          "month": "2024-06",
+          "counterparty": "Fuel One"
+        },
+        "txn_count": 2,
+        "total_amount": 0
+      },
+      {
+        "_id": {
+          "month": "2024-06",
+          "counterparty": "Policybazaar Insurance Brokers"
+        },
+        "txn_count": 2,
+        "total_amount": 0
+      },
+      {
+        "_id": {
+          "month": "2024-06",
+          "counterparty": "Wynk"
+        },
+        "txn_count": 2,
+        "total_amount": 20
+      },
+      {
+        "_id": {
+          "month": "2024-06",
+          "counterparty": "BHIM SBI PAY"
+        },
+        "txn_count": 2,
+        "total_amount": 400.0
+      },
+      {
+        "_id": {
+          "month": "2024-06",
+          "counterparty": "STATION91 TECHNOLOG"
+        },
+        "txn_count": 2,
+        "total_amount": 80000.0
+      },
+      {
+        "_id": {
+          "month": "2024-06",
+          "counterparty": "Disney+Hotstar"
+        },
+        "txn_count": 2,
+        "total_amount": 338
+      },
+      {
+        "_id": {
+          "month": "2024-06",
+          "counterparty": "Apollo247"
+        },
+        "txn_count": 2,
+        "total_amount": 83.88
+      },
+      {
+        "_id": {
+          "month": "2024-07",
+          "counterparty": "Income Tax Department"
+        },
+        "txn_count": 11,
+        "total_amount": 0
+      },
+      {
+        "_id": {
+          "month": "2024-07",
+          "counterparty": "JioPay"
+        },
+        "txn_count": 9,
+        "total_amount": 311.0
+      },
+      {
+        "_id": {
+          "month": "2024-07",
+          "counterparty": "Jio"
+        },
+        "txn_count": 9,
+        "total_amount": 903.0
+      },
+      {
+        "_id": {
+          "month": "2024-07",
+          "counterparty": "Mr. DivyamVerma"
+        },
+        "txn_count": 6,
+        "total_amount": 24000.0
+      },
+      {
+        "_id": {
+          "month": "2024-07",
+          "counterparty": "ZERODHA BROKING LIMITED"
+        },
+        "txn_count": 5,
+        "total_amount": 0.76
+      },
+      {
+        "_id": {
+          "month": "2024-07",
+          "counterparty": "SBI"
+        },
+        "txn_count": 4,
+        "total_amount": 24000.0
+      },
+      {
+        "_id": {
+          "month": "2024-07",
+          "counterparty": "transfer"
+        },
+        "txn_count": 4,
+        "total_amount": 24016.0
+      },
+      {
+        "_id": {
+          "month": "2024-07",
+          "counterparty": "Vi Hero Unlimited"
+        },
+        "txn_count": 4,
+        "total_amount": 400
+      },
+      {
+        "_id": {
+          "month": "2024-07",
+          "counterparty": "Zepto"
+        },
+        "txn_count": 3,
+        "total_amount": 375.0
+      },
+      {
+        "_id": {
+          "month": "2024-07",
+          "counterparty": "JioFiber"
+        },
+        "txn_count": 3,
+        "total_amount": 5649.84
+      },
+      {
+        "_id": {
+          "month": "2024-07",
+          "counterparty": "SBICAP SECURITIES LIMITED"
+        },
+        "txn_count": 3,
+        "total_amount": 0
+      },
+      {
+        "_id": {
+          "month": "2024-07"
+        },
+        "txn_count": 3,
+        "total_amount": 0
+      },
+      {
+        "_id": {
+          "month": "2024-07",
+          "counterparty": ""
+        },
+        "txn_count": 2,
+        "total_amount": 0
+      },
+      {
+        "_id": {
+          "month": "2024-07",
+          "counterparty": "Team Reliance Retail"
+        },
+        "txn_count": 2,
+        "total_amount": 0
+      },
+      {
+        "_id": {
+          "month": "2024-07",
+          "counterparty": "ZERODHA BROKING"
+        },
+        "txn_count": 2,
+        "total_amount": 0.38
+      },
+      {
+        "_id": {
+          "month": "2024-07",
+          "counterparty": "BZ-CBSSBI"
+        },
+        "txn_count": 2,
+        "total_amount": 8000.0
+      },
+      {
+        "_id": {
+          "month": "2024-07",
+          "counterparty": "Closure of TD A/c XXXXX857461"
+        },
+        "txn_count": 2,
+        "total_amount": 16016.0
+      },
+      {
+        "_id": {
+          "month": "2024-07",
+          "counterparty": "Sony LIV"
+        },
+        "txn_count": 2,
+        "total_amount": 190
+      },
+      {
+        "_id": {
+          "month": "2024-07",
+          "counterparty": "STATION91 TECHNOLOGIES PRIVATE LIMI"
+        },
+        "txn_count": 2,
+        "total_amount": 80000.0
+      },
+      {
+        "_id": {
+          "month": "2024-07",
+          "counterparty": "Policybazaar Insurance Brokers"
+        },
+        "txn_count": 2,
+        "total_amount": 0
+      },
+      {
+        "_id": {
+          "month": "2024-07",
+          "counterparty": "VE-ViCARE"
+        },
+        "txn_count": 2,
+        "total_amount": 0
+      },
+      {
+        "_id": {
+          "month": "2024-07",
+          "counterparty": "AS-IT-IS"
+        },
+        "txn_count": 2,
+        "total_amount": 1841.16
+      },
+      {
+        "_id": {
+          "month": "2024-08",
+          "counterparty": "SBICAP SECURITIES LIMITED"
+        },
+        "txn_count": 11,
+        "total_amount": 0
+      },
+      {
+        "_id": {
+          "month": "2024-08"
+        },
+        "txn_count": 10,
+        "total_amount": 0
+      },
+      {
+        "_id": {
+          "month": "2024-08",
+          "counterparty": "Mr. DivyamVerma"
+        },
+        "txn_count": 9,
+        "total_amount": 26009.0
+      },
+      {
+        "_id": {
+          "month": "2024-08",
+          "counterparty": ""
+        },
+        "txn_count": 8,
+        "total_amount": 349
+      },
+      {
+        "_id": {
+          "month": "2024-08",
+          "counterparty": "Flipkart"
+        },
+        "txn_count": 7,
+        "total_amount": 707
+      },
+      {
+        "_id": {
+          "month": "2024-08",
+          "counterparty": "transfer"
+        },
+        "txn_count": 6,
+        "total_amount": 30034.0
+      },
+      {
+        "_id": {
+          "month": "2024-08",
+          "counterparty": "SBI"
+        },
+        "txn_count": 5,
+        "total_amount": 9000.0
+      },
+      {
+        "_id": {
+          "month": "2024-08",
+          "counterparty": "Jio"
+        },
+        "txn_count": 4,
+        "total_amount": 50
+      },
+      {
+        "_id": {
+          "month": "2024-08",
+          "counterparty": "Zepto"
+        },
+        "txn_count": 3,
+        "total_amount": 0
+      },
+      {
+        "_id": {
+          "month": "2024-08",
+          "counterparty": "CRUNCHYROLL INDIA PRIVATE LIMITED"
+        },
+        "txn_count": 2,
+        "total_amount": 198
+      },
+      {
+        "_id": {
+          "month": "2024-08",
+          "counterparty": "bigbasket"
+        },
+        "txn_count": 2,
+        "total_amount": 0
+      },
+      {
+        "_id": {
+          "month": "2024-08",
+          "counterparty": "Tata 1mg"
+        },
+        "txn_count": 2,
+        "total_amount": 100
+      },
+      {
+        "_id": {
+          "month": "2024-08",
+          "counterparty": "Closure of TD A/c XXXXX407558"
+        },
+        "txn_count": 2,
+        "total_amount": 24028.0
+      },
+      {
+        "_id": {
+          "month": "2024-08",
+          "counterparty": "ZERODHA BROKING"
+        },
+        "txn_count": 2,
+        "total_amount": 0.38
+      },
+      {
+        "_id": {
+          "month": "2024-09",
+          "counterparty": "Anshu Sharma"
+        },
+        "txn_count": 10,
+        "total_amount": 33159.0
+      },
+      {
+        "_id": {
+          "month": "2024-09",
+          "counterparty": "Mr. DivyamVerma"
+        },
+        "txn_count": 8,
+        "total_amount": 49027.0
+      },
+      {
+        "_id": {
+          "month": "2024-09",
+          "counterparty": "Zepto"
+        },
+        "txn_count": 5,
+        "total_amount": 0
+      },
+      {
+        "_id": {
+          "month": "2024-09",
+          "counterparty": "Bhanu Prakash Sharma"
+        },
+        "txn_count": 4,
+        "total_amount": 9653.0
+      },
+      {
+        "_id": {
+          "month": "2024-09",
+          "counterparty": "HDFC ERGO MY: OPTIMA SECURE"
+        },
+        "txn_count": 3,
+        "total_amount": 0
+      },
+      {
+        "_id": {
+          "month": "2024-09",
+          "counterparty": "transfer"
+        },
+        "txn_count": 3,
+        "total_amount": 17027.0
+      },
+      {
+        "_id": {
+          "month": "2024-09",
+          "counterparty": "Goibibo"
+        },
+        "txn_count": 3,
+        "total_amount": 38107.0
+      },
+      {
+        "_id": {
+          "month": "2024-09",
+          "counterparty": "Jio"
+        },
+        "txn_count": 2,
+        "total_amount": 598
+      },
+      {
+        "_id": {
+          "month": "2024-09",
+          "counterparty": "SBI"
+        },
+        "txn_count": 2,
+        "total_amount": 4000.0
+      },
+      {
+        "_id": {
+          "month": "2024-09",
+          "counterparty": "Policybazaar Insurance Brokers"
+        },
+        "txn_count": 2,
+        "total_amount": 0
+      },
+      {
+        "_id": {
+          "month": "2024-09",
+          "counterparty": ""
+        },
+        "txn_count": 2,
+        "total_amount": 0
+      },
+      {
+        "_id": {
+          "month": "2024-09",
+          "counterparty": "VX-ViCARE"
+        },
+        "txn_count": 2,
+        "total_amount": 25.02
+      },
+      {
+        "_id": {
+          "month": "2024-09",
+          "counterparty": "SBI ATMs"
+        },
+        "txn_count": 2,
+        "total_amount": 0
+      },
+      {
+        "_id": {
+          "month": "2024-09",
+          "counterparty": "SBICAP SECURITIES LIMITED"
+        },
+        "txn_count": 2,
+        "total_amount": 0
+      },
+      {
+        "_id": {
+          "month": "2024-10",
+          "counterparty": "SBICAP SECURITIES LIMITED"
+        },
+        "txn_count": 12,
+        "total_amount": 0
+      },
+      {
+        "_id": {
+          "month": "2024-10",
+          "counterparty": "SBI"
+        },
+        "txn_count": 7,
+        "total_amount": 8872.0
+      },
+      {
+        "_id": {
+          "month": "2024-10",
+          "counterparty": "Jio"
+        },
+        "txn_count": 7,
+        "total_amount": 2343
+      },
+      {
+        "_id": {
+          "month": "2024-10",
+          "counterparty": "VX-ViCARE"
+        },
+        "txn_count": 3,
+        "total_amount": 1477.98
+      },
+      {
+        "_id": {
+          "month": "2024-10",
+          "counterparty": "bigbasket"
+        },
+        "txn_count": 3,
+        "total_amount": 207.0
+      },
+      {
+        "_id": {
+          "month": "2024-10",
+          "counterparty": "Mr. DivyamVerma"
+        },
+        "txn_count": 3,
+        "total_amount": 7508.0
+      },
+      {
+        "_id": {
+          "month": "2024-10",
+          "counterparty": "transfer"
+        },
+        "txn_count": 2,
+        "total_amount": 5008.0
+      },
+      {
+        "_id": {
+          "month": "2024-10",
+          "counterparty": "Akasa Air"
+        },
+        "txn_count": 2,
+        "total_amount": 0
+      },
+      {
+        "_id": {
+          "month": "2024-10",
+          "counterparty": "JioFiber"
+        },
+        "txn_count": 2,
+        "total_amount": 0
+      },
+      {
+        "_id": {
+          "month": "2024-10",
+          "counterparty": "Policybazaar Insurance Brokers"
+        },
+        "txn_count": 2,
+        "total_amount": 0
+      },
+      {
+        "_id": {
+          "month": "2024-11",
+          "counterparty": "Jio"
+        },
+        "txn_count": 8,
+        "total_amount": 2742
+      },
+      {
+        "_id": {
+          "month": "2024-11"
+        },
+        "txn_count": 6,
+        "total_amount": 0
+      },
+      {
+        "_id": {
+          "month": "2024-11",
+          "counterparty": ""
+        },
+        "txn_count": 5,
+        "total_amount": 0
+      },
+      {
+        "_id": {
+          "month": "2024-11",
+          "counterparty": "SBICAP SECURITIES LIMITED"
+        },
+        "txn_count": 5,
+        "total_amount": 0
+      },
+      {
+        "_id": {
+          "month": "2024-11",
+          "counterparty": "PhonePe"
+        },
+        "txn_count": 3,
+        "total_amount": 1248
+      },
+      {
+        "_id": {
+          "month": "2024-11",
+          "counterparty": "Goibibo"
+        },
+        "txn_count": 2,
+        "total_amount": 12424.0
+      },
+      {
+        "_id": {
+          "month": "2024-11",
+          "counterparty": "NETFLIX COM"
+        },
+        "txn_count": 2,
+        "total_amount": 398.0
+      },
+      {
+        "_id": {
+          "month": "2024-11",
+          "counterparty": "HDFC ERGO"
+        },
+        "txn_count": 2,
+        "total_amount": 2476
+      },
+      {
+        "_id": {
+          "month": "2024-11",
+          "counterparty": "VX-ViCARE"
+        },
+        "txn_count": 2,
+        "total_amount": 985.32
+      },
+      {
+        "_id": {
+          "month": "2024-11",
+          "counterparty": "Vi bill"
+        },
+        "txn_count": 2,
+        "total_amount": 985.32
+      },
+      {
+        "_id": {
+          "month": "2024-11",
+          "counterparty": "Policybazaar Insurance Brokers"
+        },
+        "txn_count": 2,
+        "total_amount": 0
+      },
+      {
+        "_id": {
+          "month": "2024-11",
+          "counterparty": "Vi"
+        },
+        "txn_count": 2,
+        "total_amount": 985.32
+      },
+      {
+        "_id": {
+          "month": "2024-12",
+          "counterparty": "Jio"
+        },
+        "txn_count": 40,
+        "total_amount": 12860
+      },
+      {
+        "_id": {
+          "month": "2024-12",
+          "counterparty": "SBICAP SECURITIES LIMITED"
+        },
+        "txn_count": 6,
+        "total_amount": 0
+      },
+      {
+        "_id": {
+          "month": "2024-12"
+        },
+        "txn_count": 4,
+        "total_amount": 0
+      },
+      {
+        "_id": {
+          "month": "2024-12",
+          "counterparty": "Google"
+        },
+        "txn_count": 4,
+        "total_amount": 2596.0
+      },
+      {
+        "_id": {
+          "month": "2024-12",
+          "counterparty": ""
+        },
+        "txn_count": 3,
+        "total_amount": 0
+      },
+      {
+        "_id": {
+          "month": "2024-12",
+          "counterparty": "SBI"
+        },
+        "txn_count": 3,
+        "total_amount": 540.0
+      },
+      {
+        "_id": {
+          "month": "2024-12",
+          "counterparty": "Delhivery"
+        },
+        "txn_count": 2,
+        "total_amount": 0
+      },
+      {
+        "_id": {
+          "month": "2024-12",
+          "counterparty": "PHONEPE"
+        },
+        "txn_count": 2,
+        "total_amount": 0
+      },
+      {
+        "_id": {
+          "month": "2024-12",
+          "counterparty": "VX-ViCARE"
+        },
+        "txn_count": 2,
+        "total_amount": 1221.32
+      },
+      {
+        "_id": {
+          "month": "2024-12",
+          "counterparty": "Titan Company Limited"
+        },
+        "txn_count": 2,
+        "total_amount": 0
+      },
+      {
+        "_id": {
+          "month": "2024-12",
+          "counterparty": "bigbasket"
+        },
+        "txn_count": 2,
+        "total_amount": 0
+      },
+      {
+        "_id": {
+          "month": "2024-12",
+          "counterparty": "Vi bill"
+        },
+        "txn_count": 2,
+        "total_amount": 1221.32
+      },
+      {
+        "_id": {
+          "month": "2024-12",
+          "counterparty": "HDFC ERGO"
+        },
+        "txn_count": 2,
+        "total_amount": 2476
+      },
+      {
+        "_id": {
+          "month": "2024-12",
+          "counterparty": "Vi"
+        },
+        "txn_count": 2,
+        "total_amount": 1030.23
+      },
+      {
+        "_id": {
+          "month": "2024-12",
+          "counterparty": "Blue Dart"
+        },
+        "txn_count": 2,
+        "total_amount": 0
+      },
+      {
+        "_id": {
+          "month": "2024-12",
+          "counterparty": "RAB ATM RE289001"
+        },
+        "txn_count": 2,
+        "total_amount": 10000
+      },
+      {
+        "_id": {
+          "month": "2025-01",
+          "counterparty": "Jio"
+        },
+        "txn_count": 44,
+        "total_amount": 13156
+      },
+      {
+        "_id": {
+          "month": "2025-01",
+          "counterparty": "Policybazaar Insurance Brokers"
+        },
+        "txn_count": 17,
+        "total_amount": 0
+      },
+      {
+        "_id": {
+          "month": "2025-01",
+          "counterparty": "SBI"
+        },
+        "txn_count": 10,
+        "total_amount": 22950.0
+      },
+      {
+        "_id": {
+          "month": "2025-01"
+        },
+        "txn_count": 8,
+        "total_amount": 0
+      },
+      {
+        "_id": {
+          "month": "2025-01",
+          "counterparty": "Mr. DivyamVerma"
+        },
+        "txn_count": 7,
+        "total_amount": 48012.0
+      },
+      {
+        "_id": {
+          "month": "2025-01",
+          "counterparty": ""
+        },
+        "txn_count": 6,
+        "total_amount": 0
+      },
+      {
+        "_id": {
+          "month": "2025-01",
+          "counterparty": "SBICAP SECURITIES LIMITED"
+        },
+        "txn_count": 4,
+        "total_amount": 0
+      },
+      {
+        "_id": {
+          "month": "2025-01",
+          "counterparty": "CRUNCHYROLL INDIA PRIVATE LIMITED"
+        },
+        "txn_count": 4,
+        "total_amount": 396.0
+      },
+      {
+        "_id": {
+          "month": "2025-01",
+          "counterparty": "Airtel"
+        },
+        "txn_count": 3,
+        "total_amount": 854.56
+      },
+      {
+        "_id": {
+          "month": "2025-01",
+          "counterparty": "MY: OPTIMA SECURE policy"
+        },
+        "txn_count": 2,
+        "total_amount": 2476
+      },
+      {
+        "_id": {
+          "month": "2025-01",
+          "counterparty": "YONO SBI app"
+        },
+        "txn_count": 2,
+        "total_amount": 0
+      },
+      {
+        "_id": {
+          "month": "2025-01",
+          "counterparty": "axio"
+        },
+        "txn_count": 2,
+        "total_amount": 44890.0
+      },
+      {
+        "_id": {
+          "month": "2025-01",
+          "counterparty": "Zepto"
+        },
+        "txn_count": 2,
+        "total_amount": 0
+      },
+      {
+        "_id": {
+          "month": "2025-01",
+          "counterparty": "Liberty General Ins"
+        },
+        "txn_count": 2,
+        "total_amount": 0.9
+      },
+      {
+        "_id": {
+          "month": "2025-01",
+          "counterparty": "Google"
+        },
+        "txn_count": 2,
+        "total_amount": 1298.0
+      },
+      {
+        "_id": {
+          "month": "2025-01",
+          "counterparty": "STATION91 TECHNOLOGIES PRIVATE LIMICIF ID 25060906FLAT NO 2A KLASSIK L"
+        },
+        "txn_count": 2,
+        "total_amount": 80000.0
+      },
+      {
+        "_id": {
+          "month": "2025-01",
+          "counterparty": "Niva Bupa Health app"
+        },
+        "txn_count": 2,
+        "total_amount": 0
+      },
+      {
+        "_id": {
+          "month": "2025-01",
+          "counterparty": "CapFloat Financial Services Pvt Ltd"
+        },
+        "txn_count": 2,
+        "total_amount": 46000
+      },
+      {
+        "_id": {
+          "month": "2025-01",
+          "counterparty": "UIICHO"
+        },
+        "txn_count": 2,
+        "total_amount": 0.9
+      },
+      {
+        "_id": {
+          "month": "2025-01",
+          "counterparty": "transfer"
+        },
+        "txn_count": 2,
+        "total_amount": 12012.0
+      },
+      {
+        "_id": {
+          "month": "2025-01",
+          "counterparty": "OPTIMA SECURE policy"
+        },
+        "txn_count": 2,
+        "total_amount": 2476
+      },
+      {
+        "_id": {
+          "month": "2025-02",
+          "counterparty": "Jio"
+        },
+        "txn_count": 44,
+        "total_amount": 13156
+      },
+      {
+        "_id": {
+          "month": "2025-02",
+          "counterparty": "SBICAP SECURITIES LIMITED"
+        },
+        "txn_count": 4,
+        "total_amount": 0
+      },
+      {
+        "_id": {
+          "month": "2025-02",
+          "counterparty": "SBI"
+        },
+        "txn_count": 4,
+        "total_amount": 2207.06
+      },
+      {
+        "_id": {
+          "month": "2025-02",
+          "counterparty": "Google"
+        },
+        "txn_count": 3,
+        "total_amount": 773.0
+      },
+      {
+        "_id": {
+          "month": "2025-02",
+          "counterparty": "merchant"
+        },
+        "txn_count": 2,
+        "total_amount": 517.44
+      },
+      {
+        "_id": {
+          "month": "2025-02",
+          "counterparty": "JioFiber"
+        },
+        "txn_count": 2,
+        "total_amount": 941.64
+      },
+      {
+        "_id": {
+          "month": "2025-02",
+          "counterparty": "transfer"
+        },
+        "txn_count": 2,
+        "total_amount": 16040.0
+      },
+      {
+        "_id": {
+          "month": "2025-02",
+          "counterparty": "NAKPRO NUTRITION"
+        },
+        "txn_count": 2,
+        "total_amount": 2139.44
+      },
+      {
+        "_id": {
+          "month": "2025-02",
+          "counterparty": "Airtel"
+        },
+        "txn_count": 2,
+        "total_amount": 1059.64
+      },
+      {
+        "_id": {
+          "month": "2025-02",
+          "counterparty": "Employer"
+        },
+        "txn_count": 2,
+        "total_amount": 30000
+      },
+      {
+        "_id": {
+          "month": "2025-03",
+          "counterparty": "Jio"
+        },
+        "txn_count": 14,
+        "total_amount": 4186
+      },
+      {
+        "_id": {
+          "month": "2025-03",
+          "counterparty": "Mr. DivyamVerma"
+        },
+        "txn_count": 8,
+        "total_amount": 108083.0
+      },
+      {
+        "_id": {
+          "month": "2025-03",
+          "counterparty": "Airtel"
+        },
+        "txn_count": 8,
+        "total_amount": 4239.1
+      },
+      {
+        "_id": {
+          "month": "2025-03",
+          "counterparty": "SBI"
+        },
+        "txn_count": 6,
+        "total_amount": 33500.0
+      },
+      {
+        "_id": {
+          "month": "2025-03",
+          "counterparty": "SBICAP SECURITIES LIMITED"
+        },
+        "txn_count": 3,
+        "total_amount": 0
+      },
+      {
+        "_id": {
+          "month": "2025-03",
+          "counterparty": "The Rameshwaram"
+        },
+        "txn_count": 3,
+        "total_amount": 120.0
+      },
+      {
+        "_id": {
+          "month": "2025-03",
+          "counterparty": "transfer"
+        },
+        "txn_count": 2,
+        "total_amount": 22034.0
+      },
+      {
+        "_id": {
+          "month": "2025-03",
+          "counterparty": "axio"
+        },
+        "txn_count": 2,
+        "total_amount": 7482
+      },
+      {
+        "_id": {
+          "month": "2025-03",
+          "counterparty": "Easebuzz"
+        },
+        "txn_count": 2,
+        "total_amount": 285.08
+      },
+      {
+        "_id": {
+          "month": "2025-03",
+          "counterparty": "Nobero - Live"
+        },
+        "txn_count": 2,
+        "total_amount": 1198.0
+      },
+      {
+        "_id": {
+          "month": "2025-03",
+          "counterparty": "Zomato"
+        },
+        "txn_count": 2,
+        "total_amount": 50
+      },
+      {
+        "_id": {
+          "month": "2025-03",
+          "counterparty": "reversal of txn"
+        },
+        "txn_count": 2,
+        "total_amount": 40
+      },
+      {
+        "_id": {
+          "month": "2025-04",
+          "counterparty": "Airtel"
+        },
+        "txn_count": 11,
+        "total_amount": 3744.42
+      },
+      {
+        "_id": {
+          "month": "2025-04"
+        },
+        "txn_count": 8,
+        "total_amount": 0
+      },
+      {
+        "_id": {
+          "month": "2025-04",
+          "counterparty": "SBI"
+        },
+        "txn_count": 8,
+        "total_amount": 800.0
+      },
+      {
+        "_id": {
+          "month": "2025-04",
+          "counterparty": "SBICAP SECURITIES LIMITED"
+        },
+        "txn_count": 4,
+        "total_amount": 0
+      },
+      {
+        "_id": {
+          "month": "2025-04",
+          "counterparty": "Non-SBI ATM"
+        },
+        "txn_count": 3,
+        "total_amount": 0
+      },
+      {
+        "_id": {
+          "month": "2025-04",
+          "counterparty": "Star bazzar"
+        },
+        "txn_count": 2,
+        "total_amount": 0
+      },
+      {
+        "_id": {
+          "month": "2025-04",
+          "counterparty": "quant Mid Cap Fund - Direct Plan"
+        },
+        "txn_count": 2,
+        "total_amount": 4999.76
+      },
+      {
+        "_id": {
+          "month": "2025-04",
+          "counterparty": "JioHotstar"
+        },
+        "txn_count": 2,
+        "total_amount": 0
+      },
+      {
+        "_id": {
+          "month": "2025-04",
+          "counterparty": "SBI ATM S5NL040784623"
+        },
+        "txn_count": 2,
+        "total_amount": 24000
+      },
+      {
+        "_id": {
+          "month": "2025-04",
+          "counterparty": ""
+        },
+        "txn_count": 2,
+        "total_amount": 0
+      },
+      {
+        "_id": {
+          "month": "2025-04",
+          "counterparty": "INDMONEY PRIVATE LIMITED"
+        },
+        "txn_count": 2,
+        "total_amount": 0
+      },
+      {
+        "_id": {
+          "month": "2025-04",
+          "counterparty": "Airtel Direct UP"
+        },
+        "txn_count": 2,
+        "total_amount": 1059.64
+      },
+      {
+        "_id": {
+          "month": "2025-04",
+          "counterparty": "BRIGHT STELLAR I"
+        },
+        "txn_count": 2,
+        "total_amount": 20.0
+      },
+      {
+        "_id": {
+          "month": "2025-04",
+          "counterparty": "transfer"
+        },
+        "txn_count": 2,
+        "total_amount": 22042.0
+      },
+      {
+        "_id": {
+          "month": "2025-05",
+          "counterparty": "Mr. DivyamVerma"
+        },
+        "txn_count": 6,
+        "total_amount": 62044.0
+      },
+      {
+        "_id": {
+          "month": "2025-05"
+        },
+        "txn_count": 6,
+        "total_amount": 0
+      },
+      {
+        "_id": {
+          "month": "2025-05",
+          "counterparty": "SBI"
+        },
+        "txn_count": 5,
+        "total_amount": 44000.0
+      },
+      {
+        "_id": {
+          "month": "2025-05",
+          "counterparty": "NSE"
+        },
+        "txn_count": 4,
+        "total_amount": 0.24
+      },
+      {
+        "_id": {
+          "month": "2025-05",
+          "counterparty": "RAB ATM RE289001"
+        },
+        "txn_count": 4,
+        "total_amount": 25000
+      },
+      {
+        "_id": {
+          "month": "2025-05",
+          "counterparty": "transfer"
+        },
+        "txn_count": 4,
+        "total_amount": 40044.0
+      },
+      {
+        "_id": {
+          "month": "2025-05",
+          "counterparty": "HALLI MANE DONNE"
+        },
+        "txn_count": 2,
+        "total_amount": 40.0
+      },
+      {
+        "_id": {
+          "month": "2025-05",
+          "counterparty": "JioFiber"
+        },
+        "txn_count": 2,
+        "total_amount": 941.64
+      },
+      {
+        "_id": {
+          "month": "2025-05",
+          "counterparty": "Airtel"
+        },
+        "txn_count": 2,
+        "total_amount": 0
+      },
+      {
+        "_id": {
+          "month": "2025-05",
+          "counterparty": "SAVAD  KOVVAL"
+        },
+        "txn_count": 2,
+        "total_amount": 540.0
+      },
+      {
+        "_id": {
+          "month": "2025-05",
+          "counterparty": "Closure of TD A/c XXXXX384491"
+        },
+        "txn_count": 2,
+        "total_amount": 22000.0
+      },
+      {
+        "_id": {
+          "month": "2025-05",
+          "counterparty": "RIAZ PASHA SHAIK"
+        },
+        "txn_count": 2,
+        "total_amount": 100.0
+      },
+      {
+        "_id": {
+          "month": "2025-05",
+          "counterparty": "PhonePe"
+        },
+        "txn_count": 2,
+        "total_amount": 600.0
+      },
+      {
+        "_id": {
+          "month": "2025-05",
+          "counterparty": "Sonam Verma"
+        },
+        "txn_count": 2,
+        "total_amount": 8000.0
+      },
+      {
+        "_id": {
+          "month": "2025-05",
+          "counterparty": "Akasa Air"
+        },
+        "txn_count": 2,
+        "total_amount": 0
+      },
+      {
+        "_id": {
+          "month": "2025-05",
+          "counterparty": "Airtel Xstream Play"
+        },
+        "txn_count": 2,
+        "total_amount": 0
+      },
+      {
+        "_id": {
+          "month": "2025-05",
+          "counterparty": "M/S.MONAMI HOSPI"
+        },
+        "txn_count": 2,
+        "total_amount": 120.0
+      },
+      {
+        "_id": {
+          "month": "2025-06",
+          "counterparty": "Airtel"
+        },
+        "txn_count": 11,
+        "total_amount": 3893.0
+      },
+      {
+        "_id": {
+          "month": "2025-06",
+          "counterparty": "SBI"
+        },
+        "txn_count": 10,
+        "total_amount": 24800.0
+      },
+      {
+        "_id": {
+          "month": "2025-06"
+        },
+        "txn_count": 3,
+        "total_amount": 0
+      },
+      {
+        "_id": {
+          "month": "2025-06",
+          "counterparty": "KFNCRA"
+        },
+        "txn_count": 2,
+        "total_amount": 2000.0
+      },
+      {
+        "_id": {
+          "month": "2025-06",
+          "counterparty": "Mr. DivyamVerma"
+        },
+        "txn_count": 2,
+        "total_amount": 18000.0
+      },
+      {
+        "_id": {
+          "month": "2025-06",
+          "counterparty": "Income Tax Department"
+        },
+        "txn_count": 2,
+        "total_amount": 0
+      },
+      {
+        "_id": {
+          "month": "2025-06",
+          "counterparty": "RIAZ PASHA SHAIK"
+        },
+        "txn_count": 2,
+        "total_amount": 30.0
+      },
+      {
+        "_id": {
+          "month": "2025-06",
+          "counterparty": "quant Mutual Fund"
+        },
+        "txn_count": 2,
+        "total_amount": 6999.66
+      },
+      {
+        "_id": {
+          "month": "2025-06",
+          "counterparty": "PRAN"
+        },
+        "txn_count": 2,
+        "total_amount": 2000.0
+      },
+      {
+        "_id": {
+          "month": "2025-06",
+          "counterparty": "SBICAP SECURITIES LIMITED"
+        },
+        "txn_count": 2,
+        "total_amount": 0
+      },
+      {
+        "_id": {
+          "month": "2025-06",
+          "counterparty": "quant Mid Cap Fund - Direct Plan"
+        },
+        "txn_count": 2,
+        "total_amount": 6999.66
+      },
+      {
+        "_id": {
+          "month": "2025-07",
+          "counterparty": ""
+        },
+        "txn_count": 8,
+        "total_amount": 0
+      },
+      {
+        "_id": {
+          "month": "2025-07",
+          "counterparty": "GITARTHA  KASHYA"
+        },
+        "txn_count": 6,
+        "total_amount": 1294.0
+      },
+      {
+        "_id": {
+          "month": "2025-07",
+          "counterparty": "Pluto Money"
+        },
+        "txn_count": 4,
+        "total_amount": 325.0
+      },
+      {
+        "_id": {
+          "month": "2025-07",
+          "counterparty": "SBICAP SECURITIES LIMITED"
+        },
+        "txn_count": 4,
+        "total_amount": 0
+      },
+      {
+        "_id": {
+          "month": "2025-07",
+          "counterparty": "UBI ATM PBGE0110"
+        },
+        "txn_count": 3,
+        "total_amount": 22000
+      },
+      {
+        "_id": {
+          "month": "2025-07",
+          "counterparty": "bigbasket"
+        },
+        "txn_count": 3,
+        "total_amount": 18.9
+      },
+      {
+        "_id": {
+          "month": "2025-07",
+          "counterparty": "quant Mid Cap Fund - Direct Plan"
+        },
+        "txn_count": 3,
+        "total_amount": 7499.64
+      },
+      {
+        "_id": {
+          "month": "2025-07",
+          "counterparty": "quant Mutual Fund"
+        },
+        "txn_count": 2,
+        "total_amount": 9999.5
+      },
+      {
+        "_id": {
+          "month": "2025-07",
+          "counterparty": "HALLI MANE DONNE"
+        },
+        "txn_count": 2,
+        "total_amount": 300.0
+      },
+      {
+        "_id": {
+          "month": "2025-07",
+          "counterparty": "Airtel Wi-Fi"
+        },
+        "txn_count": 2,
+        "total_amount": 0
+      },
+      {
+        "_id": {
+          "month": "2025-07",
+          "counterparty": "cult.fit"
+        },
+        "txn_count": 2,
+        "total_amount": 33212
+      },
+      {
+        "_id": {
+          "month": "2025-07",
+          "counterparty": "Non-SBI ATM"
+        },
+        "txn_count": 2,
+        "total_amount": 0
+      }
+    ],
+    "monthly_summary": [
+      {
+        "_id": "",
+        "income": 0,
+        "spending": 0,
+        "net_savings": 0
+      },
+      {
+        "_id": "2023-10",
+        "income": 0.0,
+        "spending": 0,
+        "net_savings": 0.0
+      },
+      {
+        "_id": "2023-11",
+        "income": 2118.74,
+        "spending": 475,
+        "net_savings": 1643.7399999999998
+      },
+      {
+        "_id": "2023-12",
+        "income": 9681.16,
+        "spending": 2372.47,
+        "net_savings": 7308.6900000000005
+      },
+      {
+        "_id": "2024-01",
+        "income": 771.0,
+        "spending": 3933.81,
+        "net_savings": -3162.81
+      },
+      {
+        "_id": "2024-02",
+        "income": 0,
+        "spending": 3647.63,
+        "net_savings": -3647.63
+      },
+      {
+        "_id": "2024-03",
+        "income": 20668.25,
+        "spending": 25297.63,
+        "net_savings": -4629.380000000001
+      },
+      {
+        "_id": "2024-04",
+        "income": 227979.93,
+        "spending": 68408.548,
+        "net_savings": 159571.38199999998
+      },
+      {
+        "_id": "2024-05",
+        "income": 12588.67,
+        "spending": 298615.28,
+        "net_savings": -286026.61000000004
+      },
+      {
+        "_id": "2024-06",
+        "income": 81258.97,
+        "spending": 29162.0,
+        "net_savings": 52096.97
+      },
+      {
+        "_id": "2024-07",
+        "income": 145369.14,
+        "spending": 40334.0,
+        "net_savings": 105035.14000000001
+      },
+      {
+        "_id": "2024-08",
+        "income": 55536.57,
+        "spending": 45939.0,
+        "net_savings": 9597.57
+      },
+      {
+        "_id": "2024-09",
+        "income": 53049.91,
+        "spending": 130544.0,
+        "net_savings": -77494.09
+      },
+      {
+        "_id": "2024-10",
+        "income": 18064.98,
+        "spending": 8192.66,
+        "net_savings": 9872.32
+      },
+      {
+        "_id": "2024-11",
+        "income": 4159.32,
+        "spending": 20605.64,
+        "net_savings": -16446.32
+      },
+      {
+        "_id": "2024-12",
+        "income": 7449.89,
+        "spending": 8881410969.63,
+        "net_savings": -8881403519.74
+      },
+      {
+        "_id": "2025-01",
+        "income": 196175.93,
+        "spending": 91295.36,
+        "net_savings": 104880.56999999999
+      },
+      {
+        "_id": "2025-02",
+        "income": 14334.88,
+        "spending": 67339.34,
+        "net_savings": -53004.46
+      },
+      {
+        "_id": "2025-03",
+        "income": 179762.21,
+        "spending": 49732.5,
+        "net_savings": 130029.70999999999
+      },
+      {
+        "_id": "2025-04",
+        "income": 18646.96,
+        "spending": 49994.68,
+        "net_savings": -31347.72
+      },
+      {
+        "_id": "2025-05",
+        "income": 148044.36,
+        "spending": 157375.64,
+        "net_savings": -9331.280000000028
+      },
+      {
+        "_id": "2025-06",
+        "income": 43397.32,
+        "spending": 26115.0,
+        "net_savings": 17282.32
+      },
+      {
+        "_id": "2025-07",
+        "income": 88106.78,
+        "spending": 66679.9,
+        "net_savings": 21426.880000000005
+      }
+    ]
+  }
+]
