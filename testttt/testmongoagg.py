@@ -7,6 +7,10 @@ Easy to configure - just change 4 values to test different aggregations!
 import pymongo
 import json
 from typing import List, Dict, Any
+from datetime import datetime, timezone  # ⬅️ add this import
+
+START = datetime(2025, 7, 1, 0, 0, 0, tzinfo=timezone.utc)
+END   = datetime(2025, 8, 1, 0, 0, 0, tzinfo=timezone.utc)
 
 # ============================================================================
 # 🔧 CONFIGURATION - CHANGE ONLY THESE 4 VALUES
@@ -19,7 +23,7 @@ MONGODB_URL = "mongodb://localhost:27017/"
 DATABASE_NAME = "pluto_money"
 
 # 3. Collection Name
-COLLECTION_NAME = "financial_transactions"
+COLLECTION_NAME = "user_financial_transactions"
 
 # 4. MongoDB Aggregation Pipeline (replace this with your pipeline)
 AGGREGATION_PIPELINE = [
@@ -27,8 +31,8 @@ AGGREGATION_PIPELINE = [
     "$match": {
       "user_id": "itartha",
       "transaction_date": {
-        "$gte": "2025-05-27T21:10:04.821839",
-        "$lt": "2025-08-25T21:10:04.821839"
+        "$gte": "2025-05-27T21:10:48.897559",
+        "$lt": "2025-08-25T21:10:48.897559"
       },
       "$or": [
         {
@@ -125,6 +129,9 @@ AGGREGATION_PIPELINE = [
   }
 ]
 
+
+
+
 # ============================================================================
 # 🚀 MAIN EXECUTION CODE (DON'T CHANGE BELOW THIS LINE)
 # ============================================================================
@@ -170,7 +177,7 @@ class MongoDBAggregator:
         
         print("=" * 60)
 
-    def export_results(self, results: List[Dict[str, Any]], filename: str = "aggregation_results.json") -> None:
+    def export_results(self, results: List[Dict[str, Any]], filename: str = "aggregation_results_test.json") -> None:
         """Export results to JSON file"""
         try:
             with open(filename, 'w', encoding='utf-8') as f:
