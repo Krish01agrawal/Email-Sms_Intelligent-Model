@@ -27,106 +27,82 @@ COLLECTION_NAME = "user_financial_transactions"
 
 # 4. MongoDB Aggregation Pipeline (replace this with your pipeline)
 AGGREGATION_PIPELINE = [
-  {
-    "$match": {
-      "user_id": "itartha",
-      "transaction_date": {
-        "$gte": "2025-05-27T21:10:48.897559",
-        "$lt": "2025-08-25T21:10:48.897559"
-      },
-      "$or": [
-        {
-          "transaction_type": "debit"
-        },
-        {
-          "amount": {
-            "$lt": 0
-          }
+    {
+        "$match": {
+            "user_id": "ivyam",
+            "transaction_date": {
+                "$gte": "2025-07-27T16:44:36.305847+00:00",
+                "$lt": "2025-08-26T16:44:36.305847+00:00"
+            },
+            "transaction_type": "debit"
         }
-      ]
-    }
-  },
-  {
-    "$set": {
-      "debitAmount": {
-        "$cond": [
-          {
-            "$eq": [
-              "$transaction_type",
-              "debit"
-            ]
-          },
-          {
-            "$abs": "$amount"
-          },
-          {
-            "$cond": [
-              {
-                "$lt": [
-                  "$amount",
-                  0
+    },
+    {
+        "$set": {
+            "debitAmount": {
+                "$cond": [
+                    {
+                        "$eq": [
+                            "$transaction_type",
+                            "debit"
+                        ]
+                    },
+                    {
+                        "$abs": "$amount"
+                    },
+                    0
                 ]
-              },
-              {
-                "$abs": "$amount"
-              },
-              0
-            ]
-          }
-        ]
-      }
-    }
-  },
-  {
-    "$set": {
-      "month": {
-        "$dateTrunc": {
-          "date": "$transaction_date",
-          "unit": "month",
-          "timezone": "Asia/Kolkata"
+            }
         }
-      }
-    }
-  },
-  {
-    "$group": {
-      "_id": "$month",
-      "monthly_total": {
-        "$sum": "$debitAmount"
-      },
-      "transaction_count": {
-        "$sum": 1
-      },
-      "avg_transaction": {
-        "$avg": "$debitAmount"
-      }
-    }
-  },
-  {
-    "$sort": {
-      "_id": 1
-    }
-  },
-  {
-    "$project": {
-      "_id": 0,
-      "month": {
-        "$dateToString": {
-          "date": "$_id",
-          "format": "%Y-%m",
-          "timezone": "Asia/Kolkata"
+    },
+    {
+        "$group": {
+            "_id": "$category",
+            "totalSpending": {
+                "$sum": "$debitAmount"
+            }
         }
-      },
-      "total_spending": "$monthly_total",
-      "transaction_count": 1,
-      "avg_transaction": {
-        "$round": [
-          "$avg_transaction",
-          2
-        ]
-      }
+    },
+    {
+        "$group": {
+            "_id": None,
+            "totalBudget": {
+                "$sum": "$totalSpending"
+            },
+            "categories": {
+                "$push": {
+                    "category": "$_id",
+                    "total": "$totalSpending"
+                }
+            }
+        }
+    },
+    {
+        "$unwind": "$categories"
+    },
+    {
+        "$set": {
+            "categories.percentage": {
+                "$multiply": [
+                    {
+                        "$divide": [
+                            "$categories.total",
+                            "$totalBudget"
+                        ]
+                    },
+                    100
+                ]
+            }
+        }
+    },
+    {
+        "$replaceRoot": {
+            "newRoot": {
+                "totalBudget": "$totalBudget",
+                "categories": "$categories"
+            }
+        }
     }
-  }
 ]
 
 

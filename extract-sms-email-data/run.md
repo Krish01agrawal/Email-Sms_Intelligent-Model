@@ -71,5 +71,16 @@ python3 mongodb_pipeline.py --user-id "divyam_user" --limit 50 --batch-size 2
 
 
 
+
+
+
+
+
+
+
+
+
+
+
 # 3. Verify results
 python3 -c "from mongodb_operations import MongoDBOperations; mongo = MongoDBOperations(); stats = mongo.get_processing_stats(); print('📊 Final Stats:', stats); mongo.close_connection()"
