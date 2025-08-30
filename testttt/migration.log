@@ -1,0 +1,317 @@
+2025-08-28 14:57:39,921 - INFO - MongoDB Migration Tool
+2025-08-28 14:57:39,921 - INFO - ==================================================
+2025-08-28 14:57:58,758 - INFO - === Starting migration at 2025-08-28 14:57:58.758373 ===
+2025-08-28 14:57:58,759 - INFO - Connecting to source database...
+2025-08-28 14:57:58,772 - INFO - ✓ Connected to source: mongodb://localhost:27017/
+2025-08-28 14:57:58,772 - INFO - Connecting to target database...
+2025-08-28 14:58:29,188 - ERROR - Connection failed: ac-hdaxchp-shard-00-02.gzbouvi.mongodb.net:27017: [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1028) (configured timeouts: socketTimeoutMS: 20000.0ms, connectTimeoutMS: 20000.0ms),ac-hdaxchp-shard-00-00.gzbouvi.mongodb.net:27017: [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1028) (configured timeouts: socketTimeoutMS: 20000.0ms, connectTimeoutMS: 20000.0ms),ac-hdaxchp-shard-00-01.gzbouvi.mongodb.net:27017: [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1028) (configured timeouts: socketTimeoutMS: 20000.0ms, connectTimeoutMS: 20000.0ms), Timeout: 30s, Topology Description: <TopologyDescription id: 68b0211e9a5c1b9819b09c2c, topology_type: ReplicaSetNoPrimary, servers: [<ServerDescription ('ac-hdaxchp-shard-00-00.gzbouvi.mongodb.net', 27017) server_type: Unknown, rtt: None, error=AutoReconnect('ac-hdaxchp-shard-00-00.gzbouvi.mongodb.net:27017: [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1028) (configured timeouts: socketTimeoutMS: 20000.0ms, connectTimeoutMS: 20000.0ms)')>, <ServerDescription ('ac-hdaxchp-shard-00-01.gzbouvi.mongodb.net', 27017) server_type: Unknown, rtt: None, error=AutoReconnect('ac-hdaxchp-shard-00-01.gzbouvi.mongodb.net:27017: [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1028) (configured timeouts: socketTimeoutMS: 20000.0ms, connectTimeoutMS: 20000.0ms)')>, <ServerDescription ('ac-hdaxchp-shard-00-02.gzbouvi.mongodb.net', 27017) server_type: Unknown, rtt: None, error=AutoReconnect('ac-hdaxchp-shard-00-02.gzbouvi.mongodb.net:27017: [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1028) (configured timeouts: socketTimeoutMS: 20000.0ms, connectTimeoutMS: 20000.0ms)')>]>
+2025-08-28 14:58:29,188 - ERROR - ❌ Migration completed with errors!
+2025-08-28 14:58:29,191 - INFO - Database connections closed
+2025-08-28 15:01:22,402 - INFO - MongoDB Migration Tool
+2025-08-28 15:01:22,402 - INFO - ==================================================
+2025-08-28 15:01:24,712 - INFO - === Starting migration at 2025-08-28 15:01:24.711912 ===
+2025-08-28 15:01:24,712 - INFO - Connecting to source database...
+2025-08-28 15:01:24,721 - INFO - ✓ Connected to source: mongodb://localhost:27017/
+2025-08-28 15:01:24,721 - INFO - Connecting to target database...
+2025-08-28 15:01:24,726 - ERROR - Connection failed: Unknown option: ssl_context. Did you mean one of (connect, serverselectiontimeoutms, ssl) or maybe a camelCase version of one? Refer to docstring.
+2025-08-28 15:01:24,727 - ERROR - ❌ Migration completed with errors!
+2025-08-28 15:01:24,728 - INFO - Database connections closed
+2025-08-28 15:02:54,048 - INFO - MongoDB Migration Tool
+2025-08-28 15:02:54,048 - INFO - ==================================================
+2025-08-28 15:02:56,544 - INFO - === Starting migration at 2025-08-28 15:02:56.544094 ===
+2025-08-28 15:02:56,544 - INFO - Connecting to source database...
+2025-08-28 15:02:56,557 - INFO - ✓ Connected to source: mongodb://localhost:27017/
+2025-08-28 15:02:56,557 - INFO - Connecting to target database...
+2025-08-28 15:02:56,561 - ERROR - Connection failed: Unknown option: ssl_cert_reqs. Did you mean one of (sockettimeoutms, heartbeatfrequencyms, localthresholdms) or maybe a camelCase version of one? Refer to docstring.
+2025-08-28 15:02:56,561 - ERROR - ❌ Migration completed with errors!
+2025-08-28 15:02:56,562 - INFO - Database connections closed
+2025-08-28 15:04:03,097 - INFO - MongoDB Migration Tool
+2025-08-28 15:04:03,097 - INFO - ==================================================
+2025-08-28 15:04:05,285 - INFO - === Starting migration at 2025-08-28 15:04:05.285411 ===
+2025-08-28 15:04:05,286 - INFO - Connecting to source database...
+2025-08-28 15:04:05,297 - INFO - ✓ Connected to source: mongodb://localhost:27017/
+2025-08-28 15:04:05,297 - INFO - Connecting to target database...
+2025-08-28 15:04:05,929 - INFO - ✓ Connected to target: MongoDB Atlas
+2025-08-28 15:04:05,935 - INFO - Found 21 collections: ['processing_checkpoints', 'email_queue', 'users', 'transaction_patterns', 'categorized_emails', 'subscriptions', 'promotional_emails', 'user_financial_transactions', 'emails', 'financial_transactions', 'extraction_failures', 'user_sessions', 'query_logs', 'sms_data', 'job_communications', 'sms_fin_rawdata', 'email_logs', 'processed_financial_data', 'chats', 'user_analytics', 'travel_bookings']
+2025-08-28 15:04:05,936 - INFO - 
+--- Migrating collection: processing_checkpoints ---
+2025-08-28 15:04:06,001 - INFO - Documents to migrate: 733
+2025-08-28 15:04:06,001 - INFO - Dropping existing collection processing_checkpoints in target...
+2025-08-28 15:04:09,329 - INFO - ✓ Successfully migrated 733 documents
+2025-08-28 15:04:09,331 - INFO - Copying 6 indexes...
+2025-08-28 15:04:09,423 - INFO - ✓ Created index: user_id_1
+2025-08-28 15:04:09,504 - INFO - ✓ Created index: batch_id_1
+2025-08-28 15:04:09,594 - INFO - ✓ Created index: status_1
+2025-08-28 15:04:09,673 - INFO - ✓ Created index: checkpoint_timestamp_1
+2025-08-28 15:04:09,750 - INFO - ✓ Created index: user_id_1_status_1
+2025-08-28 15:04:09,831 - INFO - ✓ Created index: user_id_1_batch_id_1
+2025-08-28 15:04:09,831 - INFO - 
+--- Migrating collection: email_queue ---
+2025-08-28 15:04:09,837 - INFO - Documents to migrate: 1
+2025-08-28 15:04:09,837 - INFO - Dropping existing collection email_queue in target...
+2025-08-28 15:04:09,932 - INFO - ✓ Successfully migrated 1 documents
+2025-08-28 15:04:09,934 - INFO - Copying 7 indexes...
+2025-08-28 15:04:10,009 - INFO - ✓ Created index: status_1_priority_-1_created_at_1
+2025-08-28 15:04:10,088 - INFO - ✓ Created index: user_id_1
+2025-08-28 15:04:10,180 - INFO - ✓ Created index: user_id_1_email_id_1
+2025-08-28 15:04:10,258 - INFO - ✓ Created index: user_id_1_status_1
+2025-08-28 15:04:10,333 - INFO - ✓ Created index: queue_type_1_status_1
+2025-08-28 15:04:10,413 - INFO - ✓ Created index: retry_after_1
+2025-08-28 15:04:10,492 - INFO - ✓ Created index: worker_id_1
+2025-08-28 15:04:10,492 - INFO - 
+--- Migrating collection: users ---
+2025-08-28 15:04:10,499 - INFO - Documents to migrate: 1
+2025-08-28 15:04:10,499 - INFO - Dropping existing collection users in target...
+2025-08-28 15:04:10,586 - INFO - ✓ Successfully migrated 1 documents
+2025-08-28 15:04:10,587 - INFO - Copying 6 indexes...
+2025-08-28 15:04:10,673 - INFO - ✓ Created index: email_1
+2025-08-28 15:04:10,750 - INFO - ✓ Created index: google_id_1
+2025-08-28 15:04:10,826 - INFO - ✓ Created index: google_auth_token_1
+2025-08-28 15:04:10,904 - INFO - ✓ Created index: last_sync_date_-1
+2025-08-28 15:04:10,981 - INFO - ✓ Created index: sync_status_1
+2025-08-28 15:04:11,059 - INFO - ✓ Created index: categorization_status_1
+2025-08-28 15:04:11,060 - INFO - 
+--- Migrating collection: transaction_patterns ---
+2025-08-28 15:04:11,065 - INFO - Documents to migrate: 8
+2025-08-28 15:04:11,065 - INFO - Dropping existing collection transaction_patterns in target...
+2025-08-28 15:04:11,202 - INFO - ✓ Successfully migrated 8 documents
+2025-08-28 15:04:11,204 - INFO - Copying 2 indexes...
+2025-08-28 15:04:11,291 - INFO - ✓ Created index: user_id_1
+2025-08-28 15:04:11,368 - INFO - ✓ Created index: last_updated_1
+2025-08-28 15:04:11,369 - INFO - 
+--- Migrating collection: categorized_emails ---
+2025-08-28 15:04:11,400 - INFO - Documents to migrate: 156
+2025-08-28 15:04:11,400 - INFO - Dropping existing collection categorized_emails in target...
+2025-08-28 15:04:15,827 - INFO - ✓ Successfully migrated 156 documents
+2025-08-28 15:04:15,829 - INFO - Copying 8 indexes...
+2025-08-28 15:04:15,922 - INFO - ✓ Created index: user_id_1_email_id_1
+2025-08-28 15:04:16,005 - INFO - ✓ Created index: user_id_1_primary_category_1
+2025-08-28 15:04:16,081 - INFO - ✓ Created index: user_id_1_secondary_category_1
+2025-08-28 15:04:16,159 - INFO - ✓ Created index: user_id_1_merchant_detected_1
+2025-08-28 15:04:16,249 - INFO - ✓ Created index: user_id_1_transaction_likely_1
+2025-08-28 15:04:16,340 - INFO - ✓ Created index: user_id_1_priority_1
+2025-08-28 15:04:16,440 - INFO - ✓ Created index: user_id_1_categorized_at_-1
+2025-08-28 15:04:16,516 - INFO - ✓ Created index: user_id_1_financial_data_extracted_1
+2025-08-28 15:04:16,521 - INFO - 
+--- Migrating collection: subscriptions ---
+2025-08-28 15:04:16,527 - INFO - Documents to migrate: 22
+2025-08-28 15:04:16,527 - INFO - Dropping existing collection subscriptions in target...
+2025-08-28 15:04:16,618 - INFO - ✓ Successfully migrated 22 documents
+2025-08-28 15:04:16,619 - INFO - Copying 8 indexes...
+2025-08-28 15:04:16,695 - INFO - ✓ Created index: user_id_1_service_name_1
+2025-08-28 15:04:16,809 - INFO - ✓ Created index: user_id_1_next_billing_date_1
+2025-08-28 15:04:16,919 - INFO - ✓ Created index: user_id_1_email_id_1
+2025-08-28 15:04:17,026 - INFO - ✓ Created index: user_id_1_service_category_1
+2025-08-28 15:04:17,103 - INFO - ✓ Created index: user_id_1_status_1
+2025-08-28 15:04:17,201 - INFO - ✓ Created index: user_id_1_is_automatic_payment_1
+2025-08-28 15:04:17,287 - INFO - ✓ Created index: user_id_1_billing_frequency_1
+2025-08-28 15:04:17,368 - INFO - ✓ Created index: upi_id_1
+2025-08-28 15:04:17,368 - INFO - 
+--- Migrating collection: promotional_emails ---
+2025-08-28 15:04:17,373 - INFO - Documents to migrate: 9
+2025-08-28 15:04:17,374 - INFO - Dropping existing collection promotional_emails in target...
+2025-08-28 15:04:17,458 - INFO - ✓ Successfully migrated 9 documents
+2025-08-28 15:04:17,459 - INFO - Copying 9 indexes...
+2025-08-28 15:04:17,540 - INFO - ✓ Created index: user_id_1_valid_until_1
+2025-08-28 15:04:17,618 - INFO - ✓ Created index: user_id_1_merchant_canonical_1
+2025-08-28 15:04:17,719 - INFO - ✓ Created index: user_id_1_email_id_1
+2025-08-28 15:04:17,795 - INFO - ✓ Created index: user_id_1_promotion_type_1
+2025-08-28 15:04:17,871 - INFO - ✓ Created index: user_id_1_offer_category_1
+2025-08-28 15:04:17,968 - INFO - ✓ Created index: user_id_1_is_expired_1
+2025-08-28 15:04:18,063 - INFO - ✓ Created index: user_id_1_is_used_1
+2025-08-28 15:04:18,155 - INFO - ✓ Created index: promotion_code_1
+2025-08-28 15:04:18,238 - INFO - ✓ Created index: valid_from_1_valid_until_1
+2025-08-28 15:04:18,239 - INFO - 
+--- Migrating collection: user_financial_transactions ---
+2025-08-28 15:04:18,248 - INFO - Documents to migrate: 3037
+2025-08-28 15:04:18,248 - INFO - Dropping existing collection user_financial_transactions in target...
+2025-08-28 15:04:20,810 - INFO - Migrated 1000/3037 documents...
+2025-08-28 15:04:21,936 - INFO - Migrated 2000/3037 documents...
+2025-08-28 15:04:23,095 - INFO - Migrated 3000/3037 documents...
+2025-08-28 15:04:26,801 - INFO - ✓ Successfully migrated 3037 documents
+2025-08-28 15:04:26,803 - INFO - Copying 21 indexes...
+2025-08-28 15:04:26,913 - INFO - ✓ Created index: unique_id_1
+2025-08-28 15:04:27,032 - INFO - ✓ Created index: user_id_1
+2025-08-28 15:04:27,146 - INFO - ✓ Created index: email_id_1
+2025-08-28 15:04:27,248 - INFO - ✓ Created index: transaction_date_-1
+2025-08-28 15:04:27,361 - INFO - ✓ Created index: amount_1
+2025-08-28 15:04:27,487 - INFO - ✓ Created index: transaction_type_1
+2025-08-28 15:04:27,600 - INFO - ✓ Created index: message_intent_1
+2025-08-28 15:04:27,713 - INFO - ✓ Created index: currency_1
+2025-08-28 15:04:27,829 - INFO - ✓ Created index: user_id_1_transaction_date_-1_amount_1
+2025-08-28 15:04:27,919 - INFO - ✓ Created index: user_id_1_transaction_type_1_transaction_date_-1
+2025-08-28 15:04:28,033 - INFO - ✓ Created index: message_intent_1_transaction_date_-1
+2025-08-28 15:04:28,144 - INFO - ✓ Created index: transaction_date_recent_partial
+2025-08-28 15:04:28,259 - INFO - ✓ Created index: user_id_1_transaction_date_-1
+2025-08-28 15:04:28,376 - INFO - ✓ Created index: user_id_1_amount_-1
+2025-08-28 15:04:28,489 - INFO - ✓ Created index: transaction_date_1
+2025-08-28 15:04:28,605 - INFO - ✓ Created index: merchant_canonical_1
+2025-08-28 15:04:28,727 - INFO - ✓ Created index: user_id_1_merchant_canonical_1
+2025-08-28 15:04:28,816 - INFO - ✓ Created index: amount_-1
+2025-08-28 15:04:28,913 - INFO - ✓ Created index: user_id_1_transaction_type_1
+2025-08-28 15:04:29,002 - INFO - ✓ Created index: user_id_1_transaction_date_-1_amount_-1
+2025-08-28 15:04:29,089 - INFO - ✓ Created index: user_id_1_merchant_canonical_1_transaction_date_-1
+2025-08-28 15:04:29,089 - INFO - 
+--- Migrating collection: emails ---
+2025-08-28 15:04:29,093 - INFO - Documents to migrate: 0
+2025-08-28 15:04:29,093 - INFO - Collection emails is empty, skipping...
+2025-08-28 15:04:29,093 - INFO - 
+--- Migrating collection: financial_transactions ---
+2025-08-28 15:04:29,112 - INFO - Documents to migrate: 3037
+2025-08-28 15:04:29,112 - INFO - Dropping existing collection financial_transactions in target...
+2025-08-28 15:04:34,052 - INFO - Migrated 1000/3037 documents...
+2025-08-28 15:04:38,046 - INFO - Migrated 2000/3037 documents...
+2025-08-28 15:04:40,982 - INFO - Migrated 3000/3037 documents...
+2025-08-28 15:04:41,961 - INFO - ✓ Successfully migrated 3037 documents
+2025-08-28 15:04:41,963 - INFO - Copying 21 indexes...
+2025-08-28 15:04:42,061 - INFO - ✓ Created index: unique_id_1
+2025-08-28 15:04:42,149 - INFO - ✓ Created index: user_id_1
+2025-08-28 15:04:42,238 - INFO - ✓ Created index: email_id_1
+2025-08-28 15:04:42,322 - INFO - ✓ Created index: transaction_date_-1
+2025-08-28 15:04:42,408 - INFO - ✓ Created index: amount_1
+2025-08-28 15:04:42,531 - INFO - ✓ Created index: transaction_type_1
+2025-08-28 15:04:42,642 - INFO - ✓ Created index: message_intent_1
+2025-08-28 15:04:42,736 - INFO - ✓ Created index: currency_1
+2025-08-28 15:04:42,830 - INFO - ✓ Created index: user_id_1_transaction_date_-1_amount_1
+2025-08-28 15:04:42,931 - INFO - ✓ Created index: user_id_1_transaction_type_1_transaction_date_-1
+2025-08-28 15:04:43,016 - INFO - ✓ Created index: message_intent_1_transaction_date_-1
+2025-08-28 15:04:43,103 - INFO - ✓ Created index: transaction_date_recent_partial
+2025-08-28 15:04:43,193 - INFO - ✓ Created index: user_id_1_transaction_date_-1
+2025-08-28 15:04:43,292 - INFO - ✓ Created index: user_id_1_amount_-1
+2025-08-28 15:04:43,387 - INFO - ✓ Created index: transaction_date_1
+2025-08-28 15:04:43,470 - INFO - ✓ Created index: merchant_canonical_1
+2025-08-28 15:04:43,554 - INFO - ✓ Created index: user_id_1_merchant_canonical_1
+2025-08-28 15:04:43,640 - INFO - ✓ Created index: amount_-1
+2025-08-28 15:04:43,737 - INFO - ✓ Created index: user_id_1_transaction_type_1
+2025-08-28 15:04:43,824 - INFO - ✓ Created index: user_id_1_transaction_date_-1_amount_-1
+2025-08-28 15:04:43,909 - INFO - ✓ Created index: user_id_1_merchant_canonical_1_transaction_date_-1
+2025-08-28 15:04:43,909 - INFO - 
+--- Migrating collection: extraction_failures ---
+2025-08-28 15:04:43,914 - INFO - Documents to migrate: 0
+2025-08-28 15:04:43,914 - INFO - Collection extraction_failures is empty, skipping...
+2025-08-28 15:04:43,914 - INFO - 
+--- Migrating collection: user_sessions ---
+2025-08-28 15:04:43,919 - INFO - Documents to migrate: 0
+2025-08-28 15:04:43,919 - INFO - Collection user_sessions is empty, skipping...
+2025-08-28 15:04:43,919 - INFO - 
+--- Migrating collection: query_logs ---
+2025-08-28 15:04:43,923 - INFO - Documents to migrate: 0
+2025-08-28 15:04:43,923 - INFO - Collection query_logs is empty, skipping...
+2025-08-28 15:04:43,923 - INFO - 
+--- Migrating collection: sms_data ---
+2025-08-28 15:04:43,953 - INFO - Documents to migrate: 21339
+2025-08-28 15:04:43,953 - INFO - Dropping existing collection sms_data in target...
+2025-08-28 15:04:48,018 - INFO - Migrated 1000/21339 documents...
+2025-08-28 15:04:52,074 - INFO - Migrated 2000/21339 documents...
+2025-08-28 15:04:55,003 - INFO - Migrated 3000/21339 documents...
+2025-08-28 15:04:58,003 - INFO - Migrated 4000/21339 documents...
+2025-08-28 15:05:00,011 - INFO - Migrated 5000/21339 documents...
+2025-08-28 15:05:02,123 - INFO - Migrated 6000/21339 documents...
+2025-08-28 15:05:04,028 - INFO - Migrated 7000/21339 documents...
+2025-08-28 15:05:06,027 - INFO - Migrated 8000/21339 documents...
+2025-08-28 15:05:07,010 - INFO - Migrated 9000/21339 documents...
+2025-08-28 15:05:09,011 - INFO - Migrated 10000/21339 documents...
+2025-08-28 15:05:10,012 - INFO - Migrated 11000/21339 documents...
+2025-08-28 15:05:11,013 - INFO - Migrated 12000/21339 documents...
+2025-08-28 15:05:13,067 - INFO - Migrated 13000/21339 documents...
+2025-08-28 15:05:17,162 - INFO - Migrated 14000/21339 documents...
+2025-08-28 15:05:18,186 - INFO - Migrated 15000/21339 documents...
+2025-08-28 15:05:19,144 - INFO - Migrated 16000/21339 documents...
+2025-08-28 15:05:20,234 - INFO - Migrated 17000/21339 documents...
+2025-08-28 15:05:21,144 - INFO - Migrated 18000/21339 documents...
+2025-08-28 15:05:22,181 - INFO - Migrated 19000/21339 documents...
+2025-08-28 15:05:23,205 - INFO - Migrated 20000/21339 documents...
+2025-08-28 15:05:24,228 - INFO - Migrated 21000/21339 documents...
+2025-08-28 15:05:25,138 - INFO - ✓ Successfully migrated 21339 documents
+2025-08-28 15:05:25,141 - INFO - Copying 11 indexes...
+2025-08-28 15:05:25,281 - INFO - ✓ Created index: user_id_1_date_-1
+2025-08-28 15:05:25,416 - INFO - ✓ Created index: isprocessed_1
+2025-08-28 15:05:25,542 - INFO - ✓ Created index: user_id_1
+2025-08-28 15:05:25,673 - INFO - ✓ Created index: timestamp_-1
+2025-08-28 15:05:25,804 - INFO - ✓ Created index: unique_id_1
+2025-08-28 15:05:25,936 - INFO - ✓ Created index: sender_1
+2025-08-28 15:05:26,090 - INFO - ✓ Created index: date_-1
+2025-08-28 15:05:26,243 - INFO - ✓ Created index: uploaded_at_-1
+2025-08-28 15:05:26,374 - INFO - ✓ Created index: type_1
+2025-08-28 15:05:26,517 - INFO - ✓ Created index: unique_sms_idx
+2025-08-28 15:05:27,785 - INFO - ✓ Created index: body_text
+2025-08-28 15:05:27,786 - INFO - 
+--- Migrating collection: job_communications ---
+2025-08-28 15:05:27,792 - INFO - Documents to migrate: 1
+2025-08-28 15:05:27,792 - INFO - Dropping existing collection job_communications in target...
+2025-08-28 15:05:27,907 - INFO - ✓ Successfully migrated 1 documents
+2025-08-28 15:05:27,908 - INFO - Copying 9 indexes...
+2025-08-28 15:05:28,010 - INFO - ✓ Created index: user_id_1_communication_type_1
+2025-08-28 15:05:28,088 - INFO - ✓ Created index: user_id_1_company_name_1
+2025-08-28 15:05:28,214 - INFO - ✓ Created index: user_id_1_email_id_1
+2025-08-28 15:05:28,304 - INFO - ✓ Created index: user_id_1_application_status_1
+2025-08-28 15:05:28,407 - INFO - ✓ Created index: user_id_1_interview_date_1
+2025-08-28 15:05:28,509 - INFO - ✓ Created index: user_id_1_urgency_level_1
+2025-08-28 15:05:28,612 - INFO - ✓ Created index: user_id_1_position_title_1
+2025-08-28 15:05:28,759 - INFO - ✓ Created index: application_id_1
+2025-08-28 15:05:28,858 - INFO - ✓ Created index: job_id_1
+2025-08-28 15:05:28,858 - INFO - 
+--- Migrating collection: sms_fin_rawdata ---
+2025-08-28 15:05:28,878 - INFO - Documents to migrate: 5750
+2025-08-28 15:05:28,878 - INFO - Dropping existing collection sms_fin_rawdata in target...
+2025-08-28 15:05:33,338 - INFO - Migrated 1000/5750 documents...
+2025-08-28 15:05:36,414 - INFO - Migrated 2000/5750 documents...
+2025-08-28 15:05:37,335 - INFO - Migrated 3000/5750 documents...
+2025-08-28 15:05:38,359 - INFO - Migrated 4000/5750 documents...
+2025-08-28 15:05:39,314 - INFO - Migrated 5000/5750 documents...
+2025-08-28 15:05:43,377 - INFO - ✓ Successfully migrated 5750 documents
+2025-08-28 15:05:43,379 - INFO - Copying 7 indexes...
+2025-08-28 15:05:43,475 - INFO - ✓ Created index: isprocessed_1
+2025-08-28 15:05:43,566 - INFO - ✓ Created index: user_id_1
+2025-08-28 15:05:43,669 - INFO - ✓ Created index: processing_timestamp_-1
+2025-08-28 15:05:43,766 - INFO - ✓ Created index: processing_status_1
+2025-08-28 15:05:43,881 - INFO - ✓ Created index: user_id_1_isprocessed_1_processing_timestamp_-1
+2025-08-28 15:05:43,986 - INFO - ✓ Created index: unique_id_1
+2025-08-28 15:05:44,098 - INFO - ✓ Created index: uniq_user_sender_date_body
+2025-08-28 15:05:44,100 - INFO - 
+--- Migrating collection: email_logs ---
+2025-08-28 15:05:44,135 - INFO - Documents to migrate: 156
+2025-08-28 15:05:44,135 - INFO - Dropping existing collection email_logs in target...
+2025-08-28 15:05:49,540 - INFO - ✓ Successfully migrated 156 documents
+2025-08-28 15:05:49,541 - INFO - Copying 10 indexes...
+2025-08-28 15:05:49,646 - INFO - ✓ Created index: user_id_1_gmail_id_1
+2025-08-28 15:05:49,778 - INFO - ✓ Created index: user_id_1_received_date_-1
+2025-08-28 15:05:49,913 - INFO - ✓ Created index: classification_status_1
+2025-08-28 15:05:50,056 - INFO - ✓ Created index: body_hash_1
+2025-08-28 15:05:50,306 - INFO - ✓ Created index: user_id_1_classification_status_1
+2025-08-28 15:05:50,507 - INFO - ✓ Created index: user_id_1_email_category_1
+2025-08-28 15:05:50,660 - INFO - ✓ Created index: user_id_1_financial_1
+2025-08-28 15:05:50,739 - INFO - ✓ Created index: subject_hash_1
+2025-08-28 15:05:50,823 - INFO - ✓ Created index: sender_domain_1
+2025-08-28 15:05:50,917 - INFO - ✓ Created index: importance_score_-1
+2025-08-28 15:05:50,922 - INFO - 
+--- Migrating collection: processed_financial_data ---
+2025-08-28 15:05:50,949 - INFO - Documents to migrate: 1891
+2025-08-28 15:05:50,950 - INFO - Dropping existing collection processed_financial_data in target...
+2025-08-28 15:05:55,321 - INFO - Migrated 1000/1891 documents...
+2025-08-28 15:05:59,421 - INFO - ✓ Successfully migrated 1891 documents
+2025-08-28 15:05:59,423 - INFO - Copying 3 indexes...
+2025-08-28 15:05:59,510 - INFO - ✓ Created index: user_id_1
+2025-08-28 15:05:59,605 - INFO - ✓ Created index: user_id_1_transaction_date_-1
+2025-08-28 15:05:59,688 - INFO - ✓ Created index: processed_at_1
+2025-08-28 15:05:59,693 - INFO - 
+--- Migrating collection: chats ---
+2025-08-28 15:05:59,698 - INFO - Documents to migrate: 0
+2025-08-28 15:05:59,698 - INFO - Collection chats is empty, skipping...
+2025-08-28 15:05:59,698 - INFO - 
+--- Migrating collection: user_analytics ---
+2025-08-28 15:05:59,701 - INFO - Documents to migrate: 0
+2025-08-28 15:05:59,701 - INFO - Collection user_analytics is empty, skipping...
+2025-08-28 15:05:59,701 - INFO - 
+--- Migrating collection: travel_bookings ---
+2025-08-28 15:05:59,704 - INFO - Documents to migrate: 0
+2025-08-28 15:05:59,704 - INFO - Collection travel_bookings is empty, skipping...
+2025-08-28 15:05:59,704 - INFO - 
+=== Migration Summary ===
+2025-08-28 15:05:59,704 - INFO - Total collections: 21
+2025-08-28 15:05:59,704 - INFO - Successfully migrated: 21
+2025-08-28 15:05:59,704 - INFO - Failed: 0
+2025-08-28 15:05:59,704 - INFO - Duration: 0:01:54.419042
+2025-08-28 15:05:59,704 - INFO - Completed at: 2025-08-28 15:05:59.704453
+2025-08-28 15:05:59,705 - INFO - ✅ Migration completed successfully!
+2025-08-28 15:05:59,734 - INFO - Database connections closed
