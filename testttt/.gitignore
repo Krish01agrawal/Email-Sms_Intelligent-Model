@@ -1,0 +1,11 @@
+venv
+env
+.env
+.DS_Store
+*.log
+*.json
+*.csv
+*.txt
+*.pdf
+*.docx
+*.doc

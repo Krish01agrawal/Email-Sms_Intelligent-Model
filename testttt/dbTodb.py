@@ -33,7 +33,7 @@ logger = logging.getLogger(__name__)
 
 # Database configuration
 SOURCE_URI = "mongodb://localhost:27017/"
-TARGET_URI = "mongodb+srv://divyamverma:geMnO2HtgXwOrLsW@cluster0.gzbouvi.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
+TARGET_URI = "mongodb://localhost:27017/"
 DB_NAME = "pluto_money"
 
 # SSL configuration for MongoDB Atlas
